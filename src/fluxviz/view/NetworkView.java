@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -36,16 +35,12 @@ import fluxviz.fluxanalysis.HistPanel;
 import fluxviz.gui.FluxVizPanel;
 import fluxviz.util.FileUtil;
 
-
 /**
  * Handles different NetworkViews based on selected criteria.
  * These are the FluxSubnetworkView and the also the AttributeSubnetworkView.
+ * 
  * TODO: Better handle these views in general NetworkView classes.
  * (generate an interface which handels the view).
- * init()
- * calculateVisibility() - get the hide or show tag for all nodes and edges
- * 						   in the network
- * apply
  */
 public class NetworkView {
 	
@@ -56,7 +51,6 @@ public class NetworkView {
      * and apply the subnetwork view depending on the fluxes.
      */
     public static void changeSubnetView(){
-    	Logger logger = CyFluxVizPlugin.getLogger();
     	FluxVizPanel panel = CyFluxVizPlugin.getFvPanel();
     	JCheckBox fluxBox = panel.getFluxSubnetCheckbox(); 
     	JCheckBox attributeBox = panel.getAttributeSubnetCheckbox();
@@ -64,25 +58,21 @@ public class NetworkView {
     	JTable table = panel.getFluxTable();
     	DefaultTableModel model = panel.getTableModel();
     	
-    	if (fluxBox.isSelected() == true ){ //&& table.getSelectedRow() != -1
+    	if (fluxBox.isSelected() == true ){ 
     		String fluxAttribute = (String)model.getValueAt(table.getSelectedRow(), 0);
     		if (attributeBox.isSelected() == false){
-    			logger.info("viewFluxSubnet()");
     			viewFluxSubnet(fluxAttribute);
     		}
     		else {
     			viewFluxAttributeSubnet(fluxAttribute);
-    			logger.info("viewFluxAttributeSubnet()");
     		}
     	}
     	if (fluxBox.isSelected() == false ) { //&& table.getSelectedRow() != -1
     		
     		if (attributeBox.isSelected() == false){
-    			logger.info("viewFullNet()");
     			viewFullNet();	
     		}
     		else{
-    			logger.info("viewAttributeSubnet()");
     			viewAttributeSubnet();
     		}		
     	}
@@ -94,7 +84,6 @@ public class NetworkView {
 	 */
     @SuppressWarnings("unchecked")
 	public static void viewFluxAttributeSubnet(String fluxAttribute){
-    	CyFluxVizPlugin.getLogger().info("viewFluxAttributeSubnet");
     	String edgeAttribute = fluxAttribute + "_edge";
     	
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
@@ -160,8 +149,7 @@ public class NetworkView {
 			}	
 		}
 		//hide all nodes which are not in the flux subnetwork
-		
-		
+
 		view.updateView();		
     }
     
@@ -172,9 +160,7 @@ public class NetworkView {
      * TODO: minimize loop (hide / show can be performed in one loop)
      */
     @SuppressWarnings("unchecked")
-	public static void viewFluxSubnet(String attribute){
-    	CyFluxVizPlugin.getLogger().info("viewSubnetwork");
-    	
+	public static void viewFluxSubnet(String attribute){    	
     	String edgeAttribute = attribute + "_edge";
     	
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
@@ -210,13 +196,9 @@ public class NetworkView {
 		view.updateView();
     }
     
-    
-    /**
-     * View the attribute based subnetwork.
-     */
+    /* View the attribute based subnetwork. */
     public static void viewAttributeSubnet(){
     	FluxVizPanel panel = CyFluxVizPlugin.getFvPanel();
-
         String attribute = (String) panel.getNodeAttributeComboBox().getSelectedItem();
         boolean nullVisible = panel.getNullVisibleCheckbox().isSelected();
         Set<Object> selected = new HashSet<Object>();
@@ -227,7 +209,6 @@ public class NetworkView {
         	NetworkView.viewNodeAttributeSubnet(attribute, selected, nullVisible);
         }
     }
-    
     
     /**
      * Generate subnetwork view based on attributes in the network.
@@ -242,15 +223,11 @@ public class NetworkView {
      */
     @SuppressWarnings("unchecked")
 	public static void viewNodeAttributeSubnet(String attributeName, Set selected, Boolean nullVisible){
-    	// only based on strings
-    	CyFluxVizPlugin.getLogger().info("viewNodeAttributeSubnet");
-    	System.out.println("viewNodeAttributeSubnet");
-    	
     	CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
     	byte attrType = nodeAttrs.getType(attributeName);
     	System.out.println("Attribute type:" + attrType);
     	if (attrType != CyAttributes.TYPE_STRING){
-    		CyFluxVizPlugin.getLogger().info("Subnetworks only based on String attributes possible");
+    		System.out.println("CyFluxViz[INFO] -> Subnetworks only based on String attributes possible");
     		return;
     	}
     	
@@ -304,7 +281,6 @@ public class NetworkView {
      */
 	@SuppressWarnings("unchecked")
 	public static void viewFullNet(){
-		CyFluxVizPlugin.getLogger().info("viewFullnetwork");
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
         List<CyNode> nodeList = Cytoscape.getCyNodesList();
         List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
@@ -322,7 +298,6 @@ public class NetworkView {
      */
 	@SuppressWarnings("unchecked")
 	public static void hideFullNet(){
-		CyFluxVizPlugin.getLogger().info("hideFullnetwork");
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
         List<CyNode> nodeList = Cytoscape.getCyNodesList();
         List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
@@ -335,7 +310,6 @@ public class NetworkView {
         view.updateView();
     }
     
-    
     /**
      * Apply the flux view to the current network based on the selected flux 
      * distribution. 
@@ -343,7 +317,6 @@ public class NetworkView {
      * @param attribute
      */
     public static void applyFluxVizView (String attribute){
-    	CyFluxVizPlugin.getLogger().info("Selected: " + attribute);
     	
     	// Apply the FluxViz changes
         String edgeAttribute = attribute + "_edge";
@@ -370,8 +343,6 @@ public class NetworkView {
         
         Cytoscape.getCurrentNetworkView().setVisualStyle(CyFluxVizPlugin.getVsName());
         vmm.setVisualStyle(vi_style);
-
-        
 
         // CHANGE THE ATTRIBUTES
         // 1. NODE COLOR
@@ -475,16 +446,7 @@ public class NetworkView {
         	info += fluxStat.toHTML();
         	
         	// TODO: Histogramm
-    		// Update the histogramm Pane and display
             System.out.println("Update Histogramm");
-            
-    		//HistPanel histPanel = new HistPanel(fluxStat.getFHistogram());
-    		//FluxViz.getFvPanel().getHistogramPane().add(histPanel,"Center");
-    		
-    		//histPanel.paintComponents(arg0)
-    		//histPanel.repaint();
-    		
-    		
     	    JPanel hpanel = new JPanel (new BorderLayout ());
 
     	    // JPanel subclass here.
@@ -502,9 +464,7 @@ public class NetworkView {
         // set text and make the tab active
         panel.updateText(panel.getInfoPane(), info);
         panel.getInformationPane().setSelectedComponent(panel.getInfoScrollPane());
-        
 
-        
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
         applyVisualStyle(view);
     }
@@ -523,7 +483,6 @@ public class NetworkView {
         view.updateView();
         view.redrawGraph(true,true);
     }
-    
     
     /**
      * Hides all nodes and edges in the view.
@@ -551,7 +510,6 @@ public class NetworkView {
      */
     @SuppressWarnings("unchecked")
 	public static void testShow(){
-    	//FluxViz.getLogger().info("testShow()");
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
         List<CyNode> nodeList = Cytoscape.getCyNodesList();
         List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
@@ -563,7 +521,5 @@ public class NetworkView {
         	view.showGraphObject(view.getEdgeView(edge));
         }
         view.updateView();
-    } 
-    
-    
+    }    
 }

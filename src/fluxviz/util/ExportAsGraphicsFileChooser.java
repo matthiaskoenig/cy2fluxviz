@@ -1,4 +1,4 @@
-package fluxviz.images;
+package fluxviz.util;
 
 import javax.swing.*;
 
@@ -13,7 +13,6 @@ import cytoscape.CytoscapeInit;
 import cytoscape.util.CyFileFilter;
 import cytoscape.visual.VisualStyle;
 import cytoscape.visual.calculators.Calculator;
-import fluxviz.util.FileUtil;
 
 /**
  * Dialog that chooses file to export to.

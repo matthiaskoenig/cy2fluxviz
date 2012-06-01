@@ -1,4 +1,4 @@
-package fluxviz.images;
+package fluxviz.util;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

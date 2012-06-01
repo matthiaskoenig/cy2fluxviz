@@ -18,8 +18,8 @@ import cytoscape.data.CyAttributes;
 import fluxviz.CyFluxVizPlugin;
 import fluxviz.fasimu.ValAttributes;
 import fluxviz.fluxanalysis.FluxStatisticsMap;
+import fluxviz.gui.Dialog;
 import fluxviz.gui.FluxVizPanel;
-import fluxviz.gui.dialogs.Dialog;
 
 public class AttributeUtils {
     /** 
@@ -36,17 +36,14 @@ public class AttributeUtils {
     	if (CyFluxVizPlugin.getFluxStatistics().statisticsMap.size() == 0){
     		Dialog.setFluxVizInfo(CyFluxVizPlugin.getFvPanel());
     	}
-    	
     	// Update the table
     	CyFluxVizPlugin.getFvPanel().updateTable(CyFluxVizPlugin.getFluxAttributes().getAttributeNames());
-    	
-    	
     }
     
 	/**
 	 * Delete all loaded val attributes.
 	 * Necessary because of problems with identifiers between different networks.
-	 * Flux distributions always end with ".val" for confinience.
+	 * Flux distributions always end with ".val".
 	 */
     public static void removeValAttributes(){
     	CyAttributes cyAttributes = Cytoscape.getNodeAttributes(); 
@@ -88,19 +85,13 @@ public class AttributeUtils {
 		}
     	return nameSet;
 	}
-	/**
-	 * Returns names of string NodeAttributes.
-
-	 */
+	/* Returns names of string NodeAttributes. */
 	public static Set<String> getStringNodeAttributes(){
 		return getTypeNodeAttributes(CyAttributes.TYPE_STRING);
 	}
 	
-	/**
-	 * Get the set of different values used in the attribute.
-	 * @param attributeName
-	 */
-	//Use same function for different types
+	/* Get the set of different values used in the attribute. 
+	 * Identical function used for different types. */
 	@SuppressWarnings("unchecked")
 	public static Set getValueSet(String attributeName){
 		Set valueSet = new HashSet();
@@ -116,16 +107,8 @@ public class AttributeUtils {
 		return valueSet;
 	}
 	
-	/**
-	 * Calculates the values of 
-	 */
-	public static void updateNodeAttributeSelection(){
-		
-	}
 	
-    public static void initNodeAttributeList(String attribute){
-    	CyFluxVizPlugin.getLogger().info("initNodeAttributeList");
-    	
+    public static void initNodeAttributeList(String attribute){    	
     	// 1. Get the possible values that can occur in the attribute
     	Object[] listObjects = getValueSet(attribute).toArray();
     	Arrays.sort(listObjects);
@@ -147,18 +130,15 @@ public class AttributeUtils {
         list.setModel(model);
 	}
     
-    /**
-     * Set the current NodeAttributes of type string in the ComboBox.
-     */
+    /* Set the current NodeAttributes of type string in the ComboBox. */
     public static void initNodeAttributeComboBox(){
-    	CyFluxVizPlugin.getLogger().info("initNodeAttributeComboBox");
     	Object[] attributes = getStringNodeAttributes().toArray();
     	Arrays.sort(attributes);
+    	
     	// get combo box and set the values
     	JComboBox box = CyFluxVizPlugin.getFvPanel().getNodeAttributeComboBox();
     	DefaultComboBoxModel model = new DefaultComboBoxModel(attributes);
     	box.setModel(model); 	
-    	
     	
     	// select value if value are available and update the corresponding list
     	String a=null;
@@ -180,9 +160,6 @@ public class AttributeUtils {
         // if no string attributes are available initialize empty.
         else{
         	initNodeAttributeList(null);
-        }
-    	
+        }	
     }
-    
-	
 }

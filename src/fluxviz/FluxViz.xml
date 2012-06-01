@@ -7,7 +7,10 @@
             <manifest>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="/home/mkoenig/Workspace/java/fluxviz/bin"/>
+            <fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/bin"/>
+        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/data"/>
+        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/examples"/>
+        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/help"/>
         </jar>
     </target>
 </project>

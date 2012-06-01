@@ -4,15 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.jar.JarEntry;
 
-import fluxviz.CyFluxVizPlugin;
-
 public class ExtractJar {
-	/**
-	 * Extract jarFile to given directory.
-	 * @param jarFile
-	 * @param destDir
-	 * @throws IOException
-	 */
 	private File jarFile;
 	private File destDir;
 	
@@ -21,12 +13,9 @@ public class ExtractJar {
 		this.destDir = destDir;
 	}
 	
-	/**
-	 * Extract the content of the jar file to the destination folder.
-	 * @throws IOException
-	 */
+	/* Extract the content of the jar file to the destination folder. */
 	public void extract() throws IOException, java.util.zip.ZipException{
-		this.print();
+		print();
 		java.util.jar.JarFile jar = new java.util.jar.JarFile(jarFile);
 		java.util.Enumeration<JarEntry> entries = jar.entries();
 		
@@ -42,7 +31,6 @@ public class ExtractJar {
 			else{	
 				f = new File(destDir, file.getName());
 			}
-			CyFluxVizPlugin.getLogger().fine(f.toString());
 			
 			//Create subdirectories
 			File dir = new File(f.getParent());
@@ -60,10 +48,7 @@ public class ExtractJar {
 		}
 	}
 
-	/**
-	 * Print the extraction information.
-	 */
 	public void print(){
-		System.out.println("Extract '" + jarFile + "' -> '"+ destDir +"'.");
+		System.out.println("CyFluxViz[INFO] -> Extract '" + jarFile + "' -> '"+ destDir +"'.");
 	}
 }

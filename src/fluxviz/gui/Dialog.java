@@ -1,7 +1,6 @@
-package fluxviz.gui.dialogs;
+package fluxviz.gui;
 
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.gui.FluxVizPanel;
 
 public class Dialog {
 

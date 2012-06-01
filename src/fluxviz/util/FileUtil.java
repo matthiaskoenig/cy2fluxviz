@@ -21,20 +21,13 @@ import fluxviz.fasimu.FluxAttributeCreator;
 
 public class FileUtil {
 
-    /**
-     * Get the directory for the FluxViz data. 
-     * @return FluxViz installation directory
-     */
+    /* Get the directory for the FluxViz data. */
     public static File getFluxVizDataDirectory(){
     	File pluginDir = PluginManager.getPluginManager().getPluginManageDirectory();
     	return new File(pluginDir, CyFluxVizPlugin.INSTALLATON_DIRECTORY);    	
     }
 	
-	
-	/**
-	 * Get the folder for export/import.
-	 * @return Folder where the images are saved
-	 */
+	/* Get the folder for export/import */
 	public static File getFolder(){
     	File folder = null;
         JFileChooser fc = new JFileChooser();
@@ -46,18 +39,12 @@ public class FileUtil {
         return folder;
 	}
 	
-    /**
+    /*
      * Opens file selection menu for val files.
      * Returns list of selected files. Returns null if no files are selected.
      * Array of files consists of all selected files.
-     * 
-     * @return list of selected val File objects
      */
-    public static File[] selectValFiles(){
-    	// examples as standard location
-        //File std_folder = new File(getFluxVizDataDirectory(), "examples");
-    	//JFileChooser fc = new JFileChooser(std_folder);
-    	
+    public static File[] selectValFiles(){    	
         File[] valFiles = null;
         JFileChooser fc = new JFileChooser();
         
@@ -72,7 +59,7 @@ public class FileUtil {
         return valFiles;
     }
     
-    /**
+    /*
      * Loads *.val files and creates the corresponding attributes. 
      * This function is called by clicking on 'Load val' in the FluxViz Control panel.
      * The val files in the tableModel are updated after the val files are loaded.
@@ -82,14 +69,11 @@ public class FileUtil {
      * The process of attribute generation can take very long.
      */
     public static void loadValFiles(){
-    	// Show all nodes and edges of the network
-    	// Necessary for the val loader that all node and edge ids are visible.
     	JCheckBox checkbox = CyFluxVizPlugin.getFvPanel().getFluxSubnetCheckbox(); 
     	if (checkbox.isSelected() == true){
     		checkbox.doClick();
     	}
     	
-    	// Get network and network view
         CyNetwork network = Cytoscape.getCurrentNetwork();
         CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
         
@@ -128,13 +112,9 @@ public class FileUtil {
 	    AttributeUtils.updateFluxAttributes();
     }
     
-    
-    
-    /**
-     * Creates the attributes from given val file.
+    /* Creates the attributes from given val file.
      * From the flux information node attribute file and edge attribute files
-     * are generated.
-     */
+     * are generated. */
     public static void createAttributesFromFile(File valFile){
 		if (! valFile.getAbsolutePath().endsWith(".val")){
 			return;
@@ -152,13 +132,10 @@ public class FileUtil {
      * TODO: standard directory and handling of hidden files.
      */
     public static File selectSimulationFile(){
-        
-    	//File std_folder = new File(getFluxVizDataDirectory(), "examples");
         File simFile = null;
         int loadVal = JOptionPane.showConfirmDialog(null, "Select simulation file for the fluxes.\n" +
         		"Only information from the last loaded simulation file is used. !",
         		"Select simulation file", 0);
-        
         if (loadVal == 0){
             JFileChooser fc = new JFileChooser();
             
@@ -186,7 +163,6 @@ public class FileUtil {
      * effluxes, forbidden reactions.
      */
     public static void loadSimulationFile(){
-    	CyFluxVizPlugin.getLogger().fine("Load simulation information");
     	File simFile = FileUtil.selectSimulationFile();
     	CyFluxVizPlugin.setFluxInformation(new FluxInformation(simFile));
     } 
@@ -197,8 +173,6 @@ public class FileUtil {
      * @throws IOException 
      */
     public static void loadViStyle(){
-    	CyFluxVizPlugin.getLogger().info("loadViStyle");
-    	// Get the VisualMappingMangager, CalculatorCatalog and VisualStyle
         CyFluxVizPlugin.setVmm(Cytoscape.getVisualMappingManager());
         CalculatorCatalog calc_cat = CyFluxVizPlugin.getVmm().getCalculatorCatalog();
         CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.DEFAULTVISUALSTYLE));
@@ -207,7 +181,6 @@ public class FileUtil {
         if (CyFluxVizPlugin.getViStyle() == null) {        	
         	@SuppressWarnings("unused")
 			LoadVizmap loadVM = new LoadVizmap(CyFluxVizPlugin.props_file);
-        	// Set the visual Style
         	CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()));
         }	
     }

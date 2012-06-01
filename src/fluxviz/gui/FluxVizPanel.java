@@ -39,33 +39,26 @@ import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Generates the FluxViz Panel and handels the actions in the menu.
- *
- * @author Matthias Koenig
- */
+
 @SuppressWarnings("serial")
 public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionListener, ActionListener {
 	private CyFluxVizPlugin fluxViz;
     private DefaultTableModel tableModel;
 	String[] columnNames = {"Name", "Min", "Max"};
     
-    /** Creates new form FluxVizPanel */
+
     public FluxVizPanel(CyFluxVizPlugin fluxViz) {
         // local reference to the plugin
         this.fluxViz = fluxViz;
         // NetBeans GUI code
         initComponents();
 
-        // Initialize the table
         String[] listObjects = CyFluxVizPlugin.getFluxAttributes().getAttributeNames();
 		initTable(listObjects);
-        // Add selection listener to the table
+
         fluxTable.getSelectionModel().addListSelectionListener(this);
         examplesComboBox.addActionListener(this);
 
-        // Additional initialisation
-        //initialize();
     }
 
     /** This method is called from within the constructor to
@@ -853,26 +846,21 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         // TODO add your handling code here:
     }                                          
 
-
     private void updateMappingView(){
-        Logger logger = CyFluxVizPlugin.getLogger();
         // Get the values for the maxFlux and the maxEdgeWidth
         // depending on local and global settings 
         double maxFlux = 0.0;
         if (globalMaxBox.isSelected()){
-            logger.info("global max flux");
             maxFlux = CyFluxVizPlugin.getFluxStatistics().getGlobalAbsMax() * 1.01;
         }
         else {
             // Get the selected attribute and use the local value
-            logger.info("local max flux");
             int selected = fluxTable.getSelectedRow();
             if (selected != -1){
                 String attribute = (String)tableModel.getValueAt(selected, 0);
                 maxFlux = CyFluxVizPlugin.getFluxStatistics().get(attribute).getAbsMax() * 1.01;
             }
         }
-        logger.info("Max Flux: "+ maxFlux);
 
         // TODO: with try and catch (set to standard value)
         double minEdgeWidth = Double.parseDouble(minEdgeWidthField.getText());
@@ -939,16 +927,10 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         updateMappingView();
     }                                                
 
-    private void imageIconLabelMouseClicked(java.awt.event.MouseEvent evt) {                                            
-        Logger logger = CyFluxVizPlugin.getLogger();
-        logger.info("Create C2CMappingEditor");
+    private void imageIconLabelMouseClicked(java.awt.event.MouseEvent evt) {
         Object editorObject = C2CMappingEditor.showDialog(450, 450, "Advanced flux <-> edgeWidth mapping ", VisualPropertyType.EDGE_LINE_WIDTH);
         C2CMappingEditor editor = (C2CMappingEditor) editorObject;
         editor.addWindowListener(new ImageIconListener());
-
-
-        //logger.info("Create C2CMappingEditor ImageIcon");
-        //imageIconLabel.setIcon(C2CMappingEditor.getIcon(123, 86, VisualPropertyType.EDGE_LINE_WIDTH));
     }                                           
 
     class ImageIconListener implements WindowListener{
@@ -1053,7 +1035,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         //throw new UnsupportedOperationException("Not supported yet.");
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         int example = cb.getSelectedIndex();
-        CyFluxVizPlugin.getLogger().log(Level.INFO, "Selected example network: " + example);
         LoadExample.loadExample(example);
     }
 
@@ -1148,27 +1129,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     public javax.swing.JComboBox getExamplesComboBox() {
 		return examplesComboBox;
 	}
-
-
-    
-    /*
-     * TODO: clever modification of the stylesheet for the JTextPane
-    public static void modifyStyleSheetForSingleDocument(JTextPane textPane) {
-        HTMLDocument htmlDoc = (HTMLDocument) textPane.getDocument();
-        StyleSheet styleSheet = htmlDoc.getStyleSheet();
-        styleSheet.addRule("h2 {color: #663333; font-size: 120%; font-weight: bold; "
-                + "margin-bottom:3px}");
-        styleSheet.addRule("h3 {color: #663333; font-size: 105%; font-weight: bold;"
-                + "margin-bottom:7px}");
-        styleSheet.addRule("ul { list-style-type: none; margin-left: 5px; "
-                + "padding-left: 1em;	text-indent: -1em;}");
-        styleSheet.addRule("h4 {color: #66333; font-weight: bold; margin-bottom:3px;}");
-        styleSheet.addRule(".link {color:blue; text-decoration: underline;}");
-        styleSheet.addRule(".description {font-size: 85%;}");
-        styleSheet.addRule(".rule {font-size: 90%; font-weight:bold}");
-        styleSheet.addRule(".excerpt {font-size: 90%;}");
-    }
-    */
 
     // Variables declaration - do not modify
     private javax.swing.JPanel examplePane;
