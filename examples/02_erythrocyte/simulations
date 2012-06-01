@@ -1,0 +1,7 @@
+ATP_regeneration	ATP_cell	-ADP_cell -Glc_ext +CO2_ext +Lac_ext =Pi_cell	ATP_cell	demonstrates alternatively the regeneration of ATP by removing ATP directly from the system
+ATPase	ATPase	stdef.txt	ATPase	demonstrates the regeneration of ATP by the use uf ATPase reaction
+DPGase	DPGase	stdef.txt	DPGase	demonstrates the target reaction DPGase
+GSHox	GSHox	stdef.txt	GSHox	demonstrates the target reaction DPGase
+PPrPT	PPrPT	stdef.txt	PPrPT	production of PPrP
+PrPP_alt	PrPP_ext	stdef.txt	PrPP_ext	alternative, production of PPrP
+All	2.38 ATPase 0.494 DPGase 0.093 GSHox 0.0258 PPrPT	stdef.txt	Glc_ext

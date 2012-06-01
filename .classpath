@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/cytoscape.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/y-layouts-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/table-import-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/rfilters-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/quickfind-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/psi-mi-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/network-analyzer-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/ncbi-client-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/manual-layout-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/linkout-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/filters-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/equation-functions-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/editor-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CySBML_exjar.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cySabioRK-v0.1.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cpath-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cpath2-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/core-commands-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/biopax-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/biomart-client-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/automatic-layout-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/attribute-browser-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/advanced-network-merge-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

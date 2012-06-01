@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="fluxviz" name="Package FluxViz in one Jar">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="fluxviz">
+        <jar destfile="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/FluxViz_exjar.jar">
+            <manifest>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="/home/mkoenig/Workspace/java/fluxviz/bin"/>
+        </jar>
+    </target>
+</project>
