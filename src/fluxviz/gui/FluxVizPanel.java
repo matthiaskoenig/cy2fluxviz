@@ -36,9 +36,6 @@ import fluxviz.view.NetworkView;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 @SuppressWarnings("serial")
 public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionListener, ActionListener {

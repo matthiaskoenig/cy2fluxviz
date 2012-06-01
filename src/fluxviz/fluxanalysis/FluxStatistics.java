@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import cysbml.CySBMLConstants;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
@@ -63,12 +64,14 @@ public class FluxStatistics {
 		double edgeFlux;
 		double stoichiometry;
 		
+		//TODO: use the CySBMLattributes
+		fuck
 		
 		// over all nodes (Flux statistics is based on the edge flux)
 		for (Iterator<CyNode> i = nodeList.iterator(); i.hasNext();){
 			node = i.next();
 			nodeId = node.getIdentifier();
-			if (nodeAttributes.getAttribute(nodeId, "sbml type").equals("reaction")){
+			if (nodeAttributes.getAttribute(nodeId, CySBMLConstants.ATT_TYPE).equals("reaction")){
 				// count the reactions
 				reactions++;
 				// count the zero reactions

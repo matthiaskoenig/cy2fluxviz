@@ -64,15 +64,15 @@ import fluxviz.util.Installation;
 public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeListener {
 	
 	public static final String NAME = "CyFluxViz";
-	public static final String VERSION = "v0.8";
-	public static final String INSTALLATON_DIRECTORY = NAME + VERSION; 
-	public static final String DEFAULTVISUALSTYLE = "FluxViz"; 
+	public static final String VERSION = "v0.81";
+	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
+	public static final String DEFAULTVISUALSTYLE = NAME; 
 	
 	public static final boolean DEVELOP = true;
 	
 	/** Visual Style for FluxViz */
-	public static File props_file = new File(FileUtil.getFluxVizDataDirectory(), "data" + File.separator + 
-			DEFAULTVISUALSTYLE +"_5.props");
+	public static File props_file = new File(FileUtil.getFluxVizDataDirectory(), 
+			"data" + File.separator + DEFAULTVISUALSTYLE +".props");
 	
 	/** Subset of Cytoscape node attributes which are flux distributions. */
 	private static FluxAttributes fluxAttributes;

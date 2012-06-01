@@ -3,14 +3,12 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="fluxviz">
-        <jar destfile="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/FluxViz_exjar.jar">
+        <jar destfile="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CyFluxViz_exjar.jar">
             <manifest>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/bin"/>
-        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/data"/>
-        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/examples"/>
-        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz/help"/>
+        	<fileset dir="/home/mkoenig/git/cytoscapePlugins/CyFluxViz"/>
         </jar>
     </target>
 </project>
