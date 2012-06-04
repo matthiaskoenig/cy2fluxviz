@@ -12,6 +12,7 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
 import cysbml.CySBMLConstants;
+import fluxviz.gui.PanelDialogs;
 
 /** Calculation of FluxStatistics for a given Flux Distribution. */
 public class FluxStatistics {
@@ -128,7 +129,8 @@ public class FluxStatistics {
 	
 	public String toHTML(){
 		String out = String.format(
-				"<b>[FluxStatistics]</b> <br>" +
+				PanelDialogs.getHTMLHeader() +
+				"<b>Properties of selected flux distribution</b> <br>" +
 				"<table>" +
 				"<tr><td><i>min</i></td>           <td>%.3f</td></tr>" +
 				"<tr><td><i>max</i></td>           <td>%.3f</td></tr>" +

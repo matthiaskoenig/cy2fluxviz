@@ -1,7 +1,6 @@
 package fluxviz.gui;
 
 import javax.swing.JOptionPane;
-
 import cytoscape.Cytoscape;
 import fluxviz.CyFluxVizPlugin;
 
@@ -13,21 +12,25 @@ public class PanelDialogs {
 			title, JOptionPane.WARNING_MESSAGE);
 	}
 	
+	public static String getHTMLHeader(){
+		String header = 
+				"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Online Help</a>" + " | " +
+    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>";
+		return header;
+	}
+	
 	public static void setFluxVizInfo(FluxVizPanel fvPanel){
     	String info = 
-    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Online Help</a>" + " | " +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
+    			getHTMLHeader() +
     			"<b>" + CyFluxVizPlugin.NAME + "-" + CyFluxVizPlugin.VERSION +"</b><br>" +
-    			"Visualisation of flux distributions in networks.<br><br>" +
-    			"Developed by <b>Matthias König</b> at Charite Berlin.";
+    			"Visualisation of flux distributions in networks.<br>" +
+    			"Developed by <span color=\"gray\">Matthias König</span> at Charite Berlin.";
     	fvPanel.updateInfoPaneHTMLText(info);
     }
-	
+		
     public static void setHelp(FluxVizPanel fvPanel){
     	String help = 
-    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/doc'>JavaDoc</a>" + " | " +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
+    			getHTMLHeader() +
     			"<b>[Short Introduction]</b><br>" +
     			"<b>1. Select Network for visualisation</b>" +
     			"<br>Load ('File -> Import Network' or 'File -> Open') or create Network for visualization of flux distributions.<br>" +
@@ -55,8 +58,6 @@ public class PanelDialogs {
     	fvPanel.updateHelpPaneHTMLText(help);
     }
     
-
-	
     public static void setExamples(FluxVizPanel fvPanel){
     	javax.swing.JComboBox box = fvPanel.getExamplesComboBox();
     	box.setModel(new javax.swing.DefaultComboBoxModel(
