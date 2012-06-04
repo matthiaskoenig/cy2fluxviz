@@ -12,9 +12,9 @@
 package fluxviz.gui;
 
 import java.awt.event.ActionEvent;
-import java.util.Map;
 import java.net.URL;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,35 +26,34 @@ import cytoscape.util.OpenBrowser;
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.attributes.AttributeUtils;
+import fluxviz.attributes.FluxAttributeUtils;
 import fluxviz.examples.LoadExample;
+import fluxviz.statistics.FluxStatistics;
+import fluxviz.statistics.FluxStatisticsMap;
 import fluxviz.util.CytoscapeWrapper;
-import fluxviz.fluxanalysis.FluxStatistics;
-import fluxviz.mapping.ApplyEdgeWidthMapping;
 import fluxviz.util.FileUtil;
+import fluxviz.view.ApplyEdgeWidthMapping;
 import fluxviz.view.NetworkView;
+import fluxviz.view.NetworkViewTools;
+
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 @SuppressWarnings("serial")
 public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionListener, ActionListener {
+	
 	private CyFluxVizPlugin fluxViz;
     private DefaultTableModel tableModel;
-	String[] columnNames = {"Name", "Min", "Max"};
+	private final String[] columnNames = {"Name", "Min", "Max"};
     
 
-    public FluxVizPanel(CyFluxVizPlugin fluxViz) {
-        // local reference to the plugin
-        this.fluxViz = fluxViz;
-        // NetBeans GUI code
+    public FluxVizPanel(CyFluxVizPlugin fluxVizPlugin) {
+    	
+    	fluxViz = fluxVizPlugin;
         initComponents();
+		initTable();
 
-        String[] listObjects = CyFluxVizPlugin.getFluxAttributes().getAttributeNames();
-		initTable(listObjects);
-
-        fluxTable.getSelectionModel().addListSelectionListener(this);
-        examplesComboBox.addActionListener(this);
 
     }
 
@@ -181,54 +180,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 
         mappingPanel.setBackground(java.awt.Color.white);
 
-        jLabel5.setText("Mapping Settings");
 
-        jCheckBox1.setText("All");
-
-        jCheckBox2.setText("None");
-
-        jCheckBox3.setSelected(true);
-        jCheckBox3.setText("EdgeWidth");
-
-        jCheckBox4.setSelected(true);
-        jCheckBox4.setText("EdgeTooltip");
-
-        jCheckBox5.setSelected(true);
-        jCheckBox5.setText("EdgeDirection");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox6.setSelected(true);
-        jCheckBox6.setText("Default");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox7.setText("NodeColor");
-        jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox7ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox8.setText("NodeSize");
-        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox8ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox9.setText("EdgeColor");
-        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox9ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout mappingPanelLayout = new javax.swing.GroupLayout(mappingPanel);
         mappingPanel.setLayout(mappingPanelLayout);
@@ -614,6 +566,8 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 maxEdgeWidthSliderStateChanged(evt);
             }
+			private void maxEdgeWidthSliderStateChanged(ChangeEvent evt) {				
+			}
         });
 
         localMaxBox.setBackground(java.awt.Color.white);
@@ -719,38 +673,30 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         );
 
         settingPane.getAccessibleContext().setAccessibleName("Settings");
-    }// </editor-fold>
+        
+        fluxTable.getSelectionModel().addListSelectionListener(this);
+        examplesComboBox.addActionListener(this);
+    }
 
-    /** Export images as SVG. */
+    /////////////////////////////////////////////////////////////////////////////////
+    
     private void jButtonExportImageActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         fluxViz.exportImage();
-}                                                  
+    }                                                  
 
-    /** Load the val files. */
     private void jButtonImportValActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         FileUtil.loadValFiles();
-}                                                
+    }                                                
 
-    /** Load the simulation file */
     private void jButtonImportSimActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         FileUtil.loadSimulationFile();
-}                                                
+    }                                                
 
-    /** Show the help information */
     private void jCheckBoxFluxSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // Test if flux attributes are available, otherwise nothing happens
-        //String fluxAttribute = (String)model.getValueAt(table.getSelectedRow(), 0);
-        //table.ge
-
         if (getFluxTable().getModel().getRowCount() > 0){
             NetworkView.changeSubnetView();
         }
-        else {
-            jCheckBoxFluxSubnet.setSelected(false);
-            javax.swing.JOptionPane.showMessageDialog(null, "Flux subnet view only possible with loaded \n flux distributions.",
-                    "Flux subnet warning", javax.swing.JOptionPane.WARNING_MESSAGE);
-        }  
-}                                                   
+    }         
 
     private void helpPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {                                         
         URL url = evt.getURL();
@@ -763,7 +709,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 				OpenBrowser.openURL(url.toString());
 			}
 		}
-}                                        
+    }                                        
 
     private void infoPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {                                         
         URL url = evt.getURL();
@@ -779,13 +725,12 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     }                                        
 
     private void examplesComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {                                                
-
+    	//TODO ? Why is this here ?
     }                                               
-
 
     private void jCheckBoxAttributeSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                         
         NetworkView.changeSubnetView();
-}                                                        
+    }                                                        
 
     private void nodeAttributeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // if new value is selected the content of the ValueSet list has to be
@@ -793,16 +738,16 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         int index = nodeAttributeComboBox.getSelectedIndex();
         if (index!= -1){
             String attribute = (String) nodeAttributeComboBox.getSelectedItem();
-            AttributeUtils.initNodeAttributeList(attribute);
+            FluxAttributeUtils.initNodeAttributeList(attribute);
         }
-}                                                     
+    }                                                     
 
     private void hideButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkView.testHide();
-}                                          
+        NetworkViewTools.hideAllNodesAndEdgesInCurrentView();
+    }                                          
 
     private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkView.testShow();
+        NetworkViewTools.showAllNodesAndEdgesInCurrentView();
     }                                          
 
     private void nodeAttributeListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                               
@@ -812,7 +757,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
             if (jCheckBoxAttributeSubnet.isSelected() == false){
                 return;
             }
-
             else{
                 NetworkView.changeSubnetView();
             }
@@ -823,48 +767,31 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         NetworkView.changeSubnetView();
     }                                                    
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void jCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void jCheckBox9ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
+    public void selectInfoPane(){
+    	getInformationPane().setSelectedComponent(infoScrollPane);
+    }
+    
     private void updateMappingView(){
         // Get the values for the maxFlux and the maxEdgeWidth
         // depending on local and global settings 
         double maxFlux = 0.0;
         if (globalMaxBox.isSelected()){
-            maxFlux = CyFluxVizPlugin.getFluxStatistics().getGlobalAbsMax() * 1.01;
+            maxFlux = CyFluxVizPlugin.getFluxStatistics().getGlobalMaxFlux() * 1.01;
         }
         else {
             // Get the selected attribute and use the local value
             int selected = fluxTable.getSelectedRow();
             if (selected != -1){
                 String attribute = (String)tableModel.getValueAt(selected, 0);
-                maxFlux = CyFluxVizPlugin.getFluxStatistics().get(attribute).getAbsMax() * 1.01;
+                maxFlux = CyFluxVizPlugin.getFluxStatistics().getFluxStatistics(attribute).getAbsMax() * 1.01;
             }
         }
 
-        // TODO: with try and catch (set to standard value)
         double minEdgeWidth = Double.parseDouble(minEdgeWidthField.getText());
         double maxEdgeWidth = Double.parseDouble(maxEdgeWidthField.getText());
 
         // Apply the mapping with the new values
-        ApplyEdgeWidthMapping tmp = new ApplyEdgeWidthMapping(maxFlux, minEdgeWidth, maxEdgeWidth, ApplyEdgeWidthMapping.MappingType.LINEAR);
+        ApplyEdgeWidthMapping tmp = new ApplyEdgeWidthMapping(maxFlux, minEdgeWidth, maxEdgeWidth);
         tmp.changeMapping();
 
         // Update mapping view
@@ -872,20 +799,24 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     }
 
     private void localMaxBoxActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // Deselect / Selecte the global max box
-        if (localMaxBox.isSelected() == true) globalMaxBox.setSelected(false);
-        else globalMaxBox.setSelected(true);
-
-        // Update the view based on the settings
+        // change state of localMaxBox
+        if (localMaxBox.isSelected() == true) {
+        	globalMaxBox.setSelected(false);
+        }
+        else {
+        	globalMaxBox.setSelected(true);
+        }
         updateMappingView();
     }                                           
 
     private void globalMaxBoxActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // Deselect / Selecte the global max box
-        if (globalMaxBox.isSelected() == true) localMaxBox.setSelected(false);
-        else localMaxBox.setSelected(true);
-
-        // Update the view based on the settings
+    	// change state of globalMaxBox
+        if (globalMaxBox.isSelected() == true){
+        	localMaxBox.setSelected(false);
+        }
+        else {
+        	localMaxBox.setSelected(true);
+        }
         updateMappingView();
     }                                            
 
@@ -907,18 +838,13 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         else maxEdgeWidthSlider.setMaximum(maxEdgeWidth + 50);
         
         updateMappingView();
-    }                                                 
-
-    private void maxEdgeWidthSliderStateChanged(javax.swing.event.ChangeEvent evt) {                                                
-
-    }                                               
+    }                                                                                            
 
     private void maxEdgeWidthSliderMouseReleased(java.awt.event.MouseEvent evt) {                                                 
         Integer maxEdgeWidth = maxEdgeWidthSlider.getValue();
         if (maxEdgeWidth <= 80) maxEdgeWidthSlider.setMaximum(100);
         else maxEdgeWidthSlider.setMaximum(maxEdgeWidth + 50);
 
-        //Update the textbox
         maxEdgeWidthField.setText(maxEdgeWidth.toString());
 
         updateMappingView();
@@ -932,133 +858,105 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 
     class ImageIconListener implements WindowListener{
         public void windowClosing(WindowEvent e) {
-            System.out.println("WindowListener method called: windowClosing.");
-            // Update mapping view
             imageIconLabel.setIcon(C2CMappingEditor.getIcon(161, 94, VisualPropertyType.EDGE_LINE_WIDTH));
         }
-
-        public void windowOpened(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void windowClosed(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void windowIconified(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void windowDeiconified(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void windowActivated(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void windowDeactivated(WindowEvent arg0) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
+        public void windowOpened(WindowEvent arg0) {}
+        public void windowClosed(WindowEvent arg0) {}
+        public void windowIconified(WindowEvent arg0) {}
+        public void windowDeiconified(WindowEvent arg0) {}
+        public void windowActivated(WindowEvent arg0) {}
+        public void windowDeactivated(WindowEvent arg0) {}
     }
 
-    /** Initialises the Table in the panel with given Objects.
-     * @param listObjects list of Objects for initial table settings
-     */
-    public void initTable(Object[] listObjects){
-		// Set table model
+    public void initTable(){
         tableModel = new DefaultTableModel(columnNames, 0);
         fluxTable.setModel(tableModel);
-		// Add sorter to the table
-		// TODO: create Table sorter.
-        //fluxTable.setAutoCreateRowSorter(true);
-		// Define the size of the columns
+
         TableColumn column = fluxTable.getColumnModel().getColumn(0);
 		column.setPreferredWidth(220);
 		column = fluxTable.getColumnModel().getColumn(1);
 		column.setPreferredWidth(40);
 		column = fluxTable.getColumnModel().getColumn(2);
 		column.setPreferredWidth(40);
+		
+		String[] listObjects = CyFluxVizPlugin.getFluxAttributes().getAttributeNames();
 		updateTable(listObjects);
 	}
 
-    /** Clears the TableModel. */
     public void clearTable(){
     	if (tableModel.getRowCount() != 0){
     		tableModel.setRowCount(0);
     	}
     }
 
-    /**
-     * Updates the content of the flux mode lists.
-     * Name and statistical data if available are written in the list.
-     * the update is based on a list of flux mode names.
-     * @param listObjects
-     */
+    /* Updates list of flux distributions */
     public void updateTable(Object[] listObjects){
-        // clear the tableModel
         clearTable();
-
-        // create the rows and add to the listModel
-        // for the table the flux statistics is needed
-        Map<String, FluxStatistics> attributeStatistics = CyFluxVizPlugin.getFluxAttributes().attributeStatistics;
-        Object[] row = new Object[columnNames.length];
-        String name;
-        FluxStatistics fluxStat;
+        // calculate table rows
+        FluxStatisticsMap fsMap = CyFluxVizPlugin.getFluxStatistics();
         for (int i=0; i<listObjects.length; ++i){
-                name = (String)listObjects[i];
-                row[0] = name;
-                // Only if the statistics data is available it can be displayed
-                if (attributeStatistics != null){
-                    fluxStat = attributeStatistics.get(name);
-                    row[1] = fluxStat.getMin();
-                    row[2] = fluxStat.getMax();
-                }
-                else{
-                    row[1] = null;
-                    row[2] = null;
-                }
-                tableModel.addRow(row);
+        	String attributeName = (String) listObjects[i];
+        	
+        	Object[] row = new Object[columnNames.length];
+            row[0] = attributeName;
+            row[1] = null;
+            row[2] = null;
+            
+            // absMin and absMax
+            FluxStatistics fluxStat = fsMap.getFluxStatistics(attributeName);
+            if (fluxStat != null){
+            	row[1] = fluxStat.getMin();
+                row[2] = fluxStat.getMax();
+            }                
+            tableModel.addRow(row);
         }
-
-        // TODO: make shre this is working if only one flux mode is loaded
-        // select the first flux distribution
-        if (fluxTable.getRowCount()>0 && fluxTable.getColumnCount()>0){
+        selectFirstFluxDistribution();
+    }
+    
+    private void selectFirstFluxDistribution(){
+    	if (fluxTable.getRowCount()>0 && fluxTable.getColumnCount()>0){
             fluxTable.setRowSelectionInterval(0, 0);
         }
-}
+    }
 
+   /* Load examples */
    public void actionPerformed(ActionEvent evt) {
-        //throw new UnsupportedOperationException("Not supported yet.");
         javax.swing.JComboBox cb = (javax.swing.JComboBox)evt.getSource();
         int example = cb.getSelectedIndex();
         LoadExample.loadExample(example);
     }
 
-
-    /**
-     *  Updates the displayed information in the informationPane.
-     *  @param htmlInfo new information in HTML form
-     */
-	public void updateText(javax.swing.JEditorPane pane,  String htmlText){
-        String info = "<head><base href='file:///home/mkoenig/workspace/fluxviz/'></base>" +
-				"<style type='text/css'>body{ font-family: sans-serif; font-size: 11pt; }</style></head><body>";
-        info += htmlText;
-		info += "</body></html>";
+	private void updatePaneHTMLText(javax.swing.JEditorPane pane,  String htmlText){
+        String info = String.format(
+        		"<html>" +
+        		"<head>" +
+        		"	<base href='file:///home/mkoenig/workspace/fluxviz/'></base>" +
+				"	<style type='text/css'>body{ font-family: sans-serif; font-size: 11pt; }</style>" +
+				"</head>" +
+				"<body>%s</body></html>", htmlText);
 		pane.setText(info);
 	}
-    
-    /**
-     * Handles the selections in the flux distribution table.
-     * Applies the changes in the network view depending on the selected
-     * flux distribution in the network.
+	
+	public void updateInfoPaneHTMLText(String htmlText){
+		updatePaneHTMLText(infoPane, htmlText);
+	}
+	public void updateHelpPaneHTMLText(String htmlText){
+		updatePaneHTMLText(helpPane, htmlText);
+	}
+	public void updateExamplePaneHTMLText(String htmlText){
+		updatePaneHTMLText(examplesPane, htmlText);
+	}
+	
+    /* Selection of FluxDistribution has changed. 
+     * TODO : allow only single selection
+     * TODO : handle deselection of network 
      */
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
             int selected = fluxTable.getSelectedRow();
             if (selected != -1){
-                String attribute = (String)tableModel.getValueAt(selected, 0);
-                NetworkView.applyFluxVizView(attribute);
+                String attributeName = (String)tableModel.getValueAt(selected, 0);
+                NetworkView.applyFluxVizView(attributeName);
             }
         }
     }
@@ -1078,18 +976,10 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     public javax.swing.JCheckBox getNullVisibleCheckbox(){
         return this.jCheckBoxNullVisible;
     }
-
-
-
     public javax.swing.JTabbedPane getInformationPane(){
         return informationPane;
     }
-
-    public javax.swing.JScrollPane getInfoScrollPane() {
-		return infoScrollPane;
-	}
-
-    public javax.swing.JEditorPane getInfoPane() {
+    private javax.swing.JEditorPane getInfoPane() {
 		return infoPane;
 	}
 
@@ -1106,8 +996,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     public javax.swing.JList getNodeAttributeList() {
 		return nodeAttributeList;
 	}
-
-
 
     public javax.swing.JScrollPane getHelpScrollPane() {
 		return helpScrollPane;

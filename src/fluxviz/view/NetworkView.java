@@ -1,6 +1,7 @@
 package fluxviz.view;
 
 import java.awt.BorderLayout;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
+import cytoscape.CyNetworkEvent;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
@@ -29,23 +31,16 @@ import cytoscape.visual.mappings.PassThroughMapping;
 
 import fluxviz.FluxInfo;
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.fluxanalysis.FluxStatistics;
-import fluxviz.fluxanalysis.FluxStatisticsMap;
-import fluxviz.fluxanalysis.HistPanel;
 import fluxviz.gui.FluxVizPanel;
+import fluxviz.statistics.FluxStatistics;
+import fluxviz.statistics.FluxStatisticsMap;
 import fluxviz.util.FileUtil;
 
-/**
- * Handles different NetworkViews based on selected criteria.
- * These are the FluxSubnetworkView and the also the AttributeSubnetworkView.
- * 
- * TODO: Better handle these views in general NetworkView classes.
- * (generate an interface which handels the view).
- */
+/* Class managing the distinct NetworkViews based on selected criteria, like
+ * for instance the FluxSubnetworkView or AttributeSubnetworkView. */
 public class NetworkView {
 	
-    /**
-     * Handles the action which is performed when the flux subnetwork selection box
+    /* Handles the action which is performed when the flux subnetwork selection box
      * is selected or deselected.
      * Here the mapping of the flux distributions is performed. Set the mapping
      * and apply the subnetwork view depending on the fluxes.
@@ -54,7 +49,6 @@ public class NetworkView {
     	FluxVizPanel panel = CyFluxVizPlugin.getFvPanel();
     	JCheckBox fluxBox = panel.getFluxSubnetCheckbox(); 
     	JCheckBox attributeBox = panel.getAttributeSubnetCheckbox();
-    	
     	JTable table = panel.getFluxTable();
     	DefaultTableModel model = panel.getTableModel();
     	
@@ -62,37 +56,33 @@ public class NetworkView {
     		String fluxAttribute = (String)model.getValueAt(table.getSelectedRow(), 0);
     		if (attributeBox.isSelected() == false){
     			viewFluxSubnet(fluxAttribute);
-    		}
-    		else {
+    		} else {
     			viewFluxAttributeSubnet(fluxAttribute);
     		}
     	}
     	if (fluxBox.isSelected() == false ) { //&& table.getSelectedRow() != -1
-    		
     		if (attributeBox.isSelected() == false){
-    			viewFullNet();	
-    		}
-    		else{
+    			NetworkViewTools.showAllNodesAndEdgesInCurrentView();	
+    		}else{
     			viewAttributeSubnet();
     		}		
     	}
     }
     
-	/**
-	 * Generate flux attribute subnetwork view for given flux attribute
+	/*Generate flux attribute subnetwork view for given flux attribute
 	 * combination and selected flux distribution.
+	 * TODO: handling of the edge attributes in better way
 	 */
     @SuppressWarnings("unchecked")
-	public static void viewFluxAttributeSubnet(String fluxAttribute){
-    	String edgeAttribute = fluxAttribute + "_edge";
+	public static void viewFluxAttributeSubnet(String nodeAttribute){
+    	String edgeAttribute = nodeAttribute + "_edge";
     	
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
-    	List<CyNode> nodeList = Cytoscape.getCyNodesList();
+        NetworkViewTools.hideAllNodesAndEdgesInView(view);
+		
+        List<CyNode> nodeList = Cytoscape.getCyNodesList();
     	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
     	
-		// set all nodes and edges invisible
-        hideFullNet();
-				
 		//calculate flux subnetwork
         Set<CyEdge> fluxEdges = new HashSet<CyEdge>(); 
         CyAttributes edgeAttrs = Cytoscape.getEdgeAttributes();
@@ -105,7 +95,8 @@ public class NetworkView {
         // calculate the set of visible nodes based on the attribute condition
     	FluxVizPanel panel = CyFluxVizPlugin.getFvPanel();
         String attribute = (String) panel.getNodeAttributeComboBox().getSelectedItem();
-        boolean nullVisible = panel.getNullVisibleCheckbox().isSelected();
+        
+    	boolean nullVisible = panel.getNullVisibleCheckbox().isSelected();
         Set<Object> selected = new HashSet<Object>();
         for (Object obj: panel.getNodeAttributeList().getSelectedValues()){
             selected.add(obj);
@@ -125,7 +116,6 @@ public class NetworkView {
 		}
 
 		//2.2 all nodes and edges of the flux subnetwork visible
-		//if the attribute condition is fullfilled
 		CyNode node;
 		boolean source_visible;
 		boolean target_visible;
@@ -148,31 +138,16 @@ public class NetworkView {
 				view.showGraphObject(view.getEdgeView(edge));
 			}	
 		}
-		//hide all nodes which are not in the flux subnetwork
-
 		view.updateView();		
     }
     
-    
-    /**
-     * Generate flux subnetwork view for given flux attribute.
-     * Hide all nodes and edges which contain no flux.
-     * TODO: minimize loop (hide / show can be performed in one loop)
-     */
+    /* Generate flux subnetwork view for given flux attribute. */
     @SuppressWarnings("unchecked")
 	public static void viewFluxSubnet(String attribute){    	
     	String edgeAttribute = attribute + "_edge";
     	
-    	CyNetworkView view = Cytoscape.getCurrentNetworkView();
-    	List<CyNode> nodeList = Cytoscape.getCyNodesList();
-    	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
-    	
-		//1. set all nodes and edges invisible
-        for (CyNode node: nodeList){
-        	view.hideGraphObject(view.getNodeView(node));
-        }
-				
-		//2.1. calculate flux subnetwork
+    	//2.1. calculate flux subnetwork
+    	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();    			
         Set<CyEdge> fluxEdges = new HashSet<CyEdge>(); 
         CyAttributes edgeAttrs = Cytoscape.getEdgeAttributes();
 		for (CyEdge edge: edgeList){
@@ -181,15 +156,15 @@ public class NetworkView {
 			}
 		}
 		//2.2 make flux subnetwork visible
+    	CyNetworkView view = Cytoscape.getCurrentNetworkView();
+    	NetworkViewTools.hideAllNodesAndEdgesInView(view);
 		CyNode node;
 		for (CyEdge edge: fluxEdges){
-			
 			//show source and target nodes
 			node = (CyNode)edge.getSource();
 			view.showGraphObject(view.getNodeView(node));
 			node = (CyNode)edge.getTarget();
 			view.showGraphObject(view.getNodeView(node));
-			
 			//show flux edge
 			view.showGraphObject(view.getEdgeView(edge));
 		}
@@ -235,7 +210,7 @@ public class NetworkView {
     	List<CyNode> nodeList = Cytoscape.getCyNodesList();
     	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
     	
-		//1. set all nodes invisible
+		// set all nodes and edges invisible
         for (CyNode node: nodeList){
         	view.hideGraphObject(view.getNodeView(node));
         }
@@ -249,7 +224,6 @@ public class NetworkView {
         Set<CyNode> visibleNodes = new HashSet<CyNode>(); 
 		for (CyNode node: nodeList){
 			String id = node.getIdentifier();
-			
 			if (selected.contains(nodeAttrs.getAttribute(id, attributeName))){
 				visibleNodes.add(node);
 			}
@@ -257,15 +231,10 @@ public class NetworkView {
 				visibleNodes.add(node);
 			}
 		}
-        
-		//2.2 make nodes visible
-		for (CyNode node: visibleNodes){
-			view.showGraphObject(view.getNodeView(node));
-		}
-		//2.3 make edges with visible source and target node visible
+		NetworkViewTools.showNodesInView(visibleNodes, view);
+		
+		//make edges with visible source and target node visible
 		for (CyEdge edge: edgeList){
-			// probably not necessary, because all edges are still visible
-			//if source and target node are visible, make the edge visible
 			if (visibleNodes.contains((CyNode)edge.getSource()) &&
 					visibleNodes.contains((CyNode)edge.getTarget()) ){
 				view.showGraphObject(view.getEdgeView(edge));
@@ -274,51 +243,13 @@ public class NetworkView {
 		view.updateView();
     }
     
-    
-    
-    /**
-     * Show all nodes and edges in the network in the current view.
-     */
-	@SuppressWarnings("unchecked")
-	public static void viewFullNet(){
-        CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        List<CyNode> nodeList = Cytoscape.getCyNodesList();
-        List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
-        for (CyNode node: nodeList){
-            view.showGraphObject(view.getNodeView(node));
-        }
-        for (CyEdge edge: edgeList){
-        	view.showGraphObject(view.getEdgeView(edge));
-        }
-        view.updateView();
-    }
 	
-    /**
-     * Hide all nodes and edges in the network in the current view.
-     */
-	@SuppressWarnings("unchecked")
-	public static void hideFullNet(){
-        CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        List<CyNode> nodeList = Cytoscape.getCyNodesList();
-        List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
-        for (CyNode node: nodeList){
-            view.hideGraphObject(view.getNodeView(node));
-        }
-        for (CyEdge edge: edgeList){
-        	view.hideGraphObject(view.getEdgeView(edge));
-        }
-        view.updateView();
-    }
-    
-    /**
+    /*
      * Apply the flux view to the current network based on the selected flux 
      * distribution. 
      * TODO: Speed improvements -> very slow, especially for large networks.
-     * @param attribute
      */
     public static void applyFluxVizView (String attribute){
-    	
-    	// Apply the FluxViz changes
         String edgeAttribute = attribute + "_edge";
         String edgeDirAttribute = attribute + "_edge_dir";
 
@@ -425,13 +356,8 @@ public class NetworkView {
         	Cytoscape.getCurrentNetworkView().updateView();
         }
         
-        // The mapping has to be adapted (the continuous mappers have to fit to
-        // the flux data in the system
-        // Minimal values and maximal values have to be used ()
-        // TODO: Reuse the calculated fluxStatistics (no recalculation)
-        // Can be expensive for large networks (store the data somewhere)
         String info = "";
-        // Get the available simulation information
+        // simulation information
         if (CyFluxVizPlugin.getFluxInformation() != null){
             FluxInfo fluxInfo = CyFluxVizPlugin.getFluxInformation().attributeInformation.get(attribute);
             if (fluxInfo != null){
@@ -439,40 +365,21 @@ public class NetworkView {
             }
         }
 
-        // Statistical data
+        // flux statistics
         FluxStatisticsMap fluxMap = CyFluxVizPlugin.getFluxStatistics();
         if (fluxMap != null){
-        	FluxStatistics fluxStat = CyFluxVizPlugin.getFluxStatistics().get(attribute);
+        	FluxStatistics fluxStat = CyFluxVizPlugin.getFluxStatistics().getFluxStatistics(attribute);
         	info += fluxStat.toHTML();
-        	
-        	// TODO: Histogramm
-            System.out.println("Update Histogramm");
-    	    JPanel hpanel = new JPanel (new BorderLayout ());
-
-    	    // JPanel subclass here.
-    	    HistPanel fOutputPanel = new HistPanel (fluxStat.getFHistogram());
-    	    hpanel.add (fOutputPanel,"Center");	
-    	    CyFluxVizPlugin.getFvPanel().setHistogramPanel(hpanel);
-    		hpanel.setVisible(true);
-    		hpanel.repaint();
-    		
-    		//UIDrawHist hist = new UIDrawHist();
-            //hist.init();
         }
         
-        // Display the information
         // set text and make the tab active
-        panel.updateText(panel.getInfoPane(), info);
-        panel.getInformationPane().setSelectedComponent(panel.getInfoScrollPane());
-
-        CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        applyVisualStyle(view);
+        panel.updateInfoPaneHTMLText(info);
+        panel.selectInfoPane();
+        
+        applyVisualStyle(Cytoscape.getCurrentNetworkView());
     }
   
-    /**
-     * Applies the visual style after node hiding or reappearance.
-     * @param view
-     */
+
     public static void applyVisualStyle(CyNetworkView view){
 		VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
     	CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
@@ -482,44 +389,5 @@ public class NetworkView {
         vmm.applyAppearances();
         view.updateView();
         view.redrawGraph(true,true);
-    }
-    
-    /**
-     * Hides all nodes and edges in the view.
-     * Used for testing the subnetwork views.
-     */
-    @SuppressWarnings("unchecked")
-	public static void testHide(){
-    	//FluxViz.getLogger().info("testHide()");
-        CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        List<CyNode> nodeList = Cytoscape.getCyNodesList();
-        List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
-
-        for (CyNode node: nodeList){
-        	view.hideGraphObject(view.getNodeView(node));
-        }
-        for (CyEdge edge: edgeList){
-        	view.hideGraphObject(view.getEdgeView(edge));
-        }
-        view.updateView();
-    } 
-
-    /**
-     * Shows all nodes and edges in the view.
-     * Used for testing the subnetwork views.
-     */
-    @SuppressWarnings("unchecked")
-	public static void testShow(){
-        CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        List<CyNode> nodeList = Cytoscape.getCyNodesList();
-        List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
-
-        for (CyNode node: nodeList){
-            view.showGraphObject(view.getNodeView(node));
-        }
-        for (CyEdge edge: edgeList){
-        	view.showGraphObject(view.getEdgeView(edge));
-        }
-        view.updateView();
-    }    
+    }  
 }

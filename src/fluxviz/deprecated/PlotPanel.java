@@ -1,4 +1,4 @@
-package fluxviz.fluxanalysis;
+package fluxviz.deprecated;
 // "Java Tech"
 //  Code provided with book for educational purposes only.
 //  No warranty or guarantee implied.
@@ -40,6 +40,7 @@ import javax.swing.*;
   *
  **/
 @SuppressWarnings("serial")
+@Deprecated
 public abstract class PlotPanel extends JPanel {
 
   // Abstract methods for the subclass to override.

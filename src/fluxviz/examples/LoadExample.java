@@ -3,7 +3,7 @@ package fluxviz.examples;
 import javax.swing.JCheckBox;
 
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.view.NetworkView;
+import fluxviz.view.NetworkViewTools;
 
 public class LoadExample {
     /**
@@ -14,9 +14,8 @@ public class LoadExample {
     	//Back to full network view
     	JCheckBox checkbox = CyFluxVizPlugin.getFvPanel().getFluxSubnetCheckbox();
     	checkbox.setSelected(false);
-    	NetworkView.viewFullNet();
+    	NetworkViewTools.showAllNodesAndEdgesInCurrentView();
     	
-    	//load example
     	@SuppressWarnings("unused")
 		ExampleLoader loader = new ExampleLoader(example);
     }

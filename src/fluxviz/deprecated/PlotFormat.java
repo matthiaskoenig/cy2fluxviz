@@ -1,4 +1,4 @@
-package fluxviz.fluxanalysis;
+package fluxviz.deprecated;
 // "Java Tech"
 //  Code provided with book for educational purposes only.
 //  No warranty or guarantee implied.
@@ -12,6 +12,7 @@ import java.text.*;
   * returns a double value as a string in decimal or scientific
   * notation.<br><br>
  **/
+@Deprecated
 public class PlotFormat
 {
   final static DecimalFormat DF1 = new DecimalFormat ("0.0");

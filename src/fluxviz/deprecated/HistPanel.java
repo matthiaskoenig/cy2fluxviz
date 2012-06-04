@@ -1,4 +1,4 @@
-package fluxviz.fluxanalysis;
+package fluxviz.deprecated;
 // "Java Tech"
 //  Code provided with book for educational purposes only.
 //  No warranty or guarantee implied.
@@ -10,6 +10,7 @@ import java.awt.*;
 
 /**  Display histogram data on a PlotPanel subclass. **/
 @SuppressWarnings("serial")
+@Deprecated
 public class HistPanel extends PlotPanel {
 
   // Histogram reference

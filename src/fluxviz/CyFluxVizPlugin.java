@@ -17,11 +17,11 @@ import cytoscape.view.cytopanels.*;
 import cytoscape.visual.VisualStyle;
 import cytoscape.visual.VisualMappingManager;
 
-import fluxviz.attributes.AttributeUtils;
-import fluxviz.fasimu.ValAttributes;
-import fluxviz.fluxanalysis.FluxStatisticsMap;
+import fluxviz.attributes.FluxAttributeUtils;
+import fluxviz.attributes.ValAttributes;
 import fluxviz.gui.Dialog;
 import fluxviz.gui.FluxVizPanel;
+import fluxviz.statistics.FluxStatisticsMap;
 import fluxviz.util.ExportAsGraphics;
 import fluxviz.util.FileUtil;
 import fluxviz.util.FluxVizUtil;
@@ -76,14 +76,11 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
 	
 	/** Subset of Cytoscape node attributes which are flux distributions. */
 	private static FluxAttributes fluxAttributes;
-	/** Additional information from simulations file. */
 	private static FluxInformation fluxInformation;
-	/** Statistics for the flux distributions.*/ 
 	private static FluxStatisticsMap fluxStatistics;
 
 	private static FluxVizPanel fvPanel;
 	
-	// Visual Style
 	private static String vsName;
     private static VisualStyle viStyle;
 	private static VisualMappingManager vmm;
@@ -110,7 +107,7 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
     		Dialog.setFluxVizInfo(fvPanel);
     		Dialog.setExamples(fvPanel);
     		
-    		AttributeUtils.initNodeAttributeComboBox();
+    		FluxAttributeUtils.initNodeAttributeComboBox();
     	}
     	catch (Exception e){
     		e.printStackTrace();
@@ -149,28 +146,25 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
     	}
     }
             
-    /* Short description */
     public String describe() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("FluxViz - visualisation of flux distributions in networks.");
-        return sb.toString();
+        String description = "FluxViz - Visualisation of flux distributions.";
+        return description;
     }
     
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.ATTRIBUTES_CHANGED))
 		{
 			// Recalculate the flux distributions (can change)
-			AttributeUtils.updateFluxAttributes();
+			FluxAttributeUtils.updateFluxAttributes();
 			// Recalculate the values in the node mapping
-			AttributeUtils.initNodeAttributeComboBox();
-			
+			FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 		
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED))
 		{
-			AttributeUtils.updateFluxAttributes();
-			// Recalculate the values in the node mapping
-			AttributeUtils.initNodeAttributeComboBox();
+			FluxAttributeUtils.updateFluxAttributes();
+			FluxAttributeUtils.initNodeAttributeComboBox();
+			
 			//reset the view
 			CyFluxVizPlugin.getFvPanel().getAttributeSubnetCheckbox().setSelected(false);
 			CyFluxVizPlugin.getFvPanel().getFluxSubnetCheckbox().setSelected(false);
@@ -179,13 +173,13 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
 		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
 		{	
 			// Recalculate the values in the node mapping
-			AttributeUtils.initNodeAttributeComboBox();
+			FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 	} 
 	
 	/* Create images */
     public void exportImage(){
-    	if (AttributeUtils.getSelectedAttributes(this).length == 0){
+    	if (FluxAttributeUtils.getSelectedAttributes(this).length == 0){
 			JOptionPane.showMessageDialog(null,
 					"No flux distributions selected for export.\n" +
 					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);

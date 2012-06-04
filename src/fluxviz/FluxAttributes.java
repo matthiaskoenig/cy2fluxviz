@@ -9,44 +9,29 @@ import java.util.Set;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
-import fluxviz.fluxanalysis.FluxStatistics;
+import fluxviz.statistics.FluxStatistics;
 
 
 /*
  * Class handles the FluxAttributes.
  * FluxAttributes is an abstract class, use the ValAttributes from fasimu as implentation.
+
  * Flux attributes are node attributes of type double with value for all nodes 
  * of the 'sbml type' reaction.
  */
 
 public abstract class FluxAttributes {
-	/** Set of the flux attribute names */
 	private Set<String> attributeNames;
-	public Map<String, FluxStatistics> attributeStatistics;
 	
-	/** Creates FluxAttributes based on the current node attributes */
 	public FluxAttributes(){
-		update();
+		updateFluxAttributes();
 	}
 		
-	/**
-	 * Calculates the valAttributes based on the current nodeAttributes.
-	 * 
-	 */
-	public void update(){
-		attributeNames = filterFluxAttributes();
-		//TODO
-		//attributeStatistics = updateAttributeStatistics();
-		attributeStatistics = null;
+	public void updateFluxAttributes(){
+		attributeNames = getFluxAttributeNames();
 	}
 	
-	/*
-	 * Filters the flux node attributes from all current node attributes.
-	 * Flux attributes are calculated based on node attributes.
-	 * 
-	 * @ return set of node flux attributes.
-	 */
-	public abstract Set<String> filterFluxAttributes();
+	public abstract Set<String> getFluxAttributeNames();
 	
 	/*
 	 * Calculates the Statistics for the flux attributes.
@@ -65,10 +50,6 @@ public abstract class FluxAttributes {
 		return statSet;
 	}
 	
-	/*
-	 * Get the flux attribute names.
-	 * @return list of sorted flux attributes
-	 */
 	public String[] getAttributeNames(){
 		if (attributeNames == null){
 			String[] res = {};

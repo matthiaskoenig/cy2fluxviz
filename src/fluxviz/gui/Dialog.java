@@ -4,11 +4,9 @@ import fluxviz.CyFluxVizPlugin;
 
 public class Dialog {
 
-    /**
-     * Set the help information in the Help tab.
-     */
     public static void setHelp(FluxVizPanel fvPanel){
-    	String help = "<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
+    	String help = 
+    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
     			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/doc'>JavaDoc</a>" + " | " +
     			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
     			"<b>[Short Introduction]</b><br>" +
@@ -35,32 +33,33 @@ public class Dialog {
     			"<br><b>[Subnetworks]</b><br>" +
     			"The visualisation can be limited to flux containing graph elements " +
     			"by selecting 'Subnet -> Flux subnet'.";
-    	fvPanel.updateText(fvPanel.getHelpPane(), help);
+    	fvPanel.updateHelpPaneHTMLText(help);
     }
     
-    /**
-     * Set the startInfo in the information Tab.
-     * General plugin information
-     */
     public static void setFluxVizInfo(FluxVizPanel fvPanel){
-    	String info = "<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
+    	String info = 
+    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
     			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/doc'>JavaDoc</a>" + " | " +
     			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
     			"<b>FluxViz-" + CyFluxVizPlugin.VERSION +"</b><br>" +
     			"Plugin for visualisation of flux distributions.<br><br>" +
     			"Computational Systems Biochemistry Berlin<br>" +
     			"<a href='http://www.charite.de/sysbio/people/koenig/'>Matthias König</a>";
-    	fvPanel.updateText(fvPanel.getInfoPane(), info);
+    	fvPanel.updateInfoPaneHTMLText(info);
     }
 	
-    /**
-     * Set the FluxViz examples in the example tab.
-     * Information about the available examples (short description and references)
-     */
     public static void setExamples(FluxVizPanel fvPanel){
     	javax.swing.JComboBox box = fvPanel.getExamplesComboBox();
-    	box.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "1 [Hepatocyte]", "2 [Erythrocyte]", "3 [Hepatocyte layout]", "4 [Hepatocyte core]" }));
-    	String info = "<b>1 [Hepatocyte]</b><br>" +
+    	box.setModel(new javax.swing.DefaultComboBoxModel(
+    		new String[] { 
+    				"None",
+    				"1 [Hepatocyte]",
+    				"2 [Erythrocyte]",
+    				"3 [Hepatocyte layout]",
+    				"4 [Hepatocyte core]" 
+    				}));
+    	String info = 
+    			"<b>1 [Hepatocyte]</b><br>" +
     			"Basic Hepatocyte network consisting of glycolysis, gluconeogenesis, citrate cycle and " +
     			"pentose phosphate pathway. Standard Cytoscape layout algorithm applied. ATP production as target flux" +
     			"under varying oxygen availability.<br><br>" +
@@ -73,8 +72,6 @@ public class Dialog {
 
     			"<b>4 [Hepatocyte core]</b><br>" +
     			"Hepatocyte core network reconstruction with FASIMU FBA simulations";
-    	fvPanel.updateText(fvPanel.getExamplesPane(), info);
-    }
-    
-	
+    	fvPanel.updateExamplePaneHTMLText(info);
+    }	
 }

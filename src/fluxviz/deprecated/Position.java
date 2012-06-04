@@ -1,8 +1,7 @@
-package fluxviz.view;
+package fluxviz.deprecated;
 
-/**
-	Stores the positional information for a given node
-*/
+/** Store Positional information for a given node */
+@Deprecated
 public class Position {
 	public static final Double xDEFAULT = 0.0;
 	public static final Double yDEFAULT = 0.0;

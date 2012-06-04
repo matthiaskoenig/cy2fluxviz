@@ -2,7 +2,7 @@
  * @author Matthias Koenig
  */
 
-package fluxviz.fasimu;
+package fluxviz.attributes;
 
 import java.io.File;
 import java.util.Iterator;

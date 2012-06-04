@@ -24,7 +24,7 @@ import cytoscape.util.export.SVGExporter;
 import cytoscape.view.CyNetworkView;
 import cytoscape.view.InternalFrameComponent;
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.attributes.AttributeUtils;
+import fluxviz.attributes.FluxAttributeUtils;
 import fluxviz.view.NetworkView;
 
 /**
@@ -67,7 +67,7 @@ public class ExportAsGraphics
 				chooser.dispose();
 				
 				// get selected attributes in list
-		    	String[] attributes = AttributeUtils.getSelectedAttributes(ExportAsGraphics.fluxViz);
+		    	String[] attributes = FluxAttributeUtils.getSelectedAttributes(ExportAsGraphics.fluxViz);
 		    	if (attributes.length == 0){
 					JOptionPane.showMessageDialog(Cytoscape.getDesktop(),
 							"No flux distributions are selected for export.",

@@ -16,12 +16,11 @@ import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.fasimu.ValAttributes;
-import fluxviz.fluxanalysis.FluxStatisticsMap;
 import fluxviz.gui.Dialog;
 import fluxviz.gui.FluxVizPanel;
+import fluxviz.statistics.FluxStatisticsMap;
 
-public class AttributeUtils {
+public class FluxAttributeUtils {
     /** 
      * Updates the flux attributes based on the current network node attributes.
      * Changes the fluxAttributes in place and updates the list of available flux

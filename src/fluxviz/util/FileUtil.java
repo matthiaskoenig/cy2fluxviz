@@ -16,8 +16,8 @@ import cytoscape.visual.CalculatorCatalog;
 import fluxviz.FluxInformation;
 import fluxviz.CyFluxVizPlugin;
 import fluxviz.LoadVizmap;
-import fluxviz.attributes.AttributeUtils;
-import fluxviz.fasimu.FluxAttributeCreator;
+import fluxviz.attributes.FluxAttributeCreator;
+import fluxviz.attributes.FluxAttributeUtils;
 
 public class FileUtil {
 
@@ -109,7 +109,7 @@ public class FileUtil {
     			FileUtil.createAttributesFromFile(valFiles[k]);
     		}
     	}
-	    AttributeUtils.updateFluxAttributes();
+	    FluxAttributeUtils.updateFluxAttributes();
     }
     
     /* Creates the attributes from given val file.

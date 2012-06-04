@@ -1,4 +1,4 @@
-package fluxviz.fasimu;
+package fluxviz.attributes;
 import java.io.*;
 import java.util.*;
 

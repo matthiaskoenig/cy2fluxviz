@@ -1,13 +1,14 @@
-package fluxviz.view;
+package fluxviz.deprecated;
 
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 
+@Deprecated
 public class PositionUtil {
 	/**
 	 * Get the position of the given Node.
 	 */
-	public static Position getPosition(CyNode node){
+	public static Position getPositionOfNode(CyNode node){
 		Position pos;
 		
 		giny.view.NodeView nodeView = Cytoscape.getCurrentNetworkView().getNodeView(node);
@@ -32,26 +33,19 @@ public class PositionUtil {
 		position.setX(position.getY() + y);
 	}
 	
-	/**
-	 * Moves a node to the given position.
-	 */
-	public static void moveNode(CyNode node, Position position){
+	public static void moveNodeToPosition(CyNode node, Position position){
 		giny.view.NodeView nodeView = Cytoscape.getCurrentNetworkView().getNodeView(node);
     	// set the position of the node
     	nodeView.setXPosition(position.getX());
     	nodeView.setYPosition(position.getY());
 	}
 		
-	/**
-	 * Directions in which a node can be moved.
-	 *
-	 */
 	public enum ShiftDirection {
 	    UP, DOWN, LEFT, RIGHT 
 	}
 	
 	public static void shiftNode(CyNode node, ShiftDirection direction, double length){ 
-		Position pos = getPosition(node);
+		Position pos = getPositionOfNode(node);
 		switch (direction){
 			case UP:
 				pos.moveUp(length);
@@ -68,11 +62,6 @@ public class PositionUtil {
 		}
 	}
 	
-	/**
-	 * Shift node for default length 10;
-	 * @param node
-	 * @param direction
-	 */
 	public static void shiftNode(CyNode node, ShiftDirection direction){
 		double defaultLength = 10;
 		shiftNode(node, direction, defaultLength);

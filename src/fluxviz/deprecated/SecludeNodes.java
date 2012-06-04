@@ -1,4 +1,4 @@
-package fluxviz.nodes;
+package fluxviz.deprecated;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,8 +12,6 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 import cytoscape.view.CyNetworkView;
 import cytoscape.view.CyNodeView;
-import fluxviz.view.Position;
-import fluxviz.view.PositionUtil;
 
 /**
  * Class for seclude nodes based on attributes and
@@ -35,6 +33,7 @@ import fluxviz.view.PositionUtil;
  * @author mkoenig
  *
  */
+@Deprecated
 public class SecludeNodes{
 	// handle the state of the seclusion
 	private boolean secluded = false;
@@ -242,7 +241,7 @@ public class SecludeNodes{
 			// Move node to new position
 			// TODO: position is not calculated correctly at the moment
 			// Calculate the positions based on current layout
-			PositionUtil.moveNode(newNode, PositionUtil.getPosition(node));
+			PositionUtil.moveNodeToPosition(newNode, PositionUtil.getPositionOfNode(node));
 			
 			// Remove old edge
 			network.removeEdge(edge.getRootGraphIndex(), false);
@@ -251,14 +250,14 @@ public class SecludeNodes{
 			edges.put(edge.getIdentifier(), edge);
 			secNodes.add(newNode);
 			secEdges.add(newEdge);
-			secPositions.put(newNode.getIdentifier(), PositionUtil.getPosition(newNode));
+			secPositions.put(newNode.getIdentifier(), PositionUtil.getPositionOfNode(newNode));
 		}
 		// remove old node
 		network.removeNode(node.getRootGraphIndex(), false);
 		
 		// Store all necessary information
 		nodes.put(node.getIdentifier(), node);
-		positions.put(node.getIdentifier(), PositionUtil.getPosition(node));
+		positions.put(node.getIdentifier(), PositionUtil.getPositionOfNode(node));
 		nodesSecluded.put(node.getIdentifier(), secNodes);
 		edgesSecluded.put(node.getIdentifier(), secEdges);
 		positionsSecluded.put(node.getIdentifier(), secPositions);
@@ -386,7 +385,7 @@ public class SecludeNodes{
 	public Position[] calculatePositions(CyNode node){
 		Position[] positions = new Position[getSecludedNodesCount(node)];
 		for (int i=0; i<positions.length; ++i){
-			Position pos = PositionUtil.getPosition(node);
+			Position pos = PositionUtil.getPositionOfNode(node);
 			PositionUtil.movePosition(pos, 0.0, 20.0);
 			positions[i] = pos;
 		}

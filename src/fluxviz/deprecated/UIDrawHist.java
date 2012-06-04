@@ -1,9 +1,9 @@
-package fluxviz.fluxanalysis;
+package fluxviz.deprecated;
 
 
 import fluxviz.CyFluxVizPlugin;
 
-
+@Deprecated
 public class UIDrawHist{
 	HistPanel fOutputPanel = null;
 	Histogram fHistogram;

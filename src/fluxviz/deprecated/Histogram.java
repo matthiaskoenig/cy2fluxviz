@@ -1,4 +1,4 @@
-package fluxviz.fluxanalysis;
+package fluxviz.deprecated;
 // "Java Tech"
 //  Code provided with book for educational purposes only.
 //  No warranty or guarantee implied.
@@ -7,6 +7,7 @@ package fluxviz.fluxanalysis;
 //
 
 /** This class provides the bare essentials for a histogram.**/
+@Deprecated
 public class Histogram
 {
   protected String fTitle = "Histogram";
