@@ -12,7 +12,6 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
 import cysbml.CySBMLConstants;
-import fluxviz.deprecated.Histogram;
 
 /** Calculation of FluxStatistics for a given Flux Distribution. */
 public class FluxStatistics {
@@ -32,7 +31,6 @@ public class FluxStatistics {
 	private int zeroReactions = 0;
 	
 	private Set<Double> edgeFluxes;
-	private Histogram fHistogram;
 
 	public FluxStatistics(CyAttributes nodeAttributes, CyAttributes edgeAttributes, String attributeName){
 		this.nodeAttributes = nodeAttributes;
@@ -126,9 +124,6 @@ public class FluxStatistics {
 	}
 	public double getAbsMax(){
 		return absMax;
-	}
-	public Histogram getFHistogram(){
-		return fHistogram;	
 	}
 	
 	public String toHTML(){
