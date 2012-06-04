@@ -15,11 +15,9 @@ import fluxviz.statistics.FluxStatistics;
 /*
  * Class handles the FluxAttributes.
  * FluxAttributes is an abstract class, use the ValAttributes from fasimu as implentation.
-
  * Flux attributes are node attributes of type double with value for all nodes 
  * of the 'sbml type' reaction.
  */
-
 public abstract class FluxAttributes {
 	private Set<String> attributeNames;
 	

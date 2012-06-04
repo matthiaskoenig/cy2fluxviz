@@ -19,7 +19,7 @@ import cytoscape.visual.VisualMappingManager;
 
 import fluxviz.attributes.FluxAttributeUtils;
 import fluxviz.attributes.ValAttributes;
-import fluxviz.gui.Dialog;
+import fluxviz.gui.PanelDialogs;
 import fluxviz.gui.FluxVizPanel;
 import fluxviz.statistics.FluxStatisticsMap;
 import fluxviz.util.ExportAsGraphics;
@@ -103,9 +103,9 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
     		cytoPanel.add(NAME, fvPanel);
     		cytoPanel.setState(CytoPanelState.DOCK);
     		
-    		Dialog.setHelp(fvPanel);
-    		Dialog.setFluxVizInfo(fvPanel);
-    		Dialog.setExamples(fvPanel);
+    		PanelDialogs.setHelp(fvPanel);
+    		PanelDialogs.setFluxVizInfo(fvPanel);
+    		PanelDialogs.setExamples(fvPanel);
     		
     		FluxAttributeUtils.initNodeAttributeComboBox();
     	}

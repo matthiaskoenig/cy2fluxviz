@@ -18,6 +18,7 @@ import fluxviz.CyFluxVizPlugin;
 import fluxviz.LoadVizmap;
 import fluxviz.attributes.FluxAttributeCreator;
 import fluxviz.attributes.FluxAttributeUtils;
+import fluxviz.gui.PanelDialogs;
 
 public class FileUtil {
 
@@ -39,11 +40,7 @@ public class FileUtil {
         return folder;
 	}
 	
-    /*
-     * Opens file selection menu for val files.
-     * Returns list of selected files. Returns null if no files are selected.
-     * Array of files consists of all selected files.
-     */
+    /* Opens file selection menu for val files. */
     public static File[] selectValFiles(){    	
         File[] valFiles = null;
         JFileChooser fc = new JFileChooser();
@@ -53,7 +50,7 @@ public class FileUtil {
         fc.setMultiSelectionEnabled(true);
         fc.setDialogTitle("Select *.val files for visualisation.");
         
-        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showOpenDialog(Cytoscape.getDesktop()) == JFileChooser.APPROVE_OPTION) {
             valFiles = fc.getSelectedFiles();
         }
         return valFiles;
@@ -73,31 +70,32 @@ public class FileUtil {
     	if (checkbox.isSelected() == true){
     		checkbox.doClick();
     	}
-    	
         CyNetwork network = Cytoscape.getCurrentNetwork();
         CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
         
-        //Test if 'sbml_type' node attribute is available
+        // TODO: Test the current network
     	if (FluxVizUtil.hasCompleteSBMLTypeAttribute() == false){
-        	JOptionPane.showMessageDialog(null, "No complete 'sbml type' attribute.\nEvery node has to be classified as " +
+    		String title = "SBML type not complete.";
+    		String msg = "No complete 'sbml type' attribute.\nEvery node has to be classified as " +
         			"either 'reaction' or 'species'.\nIf the network was not imported as SBML create attribute 'sbml type' manually\nand " +
-        			"classify all nodes as either 'reaction' or 'species'.", 
-        			"SBML type not complete.", JOptionPane.WARNING_MESSAGE);
+        			"classify all nodes as either 'reaction' or 'species'.";
+        	PanelDialogs.showMessage(msg, title);
         	return;
         }
-    	// Test if the attribute 'stoichiometry' is available for all network nodes
+    	
     	if (FluxVizUtil.hasCompleteStoichiometryAttribute() == false){
-        	JOptionPane.showMessageDialog(null, "No complete 'stoichiometry' edge attribute.\n" +
-        			"Every edge should have stoichiometric information associated.\n" +
-        			"Missing stoichiometric coefficients are handled as '1.0' in the visualisation.", 
-        			"Stoichiometry not complete.", JOptionPane.WARNING_MESSAGE);
+    		String title = "Stoichiometry not complete.";
+    		String msg = "Every edge should have stoichiometric information associated.\n" +
+        			"Missing stoichiometric coefficients are handled as '1.0' in the visualisation.";
+    		PanelDialogs.showMessage(msg, title);
         }
     	
         // Test if network for val files available
         network.selectAllNodes();
         if (networkView.getSelectedNodes().size() == 0) {
-        	JOptionPane.showMessageDialog(null, "No nodes in network. Network must be loaded and selected before loading of val files.", 
-        			"No network warning", JOptionPane.WARNING_MESSAGE);
+        	String title = "No network warning.";
+        	String msg = "No nodes in network. Network must be loaded and selected before loading of val files.";
+        	PanelDialogs.showMessage(msg, title);
         	return;
         }
         network.unselectAllNodes();
@@ -112,9 +110,7 @@ public class FileUtil {
 	    FluxAttributeUtils.updateFluxAttributes();
     }
     
-    /* Creates the attributes from given val file.
-     * From the flux information node attribute file and edge attribute files
-     * are generated. */
+    /* Creates the attributes from given val file. */
     public static void createAttributesFromFile(File valFile){
 		if (! valFile.getAbsolutePath().endsWith(".val")){
 			return;
@@ -124,16 +120,16 @@ public class FileUtil {
 		FluxAttributeCreator faCreator = new FluxAttributeCreator(valFile);
     }
     
+    /* Loads the additional simulation information from FASIMU (constraints,
+     * target fluxes, comment. */
+    public static void loadSimulationFile(){
+    	File simFile = FileUtil.selectSimulationFile();
+    	CyFluxVizPlugin.setFluxInformation(new FluxInformation(simFile));
+    } 
     
-    /**
-     * Selects the simulation file.
-     * Opens the File selection menu for the simulation file.
-     * TODO: general file selectioner and opener for val and simulation files.
-     * TODO: standard directory and handling of hidden files.
-     */
     public static File selectSimulationFile(){
         File simFile = null;
-        int loadVal = JOptionPane.showConfirmDialog(null, "Select simulation file for the fluxes.\n" +
+        int loadVal = JOptionPane.showConfirmDialog(Cytoscape.getDesktop(), "Select simulation file for the fluxes.\n" +
         		"Only information from the last loaded simulation file is used. !",
         		"Select simulation file", 0);
         if (loadVal == 0){
@@ -155,18 +151,6 @@ public class FileUtil {
         return simFile;
     }
     
-    /**
-     * Load FASIMU simulation information.
-     * Loads the additional simulation information from FASIMU (constraints,
-     * target fluxes, comment.
-     * TODO: load the full information and use for visualisation -> influxes,
-     * effluxes, forbidden reactions.
-     */
-    public static void loadSimulationFile(){
-    	File simFile = FileUtil.selectSimulationFile();
-    	CyFluxVizPlugin.setFluxInformation(new FluxInformation(simFile));
-    } 
-    
     /** 
      * Loads the Visual Style necessary for the FluxViz Plugin.
      * Changes the FluxViz visual Style
@@ -184,5 +168,4 @@ public class FileUtil {
         	CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()));
         }	
     }
-	
 }

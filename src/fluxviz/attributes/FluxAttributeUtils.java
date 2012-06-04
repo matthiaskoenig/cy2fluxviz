@@ -16,7 +16,7 @@ import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 import fluxviz.CyFluxVizPlugin;
-import fluxviz.gui.Dialog;
+import fluxviz.gui.PanelDialogs;
 import fluxviz.gui.FluxVizPanel;
 import fluxviz.statistics.FluxStatisticsMap;
 
@@ -33,7 +33,7 @@ public class FluxAttributeUtils {
     	CyFluxVizPlugin.setFluxStatistics(new FluxStatisticsMap());
     	// If no flux statistics data -> reset the start information in the plugin
     	if (CyFluxVizPlugin.getFluxStatistics().statisticsMap.size() == 0){
-    		Dialog.setFluxVizInfo(CyFluxVizPlugin.getFvPanel());
+    		PanelDialogs.setFluxVizInfo(CyFluxVizPlugin.getFvPanel());
     	}
     	// Update the table
     	CyFluxVizPlugin.getFvPanel().updateTable(CyFluxVizPlugin.getFluxAttributes().getAttributeNames());

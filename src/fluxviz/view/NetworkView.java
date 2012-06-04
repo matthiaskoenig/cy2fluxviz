@@ -1,19 +1,15 @@
 package fluxviz.view;
 
-import java.awt.BorderLayout;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
-import cytoscape.CyNetworkEvent;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
@@ -200,7 +196,6 @@ public class NetworkView {
 	public static void viewNodeAttributeSubnet(String attributeName, Set selected, Boolean nullVisible){
     	CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
     	byte attrType = nodeAttrs.getType(attributeName);
-    	System.out.println("Attribute type:" + attrType);
     	if (attrType != CyAttributes.TYPE_STRING){
     		System.out.println("CyFluxViz[INFO] -> Subnetworks only based on String attributes possible");
     		return;

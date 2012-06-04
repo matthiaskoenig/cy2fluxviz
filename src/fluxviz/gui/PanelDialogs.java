@@ -1,9 +1,28 @@
 package fluxviz.gui;
 
+import javax.swing.JOptionPane;
+
+import cytoscape.Cytoscape;
 import fluxviz.CyFluxVizPlugin;
 
-public class Dialog {
-
+public class PanelDialogs {
+	private PanelDialogs(){};
+	
+	public static void showMessage(String msg, String title){
+		JOptionPane.showMessageDialog(Cytoscape.getDesktop(), msg, 
+			title, JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void setFluxVizInfo(FluxVizPanel fvPanel){
+    	String info = 
+    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Online Help</a>" + " | " +
+    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
+    			"<b>" + CyFluxVizPlugin.NAME + "-" + CyFluxVizPlugin.VERSION +"</b><br>" +
+    			"Visualisation of flux distributions in networks.<br><br>" +
+    			"Developed by <b>Matthias König</b> at Charite Berlin.";
+    	fvPanel.updateInfoPaneHTMLText(info);
+    }
+	
     public static void setHelp(FluxVizPanel fvPanel){
     	String help = 
     			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
@@ -36,17 +55,7 @@ public class Dialog {
     	fvPanel.updateHelpPaneHTMLText(help);
     }
     
-    public static void setFluxVizInfo(FluxVizPanel fvPanel){
-    	String info = 
-    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Help Tutorial</a>" + " | " +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/doc'>JavaDoc</a>" + " | " +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br><br>" +
-    			"<b>FluxViz-" + CyFluxVizPlugin.VERSION +"</b><br>" +
-    			"Plugin for visualisation of flux distributions.<br><br>" +
-    			"Computational Systems Biochemistry Berlin<br>" +
-    			"<a href='http://www.charite.de/sysbio/people/koenig/'>Matthias König</a>";
-    	fvPanel.updateInfoPaneHTMLText(info);
-    }
+
 	
     public static void setExamples(FluxVizPanel fvPanel){
     	javax.swing.JComboBox box = fvPanel.getExamplesComboBox();
