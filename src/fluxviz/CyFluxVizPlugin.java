@@ -1,9 +1,5 @@
 package fluxviz;
 
-import java.io.IOException;
-import java.io.File;
-
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import java.beans.PropertyChangeEvent;
@@ -11,152 +7,129 @@ import java.beans.PropertyChangeListener;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
-import cytoscape.dialogs.ExportAsGraphicsFileChooser;
 import cytoscape.view.CytoscapeDesktop;
 import cytoscape.view.cytopanels.*;
 import cytoscape.visual.VisualStyle;
-import cytoscape.visual.VisualMappingManager;
 
 import fluxviz.attributes.FluxAttributeUtils;
 import fluxviz.attributes.ValAttributes;
 import fluxviz.gui.PanelDialogs;
 import fluxviz.gui.FluxVizPanel;
 import fluxviz.statistics.FluxStatisticsMap;
-import fluxviz.util.ExportAsGraphics;
-import fluxviz.util.FileUtil;
-import fluxviz.util.FluxVizUtil;
 import fluxviz.util.Installation;
 
 /**
- * Cytoscape Plugin class for FluxViz.
+ * The CyFluxViz Cytoscape plugin visualizes flux information within Cytoscape networks.
+ * Networks are imported as SBML models (sbml stoichiometry is used for scaling fluxes)
+ * Flux distributions can be imported as edge information or as reaction flux.
+ * Certain node and edge attributes are mandatory and are normally made available from 
+ * the imported SBML via CySBML.
  * 
- * The FluxViz Cytoscape plugin visualizes flux information within Cytoscape networks.
- * The networks should be imported as SBML models, the flux distributions should be
- * loaded as additional Flux Information files.
+ * TODO : handle all the data in one data structure, which can be accessed via
+ * a HashMap. Precalculate all the information. 
+ * FluxDistributions are managed in an easy way. On Selection the corresponding
+ * data is copied to the cyFlux node and edge attribute.
  * 
- * Certain node and edge attributes are necessary which are made available via CySBML
- * based import.
- *  
- * <p>
+ * TODO : add option for removal of flux distributions and filtering.
  * 
- * TODO: The mapping information in the VizMapper has to be updated if the visual<br> 
- * TODO: Additional button for adeptin the mapping of the edge size (absolute and relative).<br>
- * TODO: Automatic selection of all mappings in the vizmapper (not only selected).<br>
- * TODO: Right click menu (delete, show flux values)<br>
- * TODO: update mapping function depending on the min and max values of the fluxes<br>
- * TODO: support of multiple different visual styles for the visualisation (simplification views)<br> 
- * TODO: store the additional information with the Cytoscape file (store 
- * 			plugin information over sessions)
- * TODO: variable Visual Style (use selected) -> multiple styles for selection
- * <p>
- * FluxViz is open source a). 
+ * TODO : no activation at startup, only on selection 
  * 
- * BUGS: Problems can occur if multiple networks are loaded.
- * The mapping of the identifier to the fluxes can be not complete and lead to
- * errors. Therefor only a single network should be loaded per session and 
- * the calculated flux distributions should match the network.<br>
+ * TODO : Reduce the calculation overhead, problematic for large networks (Test with HepatoNet)
  * 
  * @author Matthias Koenig
- * @version 0.8
- * @date 120630
+ * @version 0.82
+ * @date 120604
  */
 
 public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeListener {
-	
-	public static final String NAME = "CyFluxViz";
-	public static final String VERSION = "v0.81";
-	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
-	public static final String DEFAULTVISUALSTYLE = NAME; 
-	
 	public static final boolean DEVELOP = true;
 	
-	/** Visual Style for FluxViz */
-	public static File props_file = new File(FileUtil.getFluxVizDataDirectory(), 
-			"data" + File.separator + DEFAULTVISUALSTYLE +".props");
+	public static final String NAME = "CyFluxViz";
+	public static final String VERSION = "v0.82";
+	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
+	public static final String DEFAULTVISUALSTYLE = NAME; 
+	public static final String NODE_ATTRIBUTE = "cyFlux";
+	public static final String EDGE_ATTRIBUTE = "cyFlux";
 	
-	/** Subset of Cytoscape node attributes which are flux distributions. */
-	private static FluxAttributes fluxAttributes;
-	private static FluxInformation fluxInformation;
-	private static FluxStatisticsMap fluxStatistics;
-
 	private static FluxVizPanel fvPanel;
+	private static VisualStyle viStyle;
 	
-	private static String vsName;
-    private static VisualStyle viStyle;
-	private static VisualMappingManager vmm;
+	private FluxAttributes fluxAttributes;
+	private FluxStatisticsMap fluxStatistics;
 	
     public CyFluxVizPlugin() {
-    	init();
-    	install();
+    	Cytoscape.getDesktop().getSwingPropertyChangeSupport().
+			addPropertyChangeListener(CytoscapeDesktop.NETWORK_VIEW_FOCUSED, this);
+    	Cytoscape.getPropertyChangeSupport().
+			addPropertyChangeListener(Cytoscape.ATTRIBUTES_CHANGED, this);
+    	Cytoscape.getPropertyChangeSupport().
+			addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
+
+    	createFluxVizPanel();
+    	initFluxDistributions();
+    	Installation.doInstallation();
     }
         
-    private void init(){
-		Cytoscape.getDesktop().getSwingPropertyChangeSupport().addPropertyChangeListener(CytoscapeDesktop.NETWORK_VIEW_FOCUSED, this);
-		Cytoscape.getPropertyChangeSupport().addPropertyChangeListener(Cytoscape.ATTRIBUTES_CHANGED, this);
-		Cytoscape.getPropertyChangeSupport().addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
-    	try{
-    		
-    		fluxAttributes = new ValAttributes();
-    		
-    		fvPanel = new FluxVizPanel(this);
-    		CytoPanel cytoPanel = getCytoPanel();
-    		cytoPanel.add(NAME, fvPanel);
-    		cytoPanel.setState(CytoPanelState.DOCK);
-    		
-    		PanelDialogs.setHelp(fvPanel);
-    		PanelDialogs.setFluxVizInfo(fvPanel);
-    		PanelDialogs.setExamples(fvPanel);
-    		
-    		FluxAttributeUtils.initNodeAttributeComboBox();
-    	}
-    	catch (Exception e){
-    		e.printStackTrace();
-    	}
+    private void createFluxVizPanel(){
+		fvPanel = new FluxVizPanel(this);
+		CytoPanel cytoPanel = getCytoPanel();
+		cytoPanel.add(NAME, fvPanel);
+		cytoPanel.setState(CytoPanelState.DOCK);
+		PanelDialogs.setHelp(fvPanel);
+		PanelDialogs.setFluxVizInfo(fvPanel);
+		PanelDialogs.setExamples(fvPanel);
     }
     
-    public static CytoPanel getCytoPanel(){
+    private static CytoPanel getCytoPanel(){
     	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
     }
     
-    
-    /*
-     * FluxViz Installation.
-     * Only installation if installation data in the .cytoscape folder is not
-     * available (normally only performed on the first FluxViz startup).
-     * Installation of the documentation examples if necessary.
-     * 
-     * During the installation process the content of the jar file is extracted.
-     * Examples and necessary files like the standard VisualStyle are copied.
-     * 
-     * TODO: handle earlier installations (after update to newest version
-     * 		the installation of the old files should be removed
-     */
-    public void install(){	
-    	Installation installation = new Installation();
-    	try {
-    		installation.install();
-    	}
-    	catch (IOException e){
-    		try{
-    			installation.uninstall();
-    		}
-    		catch (IOException ex){
-    			ex.printStackTrace();
-    		}
-    	}
+    private void initFluxDistributions(){
+		fluxAttributes = new ValAttributes();
+		FluxAttributeUtils.initNodeAttributeComboBox();
     }
-            
+    
+	public static FluxVizPanel getFvPanel() {
+		return fvPanel;
+	}
+	
     public String describe() {
         String description = "FluxViz - Visualisation of flux distributions.";
         return description;
     }
     
+	public FluxAttributes getFluxAttributes(){
+		return fluxAttributes;
+	}
+	public void setFluxAttributes(FluxAttributes fluxAttributes){
+		this.fluxAttributes = fluxAttributes;
+	}
+	public FluxStatisticsMap getFluxStatistics() {
+		return fluxStatistics;
+	}
+    public void setFluxStatistics(FluxStatisticsMap fluxStatistics) {
+		this.fluxStatistics = fluxStatistics;
+	}
+    
+ 
+	public static VisualStyle getViStyle() {
+		return CyFluxVizPlugin.viStyle;
+	}
+	public static String getViStyleName(){
+		if (viStyle == null){
+			return null;
+		}
+		return viStyle.getName();
+	}
+    public static void setViStyle(VisualStyle newViStyle) {
+		viStyle = newViStyle;
+	}
+    
+    // Handle all via FluxDistributions
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.ATTRIBUTES_CHANGED))
 		{
-			// Recalculate the flux distributions (can change)
 			FluxAttributeUtils.updateFluxAttributes();
-			// Recalculate the values in the node mapping
 			FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 		
@@ -166,79 +139,13 @@ public class CyFluxVizPlugin extends CytoscapePlugin implements  PropertyChangeL
 			FluxAttributeUtils.initNodeAttributeComboBox();
 			
 			//reset the view
-			CyFluxVizPlugin.getFvPanel().getAttributeSubnetCheckbox().setSelected(false);
-			CyFluxVizPlugin.getFvPanel().getFluxSubnetCheckbox().setSelected(false);
+			fvPanel.getAttributeSubnetCheckbox().setSelected(false);
+			fvPanel.getFluxSubnetCheckbox().setSelected(false);
 		}
 		
 		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
 		{	
-			// Recalculate the values in the node mapping
 			FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 	} 
-	
-	/* Create images */
-    public void exportImage(){
-    	if (FluxAttributeUtils.getSelectedAttributes(this).length == 0){
-			JOptionPane.showMessageDialog(null,
-					"No flux distributions selected for export.\n" +
-					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);
-    		return;
-    	}
-   
-    	// Select folder for the export
-		if (FluxVizUtil.availableNetworkAndView()){
-			ExportAsGraphicsFileChooser chooser = new ExportAsGraphicsFileChooser(ExportAsGraphics.FILTERS);
-	    	ExportAsGraphics ex = new ExportAsGraphics();
-	    	ex.actionPerformed();	
-		}
-		else {
-			JOptionPane.showMessageDialog(null,
-					"Image export in empty network or without view not possible.\n" +
-					"Load network and select view for the network before image export.",
-					"Empty network or view warning", JOptionPane.WARNING_MESSAGE);
-		}
-    }
-    
-	public static FluxAttributes getFluxAttributes(){
-		return CyFluxVizPlugin.fluxAttributes;
-	}
-	public static void setFluxAttributes(FluxAttributes fluxAttributes){
-		CyFluxVizPlugin.fluxAttributes = fluxAttributes;
-	}
-	public static FluxInformation getFluxInformation() {
-		return fluxInformation;
-	}
-    public static void setFluxInformation(FluxInformation fluxInformation) {
-		CyFluxVizPlugin.fluxInformation = fluxInformation;
-	}
-	public static FluxStatisticsMap getFluxStatistics() {
-		return CyFluxVizPlugin.fluxStatistics;
-	}
-    public static void setFluxStatistics(FluxStatisticsMap fluxStatistics) {
-		CyFluxVizPlugin.fluxStatistics = fluxStatistics;
-	}
-    
-	public static VisualMappingManager getVmm() {
-		return vmm;
-	}
-    public static void setVmm(VisualMappingManager vmm) {
-		CyFluxVizPlugin.vmm = vmm;
-	}
-	public static VisualStyle getViStyle() {
-		return viStyle;
-	}
-    public static void setViStyle(VisualStyle viStyle) {
-		CyFluxVizPlugin.viStyle = viStyle;
-	}
-	public static String getVsName() {
-		return vsName;
-	}
-    public static void setVsName(String vsName) {
-		CyFluxVizPlugin.vsName = vsName;
-	}
-
-	public static FluxVizPanel getFvPanel() {
-		return fvPanel;
-	}	
 }

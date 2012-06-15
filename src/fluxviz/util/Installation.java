@@ -10,6 +10,33 @@ import cytoscape.task.util.TaskManager;
 
 public class Installation {
 	
+    /*
+     * FluxViz Installation.
+     * Only installation if installation data in the .cytoscape folder is not
+     * available (normally only performed on the first FluxViz startup).
+     * Installation of the documentation examples if necessary.
+     * 
+     * During the installation process the content of the jar file is extracted.
+     * Examples and necessary files like the standard VisualStyle are copied.
+     * 
+     * TODO: handle earlier installations (after update to newest version
+     * 		the installation of the old files should be removed
+     */
+    public static void doInstallation(){	
+    	Installation installation = new Installation();
+    	try {
+    		installation.install();
+    	}
+    	catch (IOException e){
+    		try{
+    			installation.uninstall();
+    		}
+    		catch (IOException ex){
+    			ex.printStackTrace();
+    		}
+    	}
+    }
+	
     /* Within the .cytoscape directory create a version-specific FluxViz data directory. */
     public static File createFluxVizDataDirectory() throws IOException{
     	File dir = new File(FileUtil.getFluxVizDataDirectory().getCanonicalPath());

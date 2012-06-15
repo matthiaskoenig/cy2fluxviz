@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 
 import cytoscape.Cytoscape;
+import cytoscape.dialogs.ExportAsGraphicsFileChooser;
 import cytoscape.dialogs.ExportBitmapOptionsDialog;
 import cytoscape.task.Task;
 import cytoscape.task.TaskMonitor;
@@ -48,7 +49,30 @@ public class ExportAsGraphics
 	public ExportAsGraphics()
 	{
 	}
-
+	
+	/* Create images */
+    public static void exportImage(){
+    	if (FluxAttributeUtils.getSelectedAttributes().length == 0){
+			JOptionPane.showMessageDialog(null,
+					"No flux distributions selected for export.\n" +
+					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);
+    		return;
+    	}
+   
+    	// Select folder for the export
+		if (FluxVizUtil.availableNetworkAndView()){
+			ExportAsGraphicsFileChooser chooser = new ExportAsGraphicsFileChooser(ExportAsGraphics.FILTERS);
+	    	ExportAsGraphics ex = new ExportAsGraphics();
+	    	ex.actionPerformed();	
+		}
+		else {
+			JOptionPane.showMessageDialog(null,
+					"Image export in empty network or without view not possible.\n" +
+					"Load network and select view for the network before image export.",
+					"Empty network or view warning", JOptionPane.WARNING_MESSAGE);
+		}
+    }
+	
 	public void actionPerformed()
 	{
 		// General selection of format and settings for all images
@@ -67,7 +91,7 @@ public class ExportAsGraphics
 				chooser.dispose();
 				
 				// get selected attributes in list
-		    	String[] attributes = FluxAttributeUtils.getSelectedAttributes(ExportAsGraphics.fluxViz);
+		    	String[] attributes = FluxAttributeUtils.getSelectedAttributes();
 		    	if (attributes.length == 0){
 					JOptionPane.showMessageDialog(Cytoscape.getDesktop(),
 							"No flux distributions are selected for export.",

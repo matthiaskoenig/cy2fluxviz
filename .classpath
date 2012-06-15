@@ -15,8 +15,6 @@
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/filters-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/equation-functions-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/editor-2.8.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CySBML_exjar.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cySabioRK-v0.1.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cpath-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/cpath2-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/core-commands-2.8.2-jar-with-dependencies.jar"/>
@@ -25,5 +23,6 @@
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/automatic-layout-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/attribute-browser-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/advanced-network-merge-2.8.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CySBML-v1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

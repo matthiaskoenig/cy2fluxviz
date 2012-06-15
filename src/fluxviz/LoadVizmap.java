@@ -41,8 +41,7 @@ public class LoadVizmap {
 	}
 	
 	private static void setVisualStyle(String vsName){
-		CalculatorCatalog calc_cat = CyFluxVizPlugin.getVmm().getCalculatorCatalog();
-		CyFluxVizPlugin.setVsName(vsName);
+		CalculatorCatalog calc_cat = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
 		CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(vsName));
 	}
 }

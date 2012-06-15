@@ -1,7 +1,6 @@
 package fluxviz.util;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -13,6 +12,7 @@ import cytoscape.Cytoscape;
 import cytoscape.plugin.PluginManager;
 import cytoscape.view.CyNetworkView;
 import cytoscape.visual.CalculatorCatalog;
+
 import fluxviz.FluxInformation;
 import fluxviz.CyFluxVizPlugin;
 import fluxviz.LoadVizmap;
@@ -38,6 +38,11 @@ public class FileUtil {
             folder = fc.getSelectedFile();
         }    	
         return folder;
+	}
+	
+	public static File getVisualStyleFile(){
+		String fname = "data" + File.separator + CyFluxVizPlugin.DEFAULTVISUALSTYLE + ".props";
+		return (new File(FileUtil.getFluxVizDataDirectory(), fname));
 	}
 	
     /* Opens file selection menu for val files. */
@@ -124,7 +129,7 @@ public class FileUtil {
      * target fluxes, comment. */
     public static void loadSimulationFile(){
     	File simFile = FileUtil.selectSimulationFile();
-    	CyFluxVizPlugin.setFluxInformation(new FluxInformation(simFile));
+    	new FluxInformation(simFile);
     } 
     
     public static File selectSimulationFile(){
@@ -151,21 +156,16 @@ public class FileUtil {
         return simFile;
     }
     
-    /** 
-     * Loads the Visual Style necessary for the FluxViz Plugin.
-     * Changes the FluxViz visual Style
-     * @throws IOException 
-     */
+    /* Loads the Visual Style necessary for the FluxViz Plugin. */
     public static void loadViStyle(){
-        CyFluxVizPlugin.setVmm(Cytoscape.getVisualMappingManager());
-        CalculatorCatalog calc_cat = CyFluxVizPlugin.getVmm().getCalculatorCatalog();
+        CalculatorCatalog calc_cat = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
         CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.DEFAULTVISUALSTYLE));
         
         // Load Visual Style if not available
         if (CyFluxVizPlugin.getViStyle() == null) {        	
         	@SuppressWarnings("unused")
-			LoadVizmap loadVM = new LoadVizmap(CyFluxVizPlugin.props_file);
-        	CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()));
+			LoadVizmap loadVM = new LoadVizmap(FileUtil.getVisualStyleFile());
+        	CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.getViStyleName()));
         }	
     }
 }

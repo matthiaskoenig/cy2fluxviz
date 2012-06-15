@@ -248,28 +248,19 @@ public class NetworkView {
         String edgeAttribute = attribute + "_edge";
         String edgeDirAttribute = attribute + "_edge_dir";
 
-        // Get network, Visual Mapper, CalculatorCatalog and the VisualStyle
         CyNetwork network = Cytoscape.getCurrentNetwork();
         VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
         CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
+        CyNetworkView view = Cytoscape.getCurrentNetworkView();
         
-        // Make sure that the FluxViz VisualStyle is available
-        // Problem is with visual style and name of visual style
-        //TODO: handle the loading and setting of the style in a consistent way. 
-        //loaded and applied Styles have to be consistent !!!!
-        if (calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()) == null){
+        if (CyFluxVizPlugin.getViStyle() == null){
         	FileUtil.loadViStyle();
         }
-        VisualStyle vi_style = CyFluxVizPlugin.getViStyle();
-        if (vi_style == null){
-        	FileUtil.loadViStyle();
+        if (!NetworkViewTools.currentViStyleIsFluxVizStyle(vmm.getVisualStyle())){
+        	view.setVisualStyle(CyFluxVizPlugin.getViStyle().getName());
+            vmm.setVisualStyle(CyFluxVizPlugin.getViStyle());	
         }
         
-        // Set the visual style (necessary every time ?)
-        
-        Cytoscape.getCurrentNetworkView().setVisualStyle(CyFluxVizPlugin.getVsName());
-        vmm.setVisualStyle(vi_style);
-
         // CHANGE THE ATTRIBUTES
         // 1. NODE COLOR
         //Get the appearance calculators from style
@@ -294,12 +285,7 @@ public class NetworkView {
 
         // 3. EDGE WIDTH
         //Get the appearance calculators from style
-
-        
-        //TODO: BUG !!! java.lang.NullPointerException if network is loaded 
-        //and vi_style is imported 
-        // TODO:
-        EdgeAppearanceCalculator edgeAppCalc = vi_style.getEdgeAppearanceCalculator();
+        EdgeAppearanceCalculator edgeAppCalc = CyFluxVizPlugin.getViStyle().getEdgeAppearanceCalculator();
         // Get the Calculator for nodeColor
         Calculator edgeWidthCalculator = edgeAppCalc.getCalculator(VisualPropertyType.EDGE_LINE_WIDTH);
         //get mapping from calculator
@@ -345,20 +331,12 @@ public class NetworkView {
         FluxVizPanel panel = CyFluxVizPlugin.getFvPanel(); 
         if (panel.getFluxSubnetCheckbox().isSelected()){
         	NetworkView.viewFluxSubnet(attribute);
-        }
-        else{
+        } else {
         	// in the subnetwork generation the view is already updated
         	Cytoscape.getCurrentNetworkView().updateView();
         }
         
         String info = "";
-        // simulation information
-        if (CyFluxVizPlugin.getFluxInformation() != null){
-            FluxInfo fluxInfo = CyFluxVizPlugin.getFluxInformation().attributeInformation.get(attribute);
-            if (fluxInfo != null){
-            	info += fluxInfo.toHTML();
-            }
-        }
 
         // flux statistics
         FluxStatisticsMap fluxMap = CyFluxVizPlugin.getFluxStatistics();
@@ -371,15 +349,17 @@ public class NetworkView {
         panel.updateInfoPaneHTMLText(info);
         panel.selectInfoPane();
         
-        applyVisualStyle(Cytoscape.getCurrentNetworkView());
+        applyVisualStyleToView(Cytoscape.getCurrentNetworkView());
     }
   
 
-    public static void applyVisualStyle(CyNetworkView view){
-		VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
+    public static void applyVisualStyleToView(CyNetworkView view){
+    	String vsName = CyFluxVizPlugin.getViStyle().getName();
+    	VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
     	CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
-        CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()));
-        view.setVisualStyle(CyFluxVizPlugin.getVsName());
+    	
+        CyFluxVizPlugin.setViStyle(calc_cat.getVisualStyle(vsName));
+        view.setVisualStyle(vsName);
         vmm.setVisualStyle(CyFluxVizPlugin.getViStyle());
         vmm.applyAppearances();
         view.updateView();

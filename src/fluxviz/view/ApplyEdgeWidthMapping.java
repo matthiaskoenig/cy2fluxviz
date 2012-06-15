@@ -28,11 +28,11 @@ public class ApplyEdgeWidthMapping {
 
 		VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
 		CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
-        if (calc_cat.getVisualStyle(CyFluxVizPlugin.getVsName()) == null){
+        if (calc_cat.getVisualStyle(CyFluxVizPlugin.getViStyleName()) == null){
         		FileUtil.loadViStyle();
         }
 		//Set the visual style (necessary every time ?)
-		Cytoscape.getCurrentNetworkView().setVisualStyle(CyFluxVizPlugin.getVsName());
+		Cytoscape.getCurrentNetworkView().setVisualStyle(CyFluxVizPlugin.getViStyleName());
 		vmm.setVisualStyle(CyFluxVizPlugin.getViStyle());
 	
 		// 3. EDGE WIDTH

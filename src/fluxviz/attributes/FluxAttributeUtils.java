@@ -58,7 +58,7 @@ public class FluxAttributeUtils {
 	 * Get selected attributes from table model.
 	 * @return array of selected attribute names
 	 */
-	public static String[] getSelectedAttributes(CyFluxVizPlugin fluxViz){
+	public static String[] getSelectedAttributes(){
     	DefaultTableModel tableModel = CyFluxVizPlugin.getFvPanel().getTableModel();
     	JTable fluxTable = CyFluxVizPlugin.getFvPanel().getFluxTable();
     	
