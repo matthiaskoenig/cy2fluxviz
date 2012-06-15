@@ -2,18 +2,30 @@ package cyfluxviz.attributes;
 import java.io.*;
 import java.util.*;
 
-/**
- * Importer for the val files.
- * The key, value pairs of the flux are stored in a hashmap.
- */
-public class ImportValFile {
+/* Val file importer (simple key/value pairs for reactions). */
+public class FluxDistributionImporter {
 	
-	// Create a hashmap for the values of the form [ID] = flux_value
+	private String networkId;
 	private String name;
-	private HashMap<String, Double> hm = new HashMap<String, Double>();
+	private HashMap<String, Double> nodeFluxes = new HashMap<String, Double>();
+	private HashMap<String, Double> edgeFluxes = new HashMap<String, Double>();
+
+	public FluxDistributionImporter(String filename){
+		importFromFile(filename);
+	}
 	
-	public ImportValFile(String filename){
+	public HashMap<String, Double> getHm() {
+		return nodeFluxes;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void importFromFile(String filename){
 		name = filename;
+		//TODO: set network id
+		
 		String line;
 	    try {
 	      BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -21,7 +33,6 @@ public class ImportValFile {
 	      while ( (line = br.readLine()) != null){
 	    	  this.parseLine(line);
 	      } 
-	      // dispose all the resources after using them.
 	      br.close();
 	    } catch (FileNotFoundException e) {
 	    	System.err.println("Error: " + e);
@@ -30,58 +41,24 @@ public class ImportValFile {
 	    	System.err.println("Error: " + e);
 	    	e.printStackTrace();
 	    }
-	    // TODO: catch corrupt val file exception
 	}
 	
-	/*
-	 * Parses the identifier / value pair from the float file
-	 */
+	/* Parses the (id, value) pair from given line. */
 	public void parseLine(String line){
 	  String id;
 	  Double value = 0.0;
-	  // remove newline
-	  line = line.trim();
-	  // if line content add the entry to the hashmap
-	  // TODO: test if identifier already in the network
+	  line = line.trim();	// remove newline
 	  if (line.length() != 0) {
-		  //System.out.println(line);
 	  	  String[] idvalue = line.split("\t");
-	  	  // TODO: test length
 	  	  id = idvalue[0];
 	  	  try {
-	  		  //value = Float.valueOf(idvalue[1]).floatValue();
 	  		  value = Double.valueOf(idvalue[1]).doubleValue();
 	  	  }
 	  	  catch (NumberFormatException e)
 	  	  {
-	  		 System.out.println("NumberFormatException: " + e.getMessage());
 	  		 e.printStackTrace();
 	  	  }
-	  	  this.getHm().put(id, value);
+	  	  nodeFluxes.put(id, value);
 	  } 
-	}
-	
-	/*
-	public static void main(String[] args){
-		String filename = "/home/mkoenig/Desktop/Cytoscape_v2.6.3/examples/val/02_atp_cyto.val";
-		ImportValFile importval = new ImportValFile(filename);
-		
-		// iterate over the hashmap and print the data
-		Set set = importval.getHm().entrySet();
-		Iterator i = set.iterator();
-		while (i.hasNext()){
-			Map.Entry<String, Double> me = (Map.Entry<String, Double>) i.next();
-			System.out.println(me.getKey() + " : " + me.getValue() );
-		}
-	}*/
-	public void setHm(HashMap<String, Double> hm) {
-		this.hm = hm;
-	}
-	public HashMap<String, Double> getHm() {
-		return hm;
-	}
-
-	public String getName() {
-		return name;
 	}
 }

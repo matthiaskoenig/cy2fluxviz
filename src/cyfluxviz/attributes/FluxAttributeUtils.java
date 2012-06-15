@@ -12,48 +12,16 @@ import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import cyfluxviz.CyFluxViz;
-import cyfluxviz.gui.FluxVizPanel;
-import cyfluxviz.gui.PanelDialogs;
-import cyfluxviz.statistics.FluxStatisticsMap;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
+import cyfluxviz.CyFluxViz;
+import cyfluxviz.gui.FluxVizPanel;
+
 public class FluxAttributeUtils {
-    /** 
-     * Updates the flux attributes based on the current network node attributes.
-     * Changes the fluxAttributes in place and updates the list of available flux
-     * attributes in the FluxViz panel.<br>
-     * The edge attribute files are not updated.
-     */
-    public static void updateFluxAttributes(){
-    	CyFluxViz.setFluxAttributes(new ValAttributes());
-    	// Recalculate the statistics of the flux distributions
-    	CyFluxViz.setFluxStatistics(new FluxStatisticsMap());
-    	// If no flux statistics data -> reset the start information in the plugin
-    	if (CyFluxViz.getFluxStatistics().statisticsMap.size() == 0){
-    		PanelDialogs.setFluxVizInfo(CyFluxViz.getFvPanel());
-    	}
-    	// Update the table
-    	CyFluxViz.getFvPanel().updateTable(CyFluxViz.getFluxAttributes().getAttributeNames());
-    }
-    
-	/**
-	 * Delete all loaded val attributes.
-	 * Necessary because of problems with identifiers between different networks.
-	 * Flux distributions always end with ".val".
-	 */
-    public static void removeValAttributes(){
-    	CyAttributes cyAttributes = Cytoscape.getNodeAttributes(); 
-    	String[] nodeAttr = cyAttributes.getAttributeNames();
-    	for (int i=0; i<nodeAttr.length; ++i){
-    		if (nodeAttr[i].endsWith(".val")){
-    			cyAttributes.deleteAttribute(nodeAttr[i]);
-    		}
-    	}
-    } 
-    
+
+        
 	/**
 	 * Get selected attributes from table model.
 	 * @return array of selected attribute names
@@ -131,7 +99,6 @@ public class FluxAttributeUtils {
     
     /* Set the current NodeAttributes of type string in the ComboBox. */
     public static void initNodeAttributeComboBox(){
-    	! BASED ON FLUXDISTRIBUTIONCOLLECTION
     	Object[] attributes = getStringNodeAttributes().toArray();
     	Arrays.sort(attributes);
     	

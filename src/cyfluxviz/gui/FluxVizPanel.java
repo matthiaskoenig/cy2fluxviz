@@ -416,14 +416,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 
         importPanel.setBackground(java.awt.Color.white);
 
-        jButtonImportSim.setText("Load sim");
-        jButtonImportSim.setToolTipText("Load simulation information from simulation file.");
-        jButtonImportSim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImportSimActionPerformed(evt);
-            }
-        });
-
         jButtonImportVal.setText("Load val");
         jButtonImportVal.setToolTipText("Load additional val files for the current network.");
         jButtonImportVal.addActionListener(new java.awt.event.ActionListener() {
@@ -671,11 +663,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 
     private void jButtonImportValActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         FileUtil.loadValFiles();
-    }                                                
-
-    private void jButtonImportSimActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        FileUtil.loadSimulationFile();
-    }                                                
+    }                                                                                            
 
     private void jCheckBoxFluxSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         if (getFluxTable().getModel().getRowCount() > 0){
