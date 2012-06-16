@@ -21,22 +21,19 @@ import cyfluxviz.gui.FluxVizPanel;
 
 public class AttributeUtils {
 
-        
-	/**
-	 * Get selected attributes from table model.
-	 * @return array of selected attribute names
-	 */
-	public static String[] getSelectedAttributes(){
+	
+	public static String[] getSelectedFluxDistributions(){
     	DefaultTableModel tableModel = CyFluxViz.getFvPanel().getTableModel();
     	JTable fluxTable = CyFluxViz.getFvPanel().getFluxTable();
     	
     	int[] selected = fluxTable.getSelectedRows();
-    	String[] attributes = new String[selected.length];
+    	String[] fdIds = new String[selected.length];
     	for (int i=0; i<selected.length; ++i){
-    		attributes[i] = (String) tableModel.getValueAt(selected[i], 0);
+    		fdIds[i] = (String) tableModel.getValueAt(selected[i], 0);
     	}
-    	return attributes;
+    	return fdIds;
 	}
+	
 	
 	/**
 	 * Get Node attributes from table model.
@@ -52,6 +49,7 @@ public class AttributeUtils {
 		}
     	return nameSet;
 	}
+	
 	/* Returns names of string NodeAttributes. */
 	public static Set<String> getStringNodeAttributes(){
 		return getTypeNodeAttributes(CyAttributes.TYPE_STRING);

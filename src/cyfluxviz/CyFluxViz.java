@@ -11,6 +11,7 @@ import cytoscape.view.CytoscapeDesktop;
 import cytoscape.view.cytopanels.*;
 import cytoscape.visual.VisualStyle;
 
+import cyfluxviz.attributes.AttributeUtils;
 import cyfluxviz.gui.FluxVizPanel;
 import cyfluxviz.gui.PanelDialogs;
 import cyfluxviz.util.Installation;
@@ -39,8 +40,11 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 	public static final String VERSION = "v0.82";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
-	public static final String NODE_ATTRIBUTE = "nodeFlux";
-	public static final String EDGE_ATTRIBUTE = "edgeFlux";
+	
+	public static final String NODE_FLUX_ATTRIBUTE = "CFV Flux";
+	public static final String NODE_VISIBILITY_ATTRIBUTE = "CFV Visibility";
+	public static final String EDGE_FLUX_ATTRIBUTE = "CFV Flux";
+	public static final String EDGE_VISIBILITY_ATTRIBUTE = "CFV Visibility";
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 	
 	private static FluxVizPanel fvPanel;
@@ -108,14 +112,14 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		{
 			System.out.println("ATTRIBUTE CHANGED -> HANDLE IN MAPPING");
 			//FluxAttributeUtils.updateFluxAttributes();
-			//FluxAttributeUtils.initNodeAttributeComboBox();
+			AttributeUtils.initNodeAttributeComboBox();
 		}
 		
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED))
 		{
 			System.out.println("SESSION LOADED -> HANDLE IN MAPPING");
 			//FluxAttributeUtils.updateFluxAttributes();
-			//FluxAttributeUtils.initNodeAttributeComboBox();
+			AttributeUtils.initNodeAttributeComboBox();
 			
 			//reset the view
 			fvPanel.getAttributeSubnetCheckbox().setSelected(false);
@@ -125,7 +129,7 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
 		{
 			System.out.println("NETWORK_VIEW_FOCUSED -> HANDLE IN MAPPING");
-			//FluxAttributeUtils.initNodeAttributeComboBox();
+			AttributeUtils.initNodeAttributeComboBox();
 		}
 	} 
 }

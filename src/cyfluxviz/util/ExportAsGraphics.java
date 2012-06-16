@@ -44,7 +44,7 @@ public class ExportAsGraphics
 	public ExportAsGraphics(){}
 	
     public static void exportImage(){
-    	if (AttributeUtils.getSelectedAttributes().length == 0){
+    	if (AttributeUtils.getSelectedFluxDistributions().length == 0){
 			JOptionPane.showMessageDialog(null,
 					"No flux distributions selected for export.\n" +
 					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);
@@ -83,7 +83,7 @@ public class ExportAsGraphics
 				chooser.dispose();
 				
 				// get selected attributes in list
-		    	String[] attributes = AttributeUtils.getSelectedAttributes();
+		    	String[] attributes = AttributeUtils.getSelectedFluxDistributions();
 		    	if (attributes.length == 0){
 					JOptionPane.showMessageDialog(Cytoscape.getDesktop(),
 							"No flux distributions are selected for export.",

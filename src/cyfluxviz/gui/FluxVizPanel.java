@@ -907,17 +907,19 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 		updatePaneHTMLText(helpPane, htmlText);
 	}
 	
-    /* Selection of FluxDistribution has changed. 
-     * TODO : allow only single selection
-     * TODO : handle deselection of network 
-     */
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
-            int selected = fluxTable.getSelectedRow();
-            if (selected != -1){
-            	// Change the active FluxDistribution !!
-                String attributeName = (String)tableModel.getValueAt(selected, 0);
-                NetworkView.applyFluxVizView(attributeName);
+        	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+        	
+        	int selected = fluxTable.getSelectedRow();
+            if (selected != -1){	
+            	// Activate FluxDistribution
+                String fdId = (String)tableModel.getValueAt(selected, 0);
+                
+                fdCollection.setFluxDistributionActive(fdId);
+            } else {
+            	// Deactivate FluxDistribution
+            	fdCollection.deactivateFluxDistribution();
             }
         }
     }

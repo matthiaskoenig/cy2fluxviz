@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDistributionCollection;
 import cyfluxviz.FluxStatistics;
 import cyfluxviz.gui.FluxVizPanel;
-import cyfluxviz.util.FileUtil;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
@@ -29,47 +26,27 @@ import cytoscape.visual.mappings.ContinuousMapping;
 import cytoscape.visual.mappings.DiscreteMapping;
 import cytoscape.visual.mappings.PassThroughMapping;
 
-
-/* Class managing the distinct NetworkViews based on selected criteria, like
- * for instance the FluxSubnetworkView or AttributeSubnetworkView. */
 public class NetworkView {
 	
-    /* Handles the action which is performed when the flux subnetwork selection box
-     * is selected or deselected.
-     * Here the mapping of the flux distributions is performed. Set the mapping
-     * and apply the subnetwork view depending on the fluxes.
-     */
     public static void changeSubnetView(){
     	FluxVizPanel panel = CyFluxViz.getFvPanel();
     	JCheckBox fluxBox = panel.getFluxSubnetCheckbox(); 
     	JCheckBox attributeBox = panel.getAttributeSubnetCheckbox();
-    	JTable table = panel.getFluxTable();
-    	DefaultTableModel model = panel.getTableModel();
     	
-    	if (fluxBox.isSelected() == true ){ 
-    		String fluxAttribute = (String)model.getValueAt(table.getSelectedRow(), 0);
-    		if (attributeBox.isSelected() == false){
-    			viewFluxSubnet(fluxAttribute);
-    		} else {
-    			viewFluxAttributeSubnet(fluxAttribute);
-    		}
-    	}
-    	if (fluxBox.isSelected() == false ) { //&& table.getSelectedRow() != -1
-    		if (attributeBox.isSelected() == false){
-    			ViewTools.showAllNodesAndEdgesInCurrentView();	
-    		}else{
-    			viewAttributeSubnet();
-    		}		
+    	if        (fluxBox.isSelected() && attributeBox.isSelected()){ 
+    		viewFluxAttributeSubnet();
+    	} else if (fluxBox.isSelected() && !attributeBox.isSelected()){
+    		viewFluxSubnet();
+    	} else if (!fluxBox.isSelected() && attributeBox.isSelected()){
+    		viewAttributeSubnet();
+    	} else if (!fluxBox.isSelected() && !attributeBox.isSelected()){
+    		ViewTools.showAllNodesAndEdgesInCurrentView();	
     	}
     }
     
-	/*Generate flux attribute subnetwork view for given flux attribute
-	 * combination and selected flux distribution.
-	 * TODO: handling of the edge attributes in better way
-	 */
     @SuppressWarnings("unchecked")
-	public static void viewFluxAttributeSubnet(String nodeAttribute){
-    	String edgeAttribute = nodeAttribute + "_edge";
+	public static void viewFluxAttributeSubnet(){
+    	String edgeAttribute = CyFluxViz.EDGE_FLUX_ATTRIBUTE;
     	
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
         ViewTools.hideAllNodesAndEdgesInView(view);
@@ -135,10 +112,9 @@ public class NetworkView {
 		view.updateView();		
     }
     
-    /* Generate flux subnetwork view for given flux attribute. */
-    @SuppressWarnings("unchecked")
-	public static void viewFluxSubnet(String attribute){    	
-    	String edgeAttribute = attribute + "_edge";
+    
+	public static void viewFluxSubnet(){    	
+    	String edgeAttribute = CyFluxViz.EDGE_FLUX_ATTRIBUTE;
     	
     	//2.1. calculate flux subnetwork
     	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();    			
@@ -179,19 +155,7 @@ public class NetworkView {
         }
     }
     
-    /**
-     * Generate subnetwork view based on attributes in the network.
-     * Hide all nodes and edges which are not in the selected Set.
-     * Set has to be of type of the attributeName (in the simplest case
-     * set of Strings).
-     * 
-     * if attribute == null -> no val file is flux distribution is selected, only the
-     * subnetwork view is generated.
-     * 
-     * nullVisible decides if the nodes without mapping are visible or not. 
-     */
-    @SuppressWarnings("unchecked")
-	public static void viewNodeAttributeSubnet(String attributeName, Set selected, Boolean nullVisible){
+    public static void viewNodeAttributeSubnet(String attributeName, Set selected, Boolean nullVisible){
     	CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
     	byte attrType = nodeAttrs.getType(attributeName);
     	if (attrType != CyAttributes.TYPE_STRING){
@@ -235,96 +199,57 @@ public class NetworkView {
 		}		
 		view.updateView();
     }
+    
     	
+    
     public static void applyFluxVizView (){
-        
-    	String edgeAttribute = CyFluxViz.EDGE_ATTRIBUTE;
-        String edgeDirAttribute = CyFluxViz.EDGE_DIRECTION_ATTRIBUTE;
-
         CyNetwork network = Cytoscape.getCurrentNetwork();
         VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
         CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        
         setFluxVizVisualStyleForView(view);
         
-        // CHANGE THE ATTRIBUTES
-        // 1. NODE COLOR
-        //Get the appearance calculators from style
-        /*
-        NodeAppearanceCalculator nodeAppCalc = vi_style.getNodeAppearanceCalculator();
-        // Get the Calculator for nodeColor
+    	String edgeAttribute = CyFluxViz.EDGE_FLUX_ATTRIBUTE;
+        String edgeDirAttribute = CyFluxViz.EDGE_DIRECTION_ATTRIBUTE;
+        
+        // NODE COLOR
+        
+        /* NodeAppearanceCalculator nodeAppCalc = vi_style.getNodeAppearanceCalculator();
         Calculator nodeColorCalculator = nodeAppCalc.getCalculator(VisualPropertyType.NODE_FILL_COLOR);
-        //get mapping from calculator
         ContinuousMapping continuousMapping = (ContinuousMapping)nodeColorCalculator.getMapping(0);
-        // change mapping in the calculator
         continuousMapping.setControllingAttributeName(attribute, network, false);
         */
-        // 2. NODE SIZE
-        // Get the Calculator for nodeColor
-        /*Calculator nodeSizeCalculator = nodeAppCalc.getCalculator(VisualPropertyType.NODE_SIZE);
-        //get mapping from calculator
+        
+        //NODE SIZE 
+        /*
+      	Calculator nodeSizeCalculator = nodeAppCalc.getCalculator(VisualPropertyType.NODE_SIZE);
         ContinuousMapping continuousSizeMapping = (ContinuousMapping)nodeSizeCalculator.getMapping(0);
-        // change mapping in the calculator
         continuousSizeMapping.setControllingAttributeName(attribute, network, false);
         */
 
-        // 3. EDGE WIDTH
-        //Get the appearance calculators from style
+        // EDGE WIDTH
         EdgeAppearanceCalculator edgeAppCalc = CyFluxViz.getViStyle().getEdgeAppearanceCalculator();
-        // Get the Calculator for nodeColor
         Calculator edgeWidthCalculator = edgeAppCalc.getCalculator(VisualPropertyType.EDGE_LINE_WIDTH);
-        //get mapping from calculator
         ContinuousMapping continuousEdgeWidthMapping = (ContinuousMapping)edgeWidthCalculator.getMapping(0);
-        // change mapping in the calculator
         continuousEdgeWidthMapping.setControllingAttributeName(edgeAttribute, network, false);
-
-        // 4. EDGE SOURCE ARROWS
-        /*
-        //Get the appearance calculators from style
-        Calculator edgeSourceArrowCalculator = edgeAppCalc.getCalculator(VisualPropertyType.EDGE_SRCARROW_SHAPE);
-        //get mapping from calculator
-        DiscreteMapping discreteEdgeSourceArrowMapping = (DiscreteMapping)edgeSourceArrowCalculator.getMapping(0);
-        // change mapping in the calculator
-        discreteEdgeSourceArrowMapping.setControllingAttributeName(edgeDirAttribute, network, false);
-        discreteEdgeSourceArrowMapping.putMapValue(-1, ArrowShape.DELTA);
-        discreteEdgeSourceArrowMapping.putMapValue(1, ArrowShape.NONE);
-		*/
-
-        // 5. EDGE TARGET ARROWS
-        //Get the appearance calculators from style
+        
+        // EDGE TARGET ARROWS
         Calculator edgeTargetArrowCalculator = edgeAppCalc.getCalculator(VisualPropertyType.EDGE_TGTARROW_SHAPE);
-        //get mapping from calculator
         DiscreteMapping discreteEdgeTargetArrowMapping = (DiscreteMapping)edgeTargetArrowCalculator.getMapping(0);
-        // change mapping in the calculator
         discreteEdgeTargetArrowMapping.setControllingAttributeName(edgeDirAttribute, network, false);
         discreteEdgeTargetArrowMapping.putMapValue(-1, ArrowShape.NONE);
         discreteEdgeTargetArrowMapping.putMapValue(1, ArrowShape.DELTA);
 
-        // 6. EDGE TOOLTIP
+        // EDGE TOOLTIP
         Calculator edgeTooltipCalculator = edgeAppCalc.getCalculator(VisualPropertyType.EDGE_TOOLTIP);
-        //get mapping from calculator
         PassThroughMapping edgeTooltipMapping = (PassThroughMapping)edgeTooltipCalculator.getMapping(0);
-        // change mapping in the calculator
         edgeTooltipMapping.setControllingAttributeName(edgeAttribute, network, false);
 
         //Apply the changes
         vmm.applyAppearances();
+        applyVisualStyleToView(view);
         
-        
-        
-        
-        // Handle the subnetwork feature (different flux subnetworks for the 
-        // different flux distributions
-        FluxVizPanel panel = CyFluxViz.getFvPanel(); 
-        if (panel.getFluxSubnetCheckbox().isSelected()){
-        	NetworkView.viewFluxSubnet(attribute);
-        } else {
-        	// in the subnetwork generation the view is already updated
-        	Cytoscape.getCurrentNetworkView().updateView();
-        }
-        
-        applyVisualStyleToView(Cytoscape.getCurrentNetworkView());
+        // Update information
         updateFluxDistributionInformation();
     }
   
@@ -346,14 +271,16 @@ public class NetworkView {
     }
     
     public static void applyVisualStyleToView(CyNetworkView view){
+    	// ? Is this whole stuff necessary ?
+    	/*
     	String vsName = CyFluxViz.getViStyle().getName();
     	VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
     	CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
-    	
         CyFluxViz.setViStyle(calc_cat.getVisualStyle(vsName));
         view.setVisualStyle(vsName);
         vmm.setVisualStyle(CyFluxViz.getViStyle());
         vmm.applyAppearances();
+        */
         view.updateView();
         view.redrawGraph(true,true);
     }  
