@@ -2,6 +2,7 @@ package cyfluxviz.attributes;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,16 +22,19 @@ import cyfluxviz.gui.FluxVizPanel;
 
 public class AttributeUtils {
 
-	
-	public static String[] getSelectedFluxDistributions(){
+	public static List<String> getSelectedFluxDistributions(){
     	DefaultTableModel tableModel = CyFluxViz.getFvPanel().getTableModel();
     	JTable fluxTable = CyFluxViz.getFvPanel().getFluxTable();
-    	
     	int[] selected = fluxTable.getSelectedRows();
-    	String[] fdIds = new String[selected.length];
-    	for (int i=0; i<selected.length; ++i){
-    		fdIds[i] = (String) tableModel.getValueAt(selected[i], 0);
-    	}
+    	
+    	List<String> fdIds = new LinkedList<String>(); 
+    	String id;
+    	if (selected != null){
+    		for (int i=0; i<selected.length; ++i){
+    			id = (String) tableModel.getValueAt(selected[i], 0);
+        		fdIds.add(id);
+        	}	
+    	}    	
     	return fdIds;
 	}
 	

@@ -2,6 +2,7 @@ package cyfluxviz.attributes;
 import java.io.*;
 import java.util.*;
 
+import cyfluxviz.FluxDirection;
 import cyfluxviz.FluxDistribution;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
@@ -16,6 +17,7 @@ public class FluxDistributionImporter {
 	private String name;
 	private HashMap<String, Double> nodeFluxes = new HashMap<String, Double>();
 	private HashMap<String, Double> edgeFluxes = new HashMap<String, Double>();
+	private HashMap<String, FluxDirection> edgeDirections = new HashMap<String, FluxDirection>();
 	private FluxDistribution fluxDistribution;
 	
 	
@@ -33,9 +35,9 @@ public class FluxDistributionImporter {
 		nodeFluxes = getNodeFluxesFromFile(file);
 		// Reduce to nodes currently in Cytoscape
 		nodeFluxes = filterNodeFluxesInCytoscape(nodeFluxes);
-		
 		edgeFluxes = getEdgeFluxesFromNodeFluxes(nodeFluxes);
-		fluxDistribution = new FluxDistribution(name, networkId, edgeFluxes, nodeFluxes);
+		edgeDirections = getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
+		fluxDistribution = new FluxDistribution(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
 	}
 	
 	public static HashMap<String, Double> filterNodeFluxesInCytoscape(HashMap<String, Double> nFluxes){
@@ -86,10 +88,8 @@ public class FluxDistributionImporter {
 	      } 
 	      br.close();
 	    } catch (FileNotFoundException e) {
-	    	System.err.println("Error: " + e);
 	    	e.printStackTrace();
 	    } catch (IOException e) {
-	    	System.err.println("Error: " + e);
 	    	e.printStackTrace();
 	    }
 		return fluxes;
@@ -112,79 +112,73 @@ public class FluxDistributionImporter {
 	  } 
 	}
 	
-	private static HashMap<String, Double> getEdgeFluxesFromNodeFluxes(){
+	private static HashMap<String, Double> getEdgeFluxesFromNodeFluxes(HashMap<String, Double> nFluxes){
 		HashMap<String, Double> eFluxes = new HashMap<String, Double>();
-					
-		// Create the edge attributes
-		// Attribute for value and direction is necessary
-		CyNetwork network = Cytoscape.getCurrentNetwork();
-		double flux;
-		double stoichiometry;
-		int direction;
-		String edgeId;
-		String edgeType;
-		
+							
 		@SuppressWarnings("unchecked")
 		List<CyNode> cyNodes = Cytoscape.getCyNodesList(); 
 		CyAttributes nodeAttributes = Cytoscape.getNodeAttributes();
-		String nodeId = null;
+		CyAttributes edgeAttributes = Cytoscape.getEdgeAttributes();
+		CyNetwork network = Cytoscape.getCurrentNetwork();
+		
+		String nodeId;
+		String nodeType;
+		String edgeId;
+		double flux;
+		double stoichiometry;
 		for (CyNode node : cyNodes){
-			nodeId = node.getIdentifier();
 			
-			if (nodeAttributes.getAttribute(nodeId, "sbml type").equals("reaction")){
-				
-				// get all adjacent edges and set the flux value and the direction
+			nodeId = node.getIdentifier();
+			nodeType = (String) nodeAttributes.getAttribute(nodeId, FluxDistribution.ATT_TYPE); 
+			
+			if (nodeType != null && nodeType.equals(FluxDistribution.NODE_TYPE_REACTION)){
+				@SuppressWarnings("unchecked")
 				List<CyEdge> adjEdges = network.getAdjacentEdgesList(node, true, true, true);
 				for (CyEdge edge: adjEdges){
-					flux = node_attrs.getDoubleAttribute(nodeId, attName);
-					// set the flux of the edges
 					edgeId = edge.getIdentifier();
-					if (edge_attrs.getAttribute(edgeId, "stoichiometry") == null){
-						stoichiometry = 1.0;
+					
+					stoichiometry = 1.0;
+					if (edgeAttributes.getAttribute(edgeId, FluxDistribution.ATT_STOICHIOMETRY) != null){
+						stoichiometry = (Double) edgeAttributes.getAttribute(edgeId, FluxDistribution.ATT_STOICHIOMETRY);
 					}
-					else {
-						stoichiometry = (Double) edge_attrs.getAttribute(edgeId, "stoichiometry");
+					flux = 0.0;
+					if (nFluxes.containsKey(nodeId)){
+						flux = stoichiometry * nFluxes.get(nodeId);
 					}
-					//System.out.println("Stoichiometry: " + stoichiometry);
-					flux = stoichiometry * flux;
-					edge_attrs.setAttribute(edgeId, attEdgeName, Math.abs(flux));	
+					eFluxes.put(edgeId, flux);
 				}
 			}
 		}	
 		return eFluxes;
 	}
 	
-	/* Not necessary, just change the flux value for the edges depending on the direction of the edges.
-	 * The flux for the edge contains than all the information. */
-	private static HashMap<String, Integer> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
-		// set the direction of the edges
-		direction = 1;
+	private static HashMap<String, FluxDirection> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
 		
-		// here problems with the edge direction
-		// TODO: test if interaction is available
-		// for edges to reactants the direction has to be reversed
-		edgeType = edge_attrs.getStringAttribute(edgeId, "interaction"); 
-		if (edgeType.equals("reaction-reactant")){
-			direction = - direction;
-		}
+		HashMap<String, FluxDirection> directionMap = new HashMap<String, FluxDirection>();
+		CyAttributes edgeAttributes = Cytoscape.getEdgeAttributes();
 		
-		// TODO: outsource in the SBML | XGMML generation 
-		// HepatoCore networks handle
-		if (edgeType.equals("pp")){
-			String objectType = edge_attrs.getStringAttribute(edgeId, "object_type");
-			if (objectType.equals("sink_in_event") || objectType.equals("product_in_event")){
+		for (String edgeId : eFluxes.keySet()){
+			
+			int direction = 1;
+				
+			// reverse direction for reaction-reactant edges
+			String edgeType = edgeAttributes.getStringAttribute(edgeId, "interaction");
+			if (edgeType.equals("reaction-reactant")){
 				direction = - direction;
+			}	
+			
+			// reverse direction for negative fluxes
+			double flux = eFluxes.get(edgeId);
+			if (flux < 0){
+				direction = -direction;
 			}
+			
+			FluxDirection fluxDirection = FluxDirection.NORMAL;
+			if (direction < 0){ 
+				fluxDirection = FluxDirection.REVERSE;
+			}
+			directionMap.put(edgeId, fluxDirection);
 		}
-		
-		// if the flux is negative the edges have to be reversed
-		if (flux < 0){
-			direction = -direction;
-		}
-		edge_attrs.setAttribute(edgeId, attEdgeDirName, direction);
-		
+		return directionMap;
 	}
-	
-
-	
 }

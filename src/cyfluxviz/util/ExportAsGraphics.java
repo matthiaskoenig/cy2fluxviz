@@ -5,11 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 
 import cyfluxviz.CyFluxViz;
+import cyfluxviz.FluxDistribution;
+import cyfluxviz.FluxDistributionCollection;
 import cyfluxviz.attributes.AttributeUtils;
 import cyfluxviz.view.NetworkView;
 import cytoscape.Cytoscape;
@@ -44,7 +47,7 @@ public class ExportAsGraphics
 	public ExportAsGraphics(){}
 	
     public static void exportImage(){
-    	if (AttributeUtils.getSelectedFluxDistributions().length == 0){
+    	if (AttributeUtils.getSelectedFluxDistributions().size() == 0){
 			JOptionPane.showMessageDialog(null,
 					"No flux distributions selected for export.\n" +
 					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);
@@ -73,44 +76,34 @@ public class ExportAsGraphics
 		{
 			public void actionPerformed(ActionEvent event)
 			{
-				// here is whats happening if the ok button is clicked
 				ExportFilter filter = (ExportFilter) chooser.getSelectedFormat();
 				filter.setExportTextAsFont(chooser.getExportTextAsFont());
 				
-				// Folder for export is choosen
 				File folder = chooser.getSelectedFile(); 
-
 				chooser.dispose();
 				
-				// get selected attributes in list
-		    	String[] attributes = AttributeUtils.getSelectedFluxDistributions();
-		    	if (attributes.length == 0){
-					JOptionPane.showMessageDialog(Cytoscape.getDesktop(),
-							"No flux distributions are selected for export.",
-							"Select flux distributions", JOptionPane.WARNING_MESSAGE);
-		    	}    	
 				FileOutputStream stream = null;
-		    	
-				//TODO: remove the .val from the attribute names
-		    	for (int i=0; i<attributes.length; ++i){	
+		    	for (String fdId : AttributeUtils.getSelectedFluxDistributions()){	
 		    		
 		    		String extension = (String) filter.getExtensionSet().toArray()[0];
-		            File file = new File(folder, attributes[i]+ "." + extension);
-		            System.out.println(file.getAbsolutePath());
-		            
+		            File file = new File(folder, fdId + "." + extension);
 					try
 					{
 						stream = new FileOutputStream(file);
 					}
 					catch (Exception exp)
 					{
-						JOptionPane.showMessageDialog(	Cytoscape.getDesktop(),
-															"Could not create file " + file.getName()
-															+ "\n\nError: " + exp.getMessage());
+						JOptionPane.showMessageDialog(	
+								Cytoscape.getDesktop(),
+								String.format("Could not create file %s\nError: %s",
+											  file.getName(), exp.getMessage() ));
 						return;
 					}
-		    		//Apply the view for the attribute and create the image
-		            NetworkView.applyFluxVizView(attributes[i]);
+		    		// Set the FluxDistribution Active
+					FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+					FluxDistribution fluxDistribution = fdCollection.getFluxDistribution(fdId);
+					fdCollection.setFluxDistributionActive(fluxDistribution);
+					
 					CyNetworkView view = Cytoscape.getCurrentNetworkView();
 					filter.export(view, stream);            
 		    	}
@@ -126,26 +119,20 @@ class ExportTask
 	public static void run(	final String title,
 				final Exporter exporter,
 				final CyNetworkView view,
-				final FileOutputStream stream)
-	{
+				final FileOutputStream stream){
 		// Create the Task
-		Task task = new Task()
-		{
+		Task task = new Task(){
 			TaskMonitor monitor;
 
-			public String getTitle()
-			{
+			public String getTitle(){
 				return title;
 			}
 
-			public void setTaskMonitor(TaskMonitor monitor)
-			{
+			public void setTaskMonitor(TaskMonitor monitor){
 				this.monitor = monitor;
 			}
 
-			public void halt()
-			{
-			}
+			public void halt(){}
 
 			public void run()
 			{
