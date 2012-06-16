@@ -4,6 +4,7 @@ import javax.swing.SwingConstants;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
@@ -14,7 +15,9 @@ import cytoscape.visual.VisualStyle;
 import cyfluxviz.attributes.AttributeUtils;
 import cyfluxviz.gui.FluxVizPanel;
 import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.Installation;
+import cyfluxviz.vizmap.LoadVizmap;
 
 /**
  * CyFluxViz visualizes flux information within Cytoscape networks.
@@ -58,12 +61,13 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
     	Cytoscape.getPropertyChangeSupport().
 			addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
 
+    	// TODO: Manage the installation in a better way (no installation necessary ?)
+    	// Copy the files to correct paths
+    	Installation.doInstallation();
+    	
     	// TODO: Manage all this stuff in the panel and only activate after click
     	// on the respective plugin icon in the menubar
     	createFluxVizPanel();
-    	
-    	// TODO: Manage the installation in a better way (no installation necessary ?)
-    	Installation.doInstallation();
     }
         
     private void createFluxVizPanel(){
@@ -75,7 +79,13 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		PanelDialogs.setHelp(fvPanel);
 		PanelDialogs.setFluxVizInfo(fvPanel);
 		
-		// Set the Visual Style at the beginning from the file
+		// Set the Visual Style at the beginning
+		System.out.println("CyFluxViz[INFO] -> Loading Visual Style");
+		String propsFilename = FileUtil.getFluxVizDataDirectory() + "/data/" + DEFAULTVISUALSTYLE + ".props";
+		File propertyFile = new File(propsFilename);
+		LoadVizmap loadVM = new LoadVizmap(propertyFile);
+		LoadVizmap.setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
+		System.out.println("VisualStyle: " + CyFluxViz.getViStyle().getName());
 		
     }
     

@@ -1,6 +1,7 @@
 package cyfluxviz.vizmap;
 
 import java.io.File;
+import java.util.Set;
 
 import cyfluxviz.CyFluxViz;
 import cytoscape.Cytoscape;
@@ -9,6 +10,7 @@ import cytoscape.task.util.TaskManager;
 import cytoscape.util.CyFileFilter;
 import cytoscape.util.FileUtil;
 import cytoscape.visual.CalculatorCatalog;
+import cytoscape.visual.VisualStyle;
 
 /* Loads the visual style from given property file. */
 public class LoadVizmap {
@@ -19,7 +21,6 @@ public class LoadVizmap {
 		}
 		if (propertyFile != null) {
 			loadPropertyFile(propertyFile);
-			setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
 		}
 	}
 	
@@ -41,8 +42,17 @@ public class LoadVizmap {
 		TaskManager.executeTask(task, jTaskConfig);
 	}
 	
-	private static void setVisualStyle(String vsName){
-		CalculatorCatalog calc_cat = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
-		CyFluxViz.setViStyle(calc_cat.getVisualStyle(vsName));
+	public static void setVisualStyle(String vsName){
+		CalculatorCatalog calcCatalog = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
+		Set<String> styles = calcCatalog.getVisualStyleNames();
+		System.out.println("Available VisualStyles");
+		for (String name: styles){
+			System.out.println(name);
+		}
+		System.out.println("-> Name: " + vsName);
+		
+		VisualStyle vs = calcCatalog.getVisualStyle(vsName);
+		
+		CyFluxViz.setViStyle(vs);
 	}
 }

@@ -32,30 +32,19 @@ public class PanelDialogs {
     public static void setHelp(FluxVizPanel fvPanel){
     	String help = 
     			getHTMLHeader() +
-    			"<b>[Short Introduction]</b><br>" +
     			"<b>1. Select Network for visualisation</b>" +
     			"<br>Load ('File -> Import Network' or 'File -> Open') or create Network for visualization of flux distributions.<br>" +
-    			" FluxViz works on the current NetworkView. " +
-    			"The current FluxViz version only works with one network at a time (multiple networks are currently not " +
-    			"supported).<br><br>" +
+    			" CyFluxViz works on the current NetworkView.<br />" +
     			
-    			"<b>2. Load flux distributions</b><br>" +
-    			"Load flux distribution via *.val files or as attributes ('Import' menu below).<br><br>" +
+    			"<b>2. Load flux distributions</b><br/>" +
+    			"Import flux distribution via *.val files ('Import' menu).<br/>" +
     			
-    			"<b>3. Load sim file [optional]</b><br>" +
-    			"FASIMU simulation information can be integrated with the flux data. The simulation file can be loaded via" +
-    			"the 'Import' menu below.<br><br>" +
-    			
-    			"<b>4. Adapt mapping functions and subnet view [optional]</b><br>" +
+    			"<b>3. Adapt mapping functions and subnet view [optional]</b><br>" +
     			"The NetworkView can be reduced to flux containing subnets (Subnet -> Flux subnet) or attribute subnets " +
-    			"(Subnet -> Attribute subnet)<br><br>" +
+    			"(Subnet -> Attribute subnet)<br />" +
     			
-    			"<b>5. Export Images [optional]</b><br>Select val file for Flux visualisation and export images in selected" +
-    			"format (PDF, SVG, EPS, JPG, PNG, BMP).<br><br>" +
-    			
-    			"<br><b>[Subnetworks]</b><br>" +
-    			"The visualisation can be limited to flux containing graph elements " +
-    			"by selecting 'Subnet -> Flux subnet'.";
+    			"<b>4. Export Images [optional]</b><br>Select val file for Flux visualisation and export images in selected" +
+    			"format (PDF, SVG, EPS, JPG, PNG, BMP).";
     	fvPanel.updateHelpPaneHTMLText(help);
     }
 }

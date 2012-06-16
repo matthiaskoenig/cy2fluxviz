@@ -59,50 +59,7 @@ public class FileUtil {
         return valFiles;
     }
     
-   // TODO: Refactor all the tests
-    public static void loadValFiles(){
-    	JCheckBox checkbox = CyFluxViz.getFvPanel().getFluxSubnetCheckbox(); 
-    	if (checkbox.isSelected() == true){
-    		checkbox.doClick();
-    	}
-        CyNetwork network = Cytoscape.getCurrentNetwork();
-        CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
-        
-    	if (FluxVizUtil.hasCompleteSBMLTypeAttribute() == false){
-    		String title = "SBML type not complete.";
-    		String msg = "No complete 'sbml type' attribute.\nEvery node has to be classified as " +
-        			"either 'reaction' or 'species'.\nIf the network was not imported as SBML create attribute 'sbml type' manually\nand " +
-        			"classify all nodes as either 'reaction' or 'species'.";
-        	PanelDialogs.showMessage(msg, title);
-        	return;
-        }
-    	
-    	if (FluxVizUtil.hasCompleteStoichiometryAttribute() == false){
-    		String title = "Stoichiometry not complete.";
-    		String msg = "Every edge should have stoichiometric information associated.\n" +
-        			"Missing stoichiometric coefficients are handled as '1.0' in the visualisation.";
-    		PanelDialogs.showMessage(msg, title);
-        }
-    	
-        // Test if network for val files available
-        network.selectAllNodes();
-        if (networkView.getSelectedNodes().size() == 0) {
-        	String title = "No network warning.";
-        	String msg = "No nodes in network. Network must be loaded and selected before loading of val files.";
-        	PanelDialogs.showMessage(msg, title);
-        	return;
-        }
-        network.unselectAllNodes();
-    	
-	    // Select the val files and create the attributes
-    	File[] valFiles = FileUtil.selectValFiles();
-    	if (valFiles != null){
-    		for (int k=0; k<valFiles.length; ++k){
-    			FileUtil.createFluxDistributionFromValFile(valFiles[k]);
-    		}
-    	}
-    }
-    
+
     public static void createFluxDistributionFromValFile(File valFile){
 		if (! valFile.getAbsolutePath().endsWith(".val") ){
 			return;

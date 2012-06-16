@@ -5,16 +5,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
-
-import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDistribution;
 import cyfluxviz.FluxDistributionCollection;
 import cyfluxviz.attributes.AttributeUtils;
-import cyfluxviz.view.NetworkView;
 import cytoscape.Cytoscape;
 import cytoscape.dialogs.ExportAsGraphicsFileChooser;
 import cytoscape.dialogs.ExportBitmapOptionsDialog;

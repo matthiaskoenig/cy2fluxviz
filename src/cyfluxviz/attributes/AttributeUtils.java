@@ -37,8 +37,7 @@ public class AttributeUtils {
     	}    	
     	return fdIds;
 	}
-	
-	
+
 	/**
 	 * Get Node attributes from table model.
 	 * @return array of string node attribute names

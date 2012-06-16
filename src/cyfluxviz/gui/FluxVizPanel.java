@@ -24,6 +24,7 @@ import javax.swing.table.TableColumn;
 import cyfluxviz.FluxDistribution;
 import cyfluxviz.FluxDistributionCollection;
 import cyfluxviz.attributes.AttributeUtils;
+import cyfluxviz.attributes.FluxDistributionImporter;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
 import cyfluxviz.util.FileUtil;
@@ -75,12 +76,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         infoPane = new javax.swing.JEditorPane();
         helpScrollPane = new javax.swing.JScrollPane();
         helpPane = new javax.swing.JEditorPane();
-        examplesScrollPane = new javax.swing.JScrollPane();
-        examplePane = new javax.swing.JPanel();
-        examplesComboBox = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        examplesPane = new javax.swing.JEditorPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         fluxTable = new javax.swing.JTable();
         settingPane = new javax.swing.JTabbedPane();
@@ -256,49 +251,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 
         informationPane.addTab("Help", helpScrollPane);
 
-        examplePane.setBackground(java.awt.Color.white);
-
-        examplesComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                examplesComboBoxPropertyChange(evt);
-            }
-        });
-
-        jLabel1.setText("Select FluxViz Example");
-
-        jScrollPane1.setHorizontalScrollBar(null);
-
-        examplesPane.setContentType("text/html");
-        examplesPane.setEditable(false);
-        jScrollPane1.setViewportView(examplesPane);
-
-        javax.swing.GroupLayout examplePaneLayout = new javax.swing.GroupLayout(examplePane);
-        examplePane.setLayout(examplePaneLayout);
-        examplePaneLayout.setHorizontalGroup(
-            examplePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, examplePaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(examplePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                    .addComponent(examplesComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 156, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        examplePaneLayout.setVerticalGroup(
-            examplePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(examplePaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(examplesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        examplesScrollPane.setViewportView(examplePane);
-
-        informationPane.addTab("Examples", examplesScrollPane);
 
         jSplitPane1.setLeftComponent(informationPane);
         informationPane.getAccessibleContext().setAccessibleName("histogramm");
@@ -660,7 +612,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     }                                                  
 
     private void jButtonImportValActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        FileUtil.loadValFiles();
+        FluxDistributionImporter.loadValFiles();
     }                                                                                            
 
     private void jCheckBoxFluxSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                    
@@ -693,11 +645,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 				OpenBrowser.openURL(url.toString());
 			}
 		}
-    }                                        
-
-    private void examplesComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {                                                
-    	//TODO ? Why is this here ?
-    }                                               
+    }                                                                                 
 
     private void jCheckBoxAttributeSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                         
         NetworkView.changeSubnetView();
@@ -970,19 +918,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 		return infoScrollPane;
 	}
 
-    public javax.swing.JEditorPane getExamplesPane() {
-		return examplesPane;
-	}
-
-    public javax.swing.JComboBox getExamplesComboBox() {
-		return examplesComboBox;
-	}
-
     // Variables declaration - do not modify
-    private javax.swing.JPanel examplePane;
-    private javax.swing.JComboBox examplesComboBox;
-    private javax.swing.JEditorPane examplesPane;
-    private javax.swing.JScrollPane examplesScrollPane;
     private javax.swing.JPanel exportPanel;
     private javax.swing.JScrollPane exportScrollPane;
     private javax.swing.JScrollPane fluxMapScrollPane;
@@ -1014,7 +950,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     private javax.swing.JCheckBox jCheckBoxAttributeSubnet;
     private javax.swing.JCheckBox jCheckBoxFluxSubnet;
     private javax.swing.JCheckBox jCheckBoxNullVisible;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1023,7 +958,6 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
