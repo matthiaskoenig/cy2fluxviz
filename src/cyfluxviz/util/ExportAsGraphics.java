@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 
 import cyfluxviz.CyFluxViz;
-import cyfluxviz.attributes.FluxAttributeUtils;
+import cyfluxviz.attributes.AttributeUtils;
 import cyfluxviz.view.NetworkView;
 import cytoscape.Cytoscape;
 import cytoscape.dialogs.ExportAsGraphicsFileChooser;
@@ -28,10 +28,7 @@ import cytoscape.util.export.SVGExporter;
 import cytoscape.view.CyNetworkView;
 import cytoscape.view.InternalFrameComponent;
 
-/**
- * Action for exporting a network view to bitmap or vector graphics.
- * Multiple gra
- * 
+/* Action for exporting a network view to bitmap or vector graphics.
  * @author Samad Lotia, Matthias Koenig
  */
 public class ExportAsGraphics
@@ -43,16 +40,11 @@ public class ExportAsGraphics
 	private static ExportFilter SVG_FILTER = new SVGExportFilter();
 	private static ExportFilter EPS_FILTER = new PSExportFilter("eps", "EPS");
 	public static ExportFilter[] FILTERS = { PDF_FILTER, SVG_FILTER, EPS_FILTER, JPG_FILTER, PNG_FILTER, BMP_FILTER };
-	private static CyFluxViz fluxViz;
 	
+	public ExportAsGraphics(){}
 	
-	public ExportAsGraphics()
-	{
-	}
-	
-	/* Create images */
     public static void exportImage(){
-    	if (FluxAttributeUtils.getSelectedAttributes().length == 0){
+    	if (AttributeUtils.getSelectedAttributes().length == 0){
 			JOptionPane.showMessageDialog(null,
 					"No flux distributions selected for export.\n" +
 					"Select flux distributions before image export.", "No flux distribution selected", JOptionPane.WARNING_MESSAGE);
@@ -91,7 +83,7 @@ public class ExportAsGraphics
 				chooser.dispose();
 				
 				// get selected attributes in list
-		    	String[] attributes = FluxAttributeUtils.getSelectedAttributes();
+		    	String[] attributes = AttributeUtils.getSelectedAttributes();
 		    	if (attributes.length == 0){
 					JOptionPane.showMessageDialog(Cytoscape.getDesktop(),
 							"No flux distributions are selected for export.",

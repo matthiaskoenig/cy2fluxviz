@@ -4,20 +4,19 @@ import java.io.File;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
-
-import cyfluxviz.CyFluxViz;
-import cyfluxviz.attributes.FluxAttributeCreator;
-import cyfluxviz.attributes.FluxAttributeUtils;
-import cyfluxviz.gui.PanelDialogs;
-import cyfluxviz.vizmap.LoadVizmap;
 import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 import cytoscape.plugin.PluginManager;
 import cytoscape.view.CyNetworkView;
 import cytoscape.visual.CalculatorCatalog;
 
+import cyfluxviz.CyFluxViz;
+import cyfluxviz.FluxDistribution;
+import cyfluxviz.FluxDistributionCollection;
+import cyfluxviz.attributes.FluxDistributionImporter;
+import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.vizmap.LoadVizmap;
 
 public class FileUtil {
 
@@ -60,15 +59,7 @@ public class FileUtil {
         return valFiles;
     }
     
-    /*
-     * Loads *.val files and creates the corresponding attributes. 
-     * This function is called by clicking on 'Load val' in the FluxViz Control panel.
-     * The val files in the tableModel are updated after the val files are loaded.
-     * Some attribute tests and network tests are performed.
-     * 
-     * TODO: export the loading and generation into task.
-     * The process of attribute generation can take very long.
-     */
+   // TODO: Refactor all the tests
     public static void loadValFiles(){
     	JCheckBox checkbox = CyFluxViz.getFvPanel().getFluxSubnetCheckbox(); 
     	if (checkbox.isSelected() == true){
@@ -77,7 +68,6 @@ public class FileUtil {
         CyNetwork network = Cytoscape.getCurrentNetwork();
         CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
         
-        // TODO: Test the current network
     	if (FluxVizUtil.hasCompleteSBMLTypeAttribute() == false){
     		String title = "SBML type not complete.";
     		String msg = "No complete 'sbml type' attribute.\nEvery node has to be classified as " +
@@ -108,48 +98,22 @@ public class FileUtil {
     	File[] valFiles = FileUtil.selectValFiles();
     	if (valFiles != null){
     		for (int k=0; k<valFiles.length; ++k){
-    			FileUtil.createAttributesFromFile(valFiles[k]);
+    			FileUtil.createFluxDistributionFromValFile(valFiles[k]);
     		}
     	}
-	    FluxAttributeUtils.updateFluxAttributes();
     }
     
-    /* Creates the attributes from given val file. */
-    public static void createAttributesFromFile(File valFile){
-		if (! valFile.getAbsolutePath().endsWith(".val")){
+    public static void createFluxDistributionFromValFile(File valFile){
+		if (! valFile.getAbsolutePath().endsWith(".val") ){
 			return;
 		}
-		// load the data and create the attributes (changes the attributes in place)
-		@SuppressWarnings("unused")
-		FluxAttributeCreator faCreator = new FluxAttributeCreator(valFile);
+		FluxDistributionImporter fdImporter = new FluxDistributionImporter(valFile);
+		FluxDistribution fluxDistribution = fdImporter.getFluxDistribution();
+		FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+		fdCollection.addFluxDistribution(fluxDistribution);
     }
-    
-    public static File selectSimulationFile(){
-        File simFile = null;
-        int loadVal = JOptionPane.showConfirmDialog(Cytoscape.getDesktop(), "Select simulation file for the fluxes.\n" +
-        		"Only information from the last loaded simulation file is used. !",
-        		"Select simulation file", 0);
-        if (loadVal == 0){
-            JFileChooser fc = new JFileChooser();
-            
-            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);  
-            fc.setDialogTitle("Select simulation file.");
-            fc.setFileHidingEnabled(false); 
-            
-            if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                simFile = fc.getSelectedFile();
-            } else {
-            	JOptionPane.showMessageDialog(null, "No simulation file selected.");
-            }
-        }
-        else {
-        	JOptionPane.showMessageDialog(null, "No simulation file selected.");
-        }
-        return simFile;
-    }
-    
-    /* Loads the Visual Style necessary for the FluxViz Plugin. */
-    public static void loadViStyle(){
+        
+    public static void loadVisualStyle(){
         CalculatorCatalog calc_cat = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
         CyFluxViz.setViStyle(calc_cat.getVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE));
         

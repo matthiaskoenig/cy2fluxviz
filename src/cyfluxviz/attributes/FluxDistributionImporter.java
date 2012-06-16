@@ -19,18 +19,18 @@ public class FluxDistributionImporter {
 	private FluxDistribution fluxDistribution;
 	
 	
-	public FluxDistributionImporter(String filename){
-		importFromFile(filename);
+	public FluxDistributionImporter(File file){
+		importFromFile(file);
 	}
 	
 	public FluxDistribution getFluxDistribution(){
 		return fluxDistribution;
 	}
 	
-	private void importFromFile(String filename){
-		name = filename;
+	private void importFromFile(File file){
+		name = file.getName();
 		networkId = getCurrentNetworkId();
-		nodeFluxes = getNodeFluxesFromFile(filename);
+		nodeFluxes = getNodeFluxesFromFile(file);
 		// Reduce to nodes currently in Cytoscape
 		nodeFluxes = filterNodeFluxesInCytoscape(nodeFluxes);
 		
@@ -76,12 +76,11 @@ public class FluxDistributionImporter {
 		return id;
 	}
 	
-	private static HashMap<String, Double> getNodeFluxesFromFile(String filename){
+	private static HashMap<String, Double> getNodeFluxesFromFile(File file){
 		HashMap<String, Double> fluxes = new HashMap<String, Double> ();
 		String line;
 	    try {
-	      BufferedReader br = new BufferedReader(new FileReader(filename));
-	      // dis.available() returns 0 if the file does not have more lines.
+	      BufferedReader br = new BufferedReader(new FileReader(file));
 	      while ( (line = br.readLine()) != null){
 	    	  parseLineAndAddToMap(line, fluxes);
 	      } 
@@ -111,36 +110,6 @@ public class FluxDistributionImporter {
 	  		 e.printStackTrace();
 	  	  }
 	  } 
-	}
-	
-	
-	private static HashMap<String, Integer> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
-		// set the direction of the edges
-		direction = 1;
-		
-		// here problems with the edge direction
-		// TODO: test if interaction is available
-		// for edges to reactants the direction has to be reversed
-		edgeType = edge_attrs.getStringAttribute(edgeId, "interaction"); 
-		if (edgeType.equals("reaction-reactant")){
-			direction = - direction;
-		}
-		
-		// TODO: outsource in the SBML | XGMML generation 
-		// HepatoCore networks handle
-		if (edgeType.equals("pp")){
-			String objectType = edge_attrs.getStringAttribute(edgeId, "object_type");
-			if (objectType.equals("sink_in_event") || objectType.equals("product_in_event")){
-				direction = - direction;
-			}
-		}
-		
-		// if the flux is negative the edges have to be reversed
-		if (flux < 0){
-			direction = -direction;
-		}
-		edge_attrs.setAttribute(edgeId, attEdgeDirName, direction);
-		
 	}
 	
 	private static HashMap<String, Double> getEdgeFluxesFromNodeFluxes(){
@@ -178,14 +147,44 @@ public class FluxDistributionImporter {
 					}
 					//System.out.println("Stoichiometry: " + stoichiometry);
 					flux = stoichiometry * flux;
-					edge_attrs.setAttribute(edgeId, attEdgeName, Math.abs(flux));
-										
-					
+					edge_attrs.setAttribute(edgeId, attEdgeName, Math.abs(flux));	
 				}
 			}
 		}	
-		
 		return eFluxes;
 	}
+	
+	/* Not necessary, just change the flux value for the edges depending on the direction of the edges.
+	 * The flux for the edge contains than all the information. */
+	private static HashMap<String, Integer> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
+		// set the direction of the edges
+		direction = 1;
+		
+		// here problems with the edge direction
+		// TODO: test if interaction is available
+		// for edges to reactants the direction has to be reversed
+		edgeType = edge_attrs.getStringAttribute(edgeId, "interaction"); 
+		if (edgeType.equals("reaction-reactant")){
+			direction = - direction;
+		}
+		
+		// TODO: outsource in the SBML | XGMML generation 
+		// HepatoCore networks handle
+		if (edgeType.equals("pp")){
+			String objectType = edge_attrs.getStringAttribute(edgeId, "object_type");
+			if (objectType.equals("sink_in_event") || objectType.equals("product_in_event")){
+				direction = - direction;
+			}
+		}
+		
+		// if the flux is negative the edges have to be reversed
+		if (flux < 0){
+			direction = -direction;
+		}
+		edge_attrs.setAttribute(edgeId, attEdgeDirName, direction);
+		
+	}
+	
+
 	
 }

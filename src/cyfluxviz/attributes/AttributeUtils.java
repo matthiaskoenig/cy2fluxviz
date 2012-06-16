@@ -19,7 +19,7 @@ import cytoscape.data.CyAttributes;
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.gui.FluxVizPanel;
 
-public class FluxAttributeUtils {
+public class AttributeUtils {
 
         
 	/**
@@ -74,18 +74,11 @@ public class FluxAttributeUtils {
 		return valueSet;
 	}
 	
-	
     public static void initNodeAttributeList(String attribute){    	
     	// 1. Get the possible values that can occur in the attribute
     	Object[] listObjects = getValueSet(attribute).toArray();
     	Arrays.sort(listObjects);
-    	System.out.println("Values:");
-    	for (Object obj: listObjects){
-    		System.out.println(obj);
-    	}
     	// Set the values in the list
-    	
-    	
 		// 2.Set table model
         DefaultListModel model = new DefaultListModel();
         for (Object obj: listObjects){

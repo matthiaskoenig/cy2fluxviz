@@ -5,33 +5,26 @@ import javax.swing.SwingConstants;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import cyfluxviz.attributes.FluxAttributeUtils;
-import cyfluxviz.gui.FluxVizPanel;
-import cyfluxviz.gui.PanelDialogs;
-import cyfluxviz.util.Installation;
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
 import cytoscape.view.CytoscapeDesktop;
 import cytoscape.view.cytopanels.*;
 import cytoscape.visual.VisualStyle;
 
+import cyfluxviz.gui.FluxVizPanel;
+import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.util.Installation;
 
 /**
- * The CyFluxViz Cytoscape plugin visualizes flux information within Cytoscape networks.
+ * CyFluxViz visualizes flux information within Cytoscape networks.
+ * 
  * Networks are imported as SBML models (sbml stoichiometry is used for scaling fluxes)
  * Flux distributions can be imported as edge information or as reaction flux.
  * Certain node and edge attributes are mandatory and are normally made available from 
  * the imported SBML via CySBML.
  * 
- * TODO : handle all the data in one data structure, which can be accessed via
- * a HashMap. Precalculate all the information. 
- * FluxDistributions are managed in an easy way. On Selection the corresponding
- * data is copied to the cyFlux node and edge attribute.
- * 
  * TODO : add option for removal of flux distributions and filtering.
- * 
  * TODO : no activation at startup, only on selection 
- * 
  * TODO : Reduce the calculation overhead, problematic for large networks (Test with HepatoNet)
  * 
  * @author Matthias Koenig
@@ -46,8 +39,9 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 	public static final String VERSION = "v0.82";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
-	public static final String NODE_ATTRIBUTE = "cyFlux";
-	public static final String EDGE_ATTRIBUTE = "cyFlux";
+	public static final String NODE_ATTRIBUTE = "nodeFlux";
+	public static final String EDGE_ATTRIBUTE = "edgeFlux";
+	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 	
 	private static FluxVizPanel fvPanel;
 	private static VisualStyle viStyle;
@@ -60,11 +54,16 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
     	Cytoscape.getPropertyChangeSupport().
 			addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
 
+    	// TODO: Manage all this stuff in the panel and only activate after click
+    	// on the respective plugin icon in the menubar
     	createFluxVizPanel();
+    	
+    	// TODO: Manage the installation in a better way (no installation necessary ?)
     	Installation.doInstallation();
     }
         
     private void createFluxVizPanel(){
+
 		fvPanel = new FluxVizPanel();
 		CytoPanel cytoPanel = getCytoPanel();
 		cytoPanel.add(NAME, fvPanel);
@@ -72,7 +71,8 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		PanelDialogs.setHelp(fvPanel);
 		PanelDialogs.setFluxVizInfo(fvPanel);
 		
-		FluxAttributeUtils.initNodeAttributeComboBox();
+		// Set the Visual Style at the beginning from the file
+		
     }
     
     private static CytoPanel getCytoPanel(){
@@ -101,19 +101,21 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		viStyle = newViStyle;
 	}
     
-    // Handle all via FluxDistributions
+    
+    // Handle all via FluxDistributions and via the panel
 	public void propertyChange(PropertyChangeEvent e) {
-		! Calculate based on FluxDistributionCollection
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.ATTRIBUTES_CHANGED))
 		{
-			FluxAttributeUtils.updateFluxAttributes();
-			FluxAttributeUtils.initNodeAttributeComboBox();
+			System.out.println("ATTRIBUTE CHANGED -> HANDLE IN MAPPING");
+			//FluxAttributeUtils.updateFluxAttributes();
+			//FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 		
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED))
 		{
-			FluxAttributeUtils.updateFluxAttributes();
-			FluxAttributeUtils.initNodeAttributeComboBox();
+			System.out.println("SESSION LOADED -> HANDLE IN MAPPING");
+			//FluxAttributeUtils.updateFluxAttributes();
+			//FluxAttributeUtils.initNodeAttributeComboBox();
 			
 			//reset the view
 			fvPanel.getAttributeSubnetCheckbox().setSelected(false);
@@ -122,7 +124,8 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		
 		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
 		{
-			FluxAttributeUtils.initNodeAttributeComboBox();
+			System.out.println("NETWORK_VIEW_FOCUSED -> HANDLE IN MAPPING");
+			//FluxAttributeUtils.initNodeAttributeComboBox();
 		}
 	} 
 }

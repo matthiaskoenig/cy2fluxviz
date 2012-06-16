@@ -11,8 +11,8 @@
 
 package cyfluxviz.gui;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.util.Set;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
@@ -21,22 +21,20 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import cyfluxviz.CyFluxViz;
+import cyfluxviz.FluxDistribution;
 import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.FluxStatistics;
-import cyfluxviz.attributes.FluxAttributeUtils;
+import cyfluxviz.attributes.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
 import cyfluxviz.util.FileUtil;
 import cyfluxviz.view.ApplyEdgeWidthMapping;
 import cyfluxviz.view.NetworkView;
-import cyfluxviz.view.NetworkViewTools;
+import cyfluxviz.view.ViewTools;
 import cytoscape.util.OpenBrowser;
 
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -711,16 +709,16 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         int index = nodeAttributeComboBox.getSelectedIndex();
         if (index!= -1){
             String attribute = (String) nodeAttributeComboBox.getSelectedItem();
-            FluxAttributeUtils.initNodeAttributeList(attribute);
+            AttributeUtils.initNodeAttributeList(attribute);
         }
     }                                                     
 
     private void hideButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkViewTools.hideAllNodesAndEdgesInCurrentView();
+        ViewTools.hideAllNodesAndEdgesInCurrentView();
     }                                          
 
     private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkViewTools.showAllNodesAndEdgesInCurrentView();
+        ViewTools.showAllNodesAndEdgesInCurrentView();
     }                                          
 
     private void nodeAttributeListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                               
@@ -745,30 +743,31 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     }
     
     private void updateMappingView(){
-        // Get the values for the maxFlux and the maxEdgeWidth
-        // depending on local and global settings 
-        double maxFlux = 0.0;
-        if (globalMaxBox.isSelected()){
-            maxFlux = CyFluxViz.getFluxStatistics().getGlobalMaxFlux() * 1.01;
-        }
-        else {
-            // Get the selected attribute and use the local value
-            int selected = fluxTable.getSelectedRow();
-            if (selected != -1){
-                String attribute = (String)tableModel.getValueAt(selected, 0);
-                maxFlux = CyFluxViz.getFluxStatistics().getFluxStatistics(attribute).getAbsMax() * 1.01;
-            }
-        }
-
+    	double maxFlux = getMaxFluxForMapping();
         double minEdgeWidth = Double.parseDouble(minEdgeWidthField.getText());
         double maxEdgeWidth = Double.parseDouble(maxEdgeWidthField.getText());
 
-        // Apply the mapping with the new values
         ApplyEdgeWidthMapping tmp = new ApplyEdgeWidthMapping(maxFlux, minEdgeWidth, maxEdgeWidth);
         tmp.changeMapping();
 
         // Update mapping view
+        // ? What is this doing exactly
         imageIconLabel.setIcon(C2CMappingEditor.getIcon(161, 94, VisualPropertyType.EDGE_LINE_WIDTH));
+    }
+    
+    private double getMaxFluxForMapping(){
+    	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();   
+    	double maxFlux = 0.0;
+        if (globalMaxBox.isSelected()){
+            maxFlux = fdCollection.getGlobalAbsMax() * 1.01;
+        }
+        else if (fdCollection.hasActiveFluxDistribution()){
+            maxFlux = fdCollection.getActiveFluxDistribution().getFluxStatistics().getAbsMax() * 1.01;
+        } else {
+        	System.out.println("No global or local ABS MAX setting applied !");
+        	maxFlux = 1.0;
+        }
+        return maxFlux;
     }
 
     private void localMaxBoxActionPerformed(java.awt.event.ActionEvent evt) {                                            
@@ -869,17 +868,15 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
         clearTable();
         
         FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
-        String[] fdIds = fdCollection.getIdArray();
-        
-        for (int i=0; i<fdIds.length; ++i){
+        Set<String> fdIds = fdCollection.getIdSet();
+        for (String fdId : fdIds){
+        	FluxDistribution fd = fdCollection.getFluxDistribution(fdId);
+        	
         	Object[] row = new Object[columnNames.length];
-            row[0] = fdIds[i];
-            row[1] = null;
-            row[2] = null;
+            row[0] = fdId;
+            row[1] = fd.getFluxStatistics().getMin();
+            row[2] = fd.getFluxStatistics().getMax();
             
-            // TODO: Set the absMin and absMax based on the FluxStatistics for the FD
-            // row[1] = fluxStat.getMin();
-            // row[2] = fluxStat.getMax();
             tableModel.addRow(row);
         }
         selectFirstFluxDistribution();

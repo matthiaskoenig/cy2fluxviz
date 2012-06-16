@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import cyfluxviz.CyFluxViz;
+import cyfluxviz.FluxDistributionCollection;
 import cyfluxviz.FluxStatistics;
 import cyfluxviz.gui.FluxVizPanel;
 import cyfluxviz.util.FileUtil;
@@ -23,7 +24,6 @@ import cytoscape.visual.CalculatorCatalog;
 import cytoscape.visual.EdgeAppearanceCalculator;
 import cytoscape.visual.VisualMappingManager;
 import cytoscape.visual.VisualPropertyType;
-import cytoscape.visual.VisualStyle;
 import cytoscape.visual.calculators.Calculator;
 import cytoscape.visual.mappings.ContinuousMapping;
 import cytoscape.visual.mappings.DiscreteMapping;
@@ -56,7 +56,7 @@ public class NetworkView {
     	}
     	if (fluxBox.isSelected() == false ) { //&& table.getSelectedRow() != -1
     		if (attributeBox.isSelected() == false){
-    			NetworkViewTools.showAllNodesAndEdgesInCurrentView();	
+    			ViewTools.showAllNodesAndEdgesInCurrentView();	
     		}else{
     			viewAttributeSubnet();
     		}		
@@ -72,7 +72,7 @@ public class NetworkView {
     	String edgeAttribute = nodeAttribute + "_edge";
     	
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
-        NetworkViewTools.hideAllNodesAndEdgesInView(view);
+        ViewTools.hideAllNodesAndEdgesInView(view);
 		
         List<CyNode> nodeList = Cytoscape.getCyNodesList();
     	List<CyEdge> edgeList = Cytoscape.getCyEdgesList();
@@ -151,7 +151,7 @@ public class NetworkView {
 		}
 		//2.2 make flux subnetwork visible
     	CyNetworkView view = Cytoscape.getCurrentNetworkView();
-    	NetworkViewTools.hideAllNodesAndEdgesInView(view);
+    	ViewTools.hideAllNodesAndEdgesInView(view);
 		CyNode node;
 		for (CyEdge edge: fluxEdges){
 			//show source and target nodes
@@ -224,7 +224,7 @@ public class NetworkView {
 				visibleNodes.add(node);
 			}
 		}
-		NetworkViewTools.showNodesInView(visibleNodes, view);
+		ViewTools.showNodesInView(visibleNodes, view);
 		
 		//make edges with visible source and target node visible
 		for (CyEdge edge: edgeList){
@@ -235,29 +235,18 @@ public class NetworkView {
 		}		
 		view.updateView();
     }
-    
-	
-    /*
-     * Apply the flux view to the current network based on the selected flux 
-     * distribution. 
-     * TODO: Speed improvements -> very slow, especially for large networks.
-     */
-    public static void applyFluxVizView (String attribute){
-        String edgeAttribute = attribute + "_edge";
-        String edgeDirAttribute = attribute + "_edge_dir";
+    	
+    public static void applyFluxVizView (){
+        
+    	String edgeAttribute = CyFluxViz.EDGE_ATTRIBUTE;
+        String edgeDirAttribute = CyFluxViz.EDGE_DIRECTION_ATTRIBUTE;
 
         CyNetwork network = Cytoscape.getCurrentNetwork();
         VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
         CalculatorCatalog calc_cat = vmm.getCalculatorCatalog();
         CyNetworkView view = Cytoscape.getCurrentNetworkView();
         
-        if (CyFluxViz.getViStyle() == null){
-        	FileUtil.loadViStyle();
-        }
-        if (!NetworkViewTools.currentViStyleIsFluxVizStyle(vmm.getVisualStyle())){
-        	view.setVisualStyle(CyFluxViz.getViStyle().getName());
-            vmm.setVisualStyle(CyFluxViz.getViStyle());	
-        }
+        setFluxVizVisualStyleForView(view);
         
         // CHANGE THE ATTRIBUTES
         // 1. NODE COLOR
@@ -271,7 +260,6 @@ public class NetworkView {
         // change mapping in the calculator
         continuousMapping.setControllingAttributeName(attribute, network, false);
         */
-
         // 2. NODE SIZE
         // Get the Calculator for nodeColor
         /*Calculator nodeSizeCalculator = nodeAppCalc.getCalculator(VisualPropertyType.NODE_SIZE);
@@ -324,6 +312,8 @@ public class NetworkView {
         vmm.applyAppearances();
         
         
+        
+        
         // Handle the subnetwork feature (different flux subnetworks for the 
         // different flux distributions
         FluxVizPanel panel = CyFluxViz.getFvPanel(); 
@@ -334,23 +324,27 @@ public class NetworkView {
         	Cytoscape.getCurrentNetworkView().updateView();
         }
         
-        String info = "";
-
-        // Get current FluxStatistics and use for information
-        FluxStatisticsMap fluxMap = CyFluxViz.getFluxStatistics();
-        if (fluxMap != null){
-        	FluxStatistics fluxStat = CyFluxViz.getFluxStatistics().getFluxStatistics(attribute);
-        	info += fluxStat.toHTML();
-        }
-        
-        // set text and make the tab active
-        panel.updateInfoPaneHTMLText(info);
-        panel.selectInfoPane();
-        
         applyVisualStyleToView(Cytoscape.getCurrentNetworkView());
+        updateFluxDistributionInformation();
     }
   
-
+    public static void updateFluxDistributionInformation(){
+    	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+        FluxStatistics fdStatistics = fdCollection.getActiveFluxDistribution().getFluxStatistics();
+    	
+        String info = fdStatistics.toHTML();
+        FluxVizPanel panel = CyFluxViz.getFvPanel();
+        panel.updateInfoPaneHTMLText(info);
+        panel.selectInfoPane();
+    }
+    
+    public static void setFluxVizVisualStyleForView(CyNetworkView view){
+        if (!ViewTools.currentVisualStyleIsFluxVizVisualStyle()){
+        	view.setVisualStyle(CyFluxViz.getViStyle().getName());
+            Cytoscape.getVisualMappingManager().setVisualStyle(CyFluxViz.getViStyle());	
+        }
+    }
+    
     public static void applyVisualStyleToView(CyNetworkView view){
     	String vsName = CyFluxViz.getViStyle().getName();
     	VisualMappingManager vmm = Cytoscape.getVisualMappingManager();
