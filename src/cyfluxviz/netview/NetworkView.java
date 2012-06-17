@@ -6,13 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.help.Map;
 import javax.swing.JCheckBox;
 
 import cyfluxviz.CyFluxViz;
-import cyfluxviz.FluxDis;
-import cyfluxviz.FluxDisCollection;
-import cyfluxviz.FluxDisStatistics;
 import cyfluxviz.gui.CyFluxVizPanel;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
@@ -21,7 +17,6 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 import cytoscape.view.CyNetworkView;
 import cytoscape.visual.ArrowShape;
-import cytoscape.visual.CalculatorCatalog;
 import cytoscape.visual.EdgeAppearanceCalculator;
 import cytoscape.visual.VisualMappingManager;
 import cytoscape.visual.VisualPropertyType;
@@ -32,11 +27,13 @@ import cytoscape.visual.mappings.PassThroughMapping;
 
 public class NetworkView {
 	
-    public static void changeSubnetView(){
+    public static void changeSubNetworkView(){
+    	// Calculate the visibility attribute for node and edges in the FluxDistribution
+    	// Depending on the selections
+    	
     	CyFluxVizPanel panel = CyFluxViz.getFvPanel();
     	JCheckBox fluxBox = panel.getFluxSubnetCheckbox(); 
     	JCheckBox attributeBox = panel.getAttributeSubnetCheckbox();
-    	
     	if        (fluxBox.isSelected() && attributeBox.isSelected()){ 
     		viewFluxAttributeSubnet();
     	} else if (fluxBox.isSelected() && !attributeBox.isSelected()){

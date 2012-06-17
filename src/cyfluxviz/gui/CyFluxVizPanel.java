@@ -615,7 +615,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
 
     private void jCheckBoxFluxSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         if (getFluxTable().getModel().getRowCount() > 0){
-            NetworkView.changeSubnetView();
+            NetworkView.changeSubNetworkView();
         }
     }         
 
@@ -646,7 +646,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
     }                                                                                 
 
     private void jCheckBoxAttributeSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                         
-        NetworkView.changeSubnetView();
+        NetworkView.changeSubNetworkView();
     }                                                        
 
     private void nodeAttributeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                      
@@ -675,13 +675,13 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
                 return;
             }
             else{
-                NetworkView.changeSubnetView();
+                NetworkView.changeSubNetworkView();
             }
         }
     }                                              
 
     private void jCheckBoxNullVisibleActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        NetworkView.changeSubnetView();
+        NetworkView.changeSubNetworkView();
     }                                                    
 
     public void selectInfoPane(){
