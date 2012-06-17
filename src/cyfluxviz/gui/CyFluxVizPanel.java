@@ -25,11 +25,10 @@ import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.io.FluxDistributionImporter;
 import cyfluxviz.netview.NetworkView;
-import cyfluxviz.netview.ViewTools;
+import cyfluxviz.netview.NetworkViewTools;
 import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
-import cyfluxviz.util.FileUtil;
 import cyfluxviz.vizmap.ApplyEdgeWidthMapping;
 import cytoscape.util.OpenBrowser;
 
@@ -44,7 +43,7 @@ import java.awt.event.WindowListener;
 public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionListener {
 	
     private DefaultTableModel tableModel;
-	private final String[] columnNames = {"Name", "Min", "Max"};
+	private final String[] columnNames = {"Name", "Network", "Id"};
     
     public CyFluxVizPanel() {
         initComponents();
@@ -662,11 +661,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
     }                                                     
 
     private void hideButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        ViewTools.hideAllNodesAndEdgesInCurrentView();
+        NetworkViewTools.hideAllNodesAndEdgesInCurrentView();
     }                                          
 
     private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        ViewTools.showAllNodesAndEdgesInCurrentView();
+        NetworkViewTools.showAllNodesAndEdgesInCurrentView();
     }                                          
 
     private void nodeAttributeListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                               
@@ -816,15 +815,13 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         clearTable();
         
         FluxDisCollection fdCollection = FluxDisCollection.getInstance();
-        Set<String> fdIds = fdCollection.getIdSet();
-        for (String fdId : fdIds){
+        for (String fdId : fdCollection.getIdSet()){
         	FluxDis fd = fdCollection.getFluxDistribution(fdId);
         	
         	Object[] row = new Object[columnNames.length];
-            row[0] = fdId;
-            row[1] = fd.getFluxStatistics().getMin();
-            row[2] = fd.getFluxStatistics().getMax();
-            
+            row[0] = fd.getName();
+            row[1] = fd.getNetworkId();
+            row[2] = fdId;
             tableModel.addRow(row);
         }
         selectFirstFluxDistribution();
@@ -862,9 +859,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         	int selected = fluxTable.getSelectedRow();
             if (selected != -1){	
             	// Activate FluxDistribution
-                String fdId = (String)tableModel.getValueAt(selected, 0);
-                
+                String fdId = (String)tableModel.getValueAt(selected, 2);
                 fdCollection.setFluxDistributionActive(fdId);
+                // Update information
+                NetworkViewTools.updateFluxDistributionInformation();
+                
             } else {
             	// Deactivate FluxDistribution
             	fdCollection.deactivateFluxDistribution();
@@ -890,9 +889,6 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
     public javax.swing.JTabbedPane getInformationPane(){
         return informationPane;
     }
-    private javax.swing.JEditorPane getInfoPane() {
-		return infoPane;
-	}
 
     public javax.swing.JPanel getHistogramPane() {
 		return histogrammPane;

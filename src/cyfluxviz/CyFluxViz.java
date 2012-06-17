@@ -4,7 +4,6 @@ import javax.swing.SwingConstants;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
@@ -14,6 +13,7 @@ import cytoscape.visual.VisualStyle;
 
 import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.gui.PanelText;
+import cyfluxviz.netview.NetworkView;
 import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.Installation;
@@ -44,10 +44,10 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
 	
-	public static final String NODE_FLUX_ATTRIBUTE = "CFV Flux";
-	public static final String NODE_VISIBILITY_ATTRIBUTE = "CFV Visibility";
-	public static final String EDGE_FLUX_ATTRIBUTE = "CFV Flux";
-	public static final String EDGE_VISIBILITY_ATTRIBUTE = "CFV Visibility";
+	public static final String NODE_FLUX_ATTRIBUTE = "nodeFlux";
+	public static final String NODE_VISIBILITY_ATTRIBUTE = "nodeVisibility";
+	public static final String EDGE_FLUX_ATTRIBUTE = "edgeFlux";
+	public static final String EDGE_VISIBILITY_ATTRIBUTE = "edgeVisibility";
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 	
 	private static CyFluxVizPanel fvPanel;
@@ -80,13 +80,12 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 		PanelText.setFluxVizInfo(fvPanel);
 		
 		// Set the Visual Style at the beginning
-		System.out.println("CyFluxViz[INFO] -> Loading Visual Style");
-		String propsFilename = FileUtil.getFluxVizDataDirectory() + "/data/" + DEFAULTVISUALSTYLE + ".props";
-		File propertyFile = new File(propsFilename);
-		LoadVizmap loadVM = new LoadVizmap(propertyFile);
-		LoadVizmap.setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
-		System.out.println("VisualStyle: " + CyFluxViz.getViStyle().getName());
-		
+		String filenameVS = FileUtil.getFluxVizDataDirectory() + "/data/" + DEFAULTVISUALSTYLE + ".props";
+		LoadVizmap loadVM = new LoadVizmap(filenameVS);
+		loadVM.loadPropertyFile();
+		LoadVizmap.setCyFluxVizVisualStyle();
+		// Create mapping to the defined attributes in the visual style
+		NetworkView.createCyFluxVizMapping();
     }
     
     private static CytoPanel getCytoPanel(){
@@ -98,7 +97,7 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 	}
 	
     public String describe() {
-        String description = "FluxViz - Visualisation of flux distributions.";
+        String description = "CyFluxViz - Visualise fluxes in Cytoscape networks.";
         return description;
     }
      
@@ -114,7 +113,6 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
     public static void setViStyle(VisualStyle newViStyle) {
 		viStyle = newViStyle;
 	}
-    
     
     // Handle all via FluxDistributions and via the panel
 	public void propertyChange(PropertyChangeEvent e) {

@@ -1,7 +1,6 @@
 package cyfluxviz.vizmap;
 
 import java.io.File;
-import java.util.Set;
 
 import cyfluxviz.CyFluxViz;
 import cytoscape.Cytoscape;
@@ -12,16 +11,26 @@ import cytoscape.util.FileUtil;
 import cytoscape.visual.CalculatorCatalog;
 import cytoscape.visual.VisualStyle;
 
-/* Loads the visual style from given property file. */
 public class LoadVizmap {
+	private File propertyFile;
 	
-	public LoadVizmap(File propertyFile){
-		if (propertyFile == null){
-			propertyFile = getVizmapPropertyFile();
+	public LoadVizmap(File file){
+		propertyFile = getPropertyFile(file);
+	}
+	public LoadVizmap(String filename){
+		propertyFile = getPropertyFile(filename);
+	}
+	
+	private File getPropertyFile(String filename){
+		File file = new File(filename);
+		return getPropertyFile(file);
+	}
+	
+	private File getPropertyFile(File file){
+		if (file == null){
+			file = getVizmapPropertyFile();
 		}
-		if (propertyFile != null) {
-			loadPropertyFile(propertyFile);
-		}
+		return file;
 	}
 	
 	private File getVizmapPropertyFile(){
@@ -32,27 +41,29 @@ public class LoadVizmap {
 	                                   new CyFileFilter[] { propsFilter });
 	}
 	
-	private static void loadPropertyFile(File propertyFile){
-		LoadVizmapTask task = new LoadVizmapTask(propertyFile);
-		final JTaskConfig jTaskConfig = new JTaskConfig();
-		jTaskConfig.setOwner(Cytoscape.getDesktop());
-		jTaskConfig.displayCloseButton(true);
-		jTaskConfig.displayStatus(false);
-		jTaskConfig.setAutoDispose(true);
-		TaskManager.executeTask(task, jTaskConfig);
+	public void loadPropertyFile(){
+		if (propertyFile != null) {
+			System.out.println("CyFluxViz[INFO] -> load VisualStyle Property file");
+			System.out.println(propertyFile.getName());
+			LoadVizmapTask task = new LoadVizmapTask(propertyFile);
+			final JTaskConfig jTaskConfig = new JTaskConfig();
+			jTaskConfig.setOwner(Cytoscape.getDesktop());
+			jTaskConfig.displayCloseButton(true);
+			jTaskConfig.displayStatus(false);
+			jTaskConfig.setAutoDispose(true);
+			TaskManager.executeTask(task, jTaskConfig);
+		} else {
+			System.out.println("CyFluxViz[INFO] -> no VisualStyle property file found !");
+		}		
+	}
+	
+	public static void setCyFluxVizVisualStyle(){
+		setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
 	}
 	
 	public static void setVisualStyle(String vsName){
 		CalculatorCatalog calcCatalog = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
-		Set<String> styles = calcCatalog.getVisualStyleNames();
-		System.out.println("Available VisualStyles");
-		for (String name: styles){
-			System.out.println(name);
-		}
-		System.out.println("-> Name: " + vsName);
-		
 		VisualStyle vs = calcCatalog.getVisualStyle(vsName);
-		
 		CyFluxViz.setViStyle(vs);
 	}
 }

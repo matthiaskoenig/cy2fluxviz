@@ -51,7 +51,7 @@ public class FluxDistributionImporter {
 	public String getFluxDistributionNameFromFile(File file){
 		String name = file.getName();
 		// remove the .val ending
-		name.substring(0, name.length()-4);
+		name = name.substring(0, name.length()-4);
 		return name;
 	}
 	
@@ -89,6 +89,8 @@ public class FluxDistributionImporter {
 		CyNetwork network = Cytoscape.getCurrentNetwork();
 		if (network != null){
 			id = network.getIdentifier();
+		} else {
+			System.out.println("CyFluxViz[INFO] -> No Network associated with FluxDistribution");
 		}
 		return id;
 	}
@@ -188,7 +190,7 @@ public class FluxDistributionImporter {
 				direction = -direction;
 			}
 			
-			FluxDirection fluxDirection = FluxDirection.NORMAL;
+			FluxDirection fluxDirection = FluxDirection.FORWARD;
 			if (direction < 0){ 
 				fluxDirection = FluxDirection.REVERSE;
 			}

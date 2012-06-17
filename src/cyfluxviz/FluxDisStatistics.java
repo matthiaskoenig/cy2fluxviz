@@ -15,6 +15,7 @@ public class FluxDisStatistics {
 	private double absMax = 0.0;
 	private double absMean = 0.0;
 	private double fluxFraction = 0.0;
+	private int zeroEdgeCount = 0;
 	private int networkEdgeCount = 0;
 	private int fluxEdgeCount = 0;
 
@@ -33,6 +34,7 @@ public class FluxDisStatistics {
 
 		HashMap<String, Double> fluxes = fluxDistribution.getEdgeFluxes();
 		fluxEdgeCount = fluxes.size();
+		zeroEdgeCount = 0;
 
 		Double absSum = 0.0;
 		for (Double flux : fluxes.values()) {
@@ -53,8 +55,11 @@ public class FluxDisStatistics {
 			if (Math.abs(flux) > absMax) {
 				absMax = flux;
 			}
+			if (flux == 0.0){
+				zeroEdgeCount++;
+			}
 		}
-		fluxFraction = 1.0 * fluxEdgeCount / networkEdgeCount;
+		fluxFraction = 1.0 * (fluxEdgeCount-zeroEdgeCount) / networkEdgeCount;
 		absMean = absSum / fluxEdgeCount;
 	}
 
@@ -75,17 +80,17 @@ public class FluxDisStatistics {
 	}
 
 	public String toHTML() {
-		String out = String.format(PanelText.getHTMLHeader()
-						+ "<b>Properties of selected flux distribution</b> <br>"
+		String out = String.format(
+						  "<b>Statistics</b> <br>"
 						+ "<table>"
-						+ "<tr><td><i>min</i></td>           <td>%.3f</td></tr>"
-						+ "<tr><td><i>max</i></td>           <td>%.3f</td></tr>"
-						+ "<tr><td><i>absMin</i></td>        <td>%.3f</td></tr>"
-						+ "<tr><td><i>absMax</i></td>        <td>%.3f</td></tr>"
-						+ "<tr><td><i>absMean</i></td>       <td>%.3f</td></tr>"
+						+ "<tr><td><i>Min Flux</i></td>           <td>%.3f</td></tr>"
+						+ "<tr><td><i>Max Flux</i></td>           <td>%.3f</td></tr>"
+						+ "<tr><td><i>Abs Min</i></td>        <td>%.3f</td></tr>"
+						+ "<tr><td><i>Abs Max</i></td>        <td>%.3f</td></tr>"
+						+ "<tr><td><i>Abs Mean</i></td>       <td>%.3f</td></tr>"
 						+ "<tr><td><i>fluxFraction</i></td>  <td>%.3f [%d/%d] </td></tr>"
 						+ "</table>", min, max, absMin, absMax, absMean,
-						fluxFraction, fluxEdgeCount, networkEdgeCount);
+						fluxFraction, (fluxEdgeCount-zeroEdgeCount), networkEdgeCount);
 		return out;
 	}
 
