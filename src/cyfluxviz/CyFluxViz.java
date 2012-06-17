@@ -27,9 +27,14 @@ import cyfluxviz.vizmap.LoadVizmap;
  * Certain node and edge attributes are mandatory and are normally made available from 
  * the imported SBML via CySBML.
  * 
- * TODO : add option for removal of flux distributions and filtering.
  * TODO : no activation at startup, only on selection 
  * TODO : Reduce the calculation overhead, problematic for large networks (Test with HepatoNet)
+ * 		  (Especially the subnetwork generation)
+ * TODO : support of multiple visual styles & settings panel for different styles
+ * TODO : export, loading of set of flux distributions
+ * TODO : creation of VisualSyle instead of import
+ * TODO : Context menu for flux distributions -> filter for networkId or other criteria,
+ * 		  Removal of Flux distributions
  * 
  * @author Matthias Koenig
  * @version 0.82

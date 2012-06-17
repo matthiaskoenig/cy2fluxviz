@@ -1,13 +1,16 @@
 package cyfluxviz.io;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBException;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDirection;
 import cyfluxviz.FluxDis;
-import cyfluxviz.FluxDisCollection;
 import cyfluxviz.gui.PanelText;
 import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.FluxVizUtil;
@@ -15,7 +18,9 @@ import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
+import cytoscape.actions.LoadNetworkTask;
 import cytoscape.data.CyAttributes;
+import cytoscape.dialogs.ImportNetworkDialog;
 import cytoscape.view.CyNetworkView;
 
 /* Val file importer (simple key/value pairs for reactions). */
@@ -205,7 +210,6 @@ public class FluxDistributionImporter {
     	if (checkbox.isSelected() == true){
     		checkbox.doClick();
     	}
-    	
         CyNetwork network = Cytoscape.getCurrentNetwork();
         CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
         

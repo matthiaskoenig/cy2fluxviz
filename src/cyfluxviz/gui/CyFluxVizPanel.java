@@ -12,7 +12,6 @@
 package cyfluxviz.gui;
 
 import java.net.URL;
-import java.util.Set;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;

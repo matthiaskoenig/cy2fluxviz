@@ -1,20 +1,15 @@
 package cyfluxviz.util;
 
 import java.io.File;
-
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 
-import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 import cytoscape.plugin.PluginManager;
-import cytoscape.view.CyNetworkView;
 import cytoscape.visual.CalculatorCatalog;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
-import cyfluxviz.gui.PanelText;
 import cyfluxviz.io.FluxDistributionImporter;
 import cyfluxviz.vizmap.LoadVizmap;
 
@@ -47,7 +42,6 @@ public class FileUtil {
     public static File[] selectValFiles(){    	
         File[] valFiles = null;
         JFileChooser fc = new JFileChooser();
-        
         fc.setFileHidingEnabled(false); 
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(true);
