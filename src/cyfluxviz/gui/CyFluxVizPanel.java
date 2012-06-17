@@ -21,16 +21,16 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import cyfluxviz.FluxDistribution;
-import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.attributes.AttributeUtils;
-import cyfluxviz.attributes.FluxDistributionImporter;
+import cyfluxviz.FluxDis;
+import cyfluxviz.FluxDisCollection;
+import cyfluxviz.io.FluxDistributionImporter;
+import cyfluxviz.netview.NetworkView;
+import cyfluxviz.netview.ViewTools;
+import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
 import cyfluxviz.util.FileUtil;
-import cyfluxviz.view.ApplyEdgeWidthMapping;
-import cyfluxviz.view.NetworkView;
-import cyfluxviz.view.ViewTools;
+import cyfluxviz.vizmap.ApplyEdgeWidthMapping;
 import cytoscape.util.OpenBrowser;
 
 import cytoscape.visual.VisualPropertyType;
@@ -41,12 +41,12 @@ import java.awt.event.WindowListener;
 
 
 @SuppressWarnings("serial")
-public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionListener {
+public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionListener {
 	
     private DefaultTableModel tableModel;
 	private final String[] columnNames = {"Name", "Min", "Max"};
     
-    public FluxVizPanel() {
+    public CyFluxVizPanel() {
         initComponents();
 		initTable();
     }
@@ -704,7 +704,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     }
     
     private double getMaxFluxForMapping(){
-    	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();   
+    	FluxDisCollection fdCollection = FluxDisCollection.getInstance();   
     	double maxFlux = 0.0;
         if (globalMaxBox.isSelected()){
             maxFlux = fdCollection.getGlobalAbsMax() * 1.01;
@@ -815,10 +815,10 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
     public void updateTable(){
         clearTable();
         
-        FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+        FluxDisCollection fdCollection = FluxDisCollection.getInstance();
         Set<String> fdIds = fdCollection.getIdSet();
         for (String fdId : fdIds){
-        	FluxDistribution fd = fdCollection.getFluxDistribution(fdId);
+        	FluxDis fd = fdCollection.getFluxDistribution(fdId);
         	
         	Object[] row = new Object[columnNames.length];
             row[0] = fdId;
@@ -857,7 +857,7 @@ public class FluxVizPanel extends javax.swing.JPanel implements ListSelectionLis
 	
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
-        	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+        	FluxDisCollection fdCollection = FluxDisCollection.getInstance();
         	
         	int selected = fluxTable.getSelectedRow();
             if (selected != -1){	

@@ -1,4 +1,4 @@
-package cyfluxviz.attributes;
+package cyfluxviz.io;
 import java.io.*;
 import java.util.*;
 
@@ -6,9 +6,9 @@ import javax.swing.JCheckBox;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDirection;
-import cyfluxviz.FluxDistribution;
-import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.FluxDis;
+import cyfluxviz.FluxDisCollection;
+import cyfluxviz.gui.PanelText;
 import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.FluxVizUtil;
 import cytoscape.CyEdge;
@@ -26,26 +26,33 @@ public class FluxDistributionImporter {
 	private HashMap<String, Double> nodeFluxes = new HashMap<String, Double>();
 	private HashMap<String, Double> edgeFluxes = new HashMap<String, Double>();
 	private HashMap<String, FluxDirection> edgeDirections = new HashMap<String, FluxDirection>();
-	private FluxDistribution fluxDistribution;
+	private FluxDis fluxDistribution;
 	
 	
 	public FluxDistributionImporter(File file){
 		importFromFile(file);
 	}
 	
-	public FluxDistribution getFluxDistribution(){
+	public FluxDis getFluxDistribution(){
 		return fluxDistribution;
 	}
 	
 	private void importFromFile(File file){
-		name = file.getName();
+		name = getFluxDistributionNameFromFile(file);
 		networkId = getCurrentNetworkId();
 		nodeFluxes = getNodeFluxesFromFile(file);
 		// Reduce to nodes currently in Cytoscape
 		nodeFluxes = filterNodeFluxesInCytoscape(nodeFluxes);
 		edgeFluxes = getEdgeFluxesFromNodeFluxes(nodeFluxes);
 		edgeDirections = getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
-		fluxDistribution = new FluxDistribution(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
+		fluxDistribution = new FluxDis(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
+	}
+	
+	public String getFluxDistributionNameFromFile(File file){
+		String name = file.getName();
+		// remove the .val ending
+		name.substring(0, name.length()-4);
+		return name;
 	}
 	
 	public static HashMap<String, Double> filterNodeFluxesInCytoscape(HashMap<String, Double> nFluxes){
@@ -137,17 +144,17 @@ public class FluxDistributionImporter {
 		for (CyNode node : cyNodes){
 			
 			nodeId = node.getIdentifier();
-			nodeType = (String) nodeAttributes.getAttribute(nodeId, FluxDistribution.ATT_TYPE); 
+			nodeType = (String) nodeAttributes.getAttribute(nodeId, FluxDis.ATT_TYPE); 
 			
-			if (nodeType != null && nodeType.equals(FluxDistribution.NODE_TYPE_REACTION)){
+			if (nodeType != null && nodeType.equals(FluxDis.NODE_TYPE_REACTION)){
 				@SuppressWarnings("unchecked")
 				List<CyEdge> adjEdges = network.getAdjacentEdgesList(node, true, true, true);
 				for (CyEdge edge: adjEdges){
 					edgeId = edge.getIdentifier();
 					
 					stoichiometry = 1.0;
-					if (edgeAttributes.getAttribute(edgeId, FluxDistribution.ATT_STOICHIOMETRY) != null){
-						stoichiometry = (Double) edgeAttributes.getAttribute(edgeId, FluxDistribution.ATT_STOICHIOMETRY);
+					if (edgeAttributes.getAttribute(edgeId, FluxDis.ATT_STOICHIOMETRY) != null){
+						stoichiometry = (Double) edgeAttributes.getAttribute(edgeId, FluxDis.ATT_STOICHIOMETRY);
 					}
 					flux = 0.0;
 					if (nFluxes.containsKey(nodeId)){
@@ -173,7 +180,7 @@ public class FluxDistributionImporter {
 			String edgeType = edgeAttributes.getStringAttribute(edgeId, "interaction");
 			if (edgeType.equals("reaction-reactant")){
 				direction = - direction;
-			}	
+			}
 			
 			// reverse direction for negative fluxes
 			double flux = eFluxes.get(edgeId);
@@ -205,7 +212,7 @@ public class FluxDistributionImporter {
     		String msg = "No complete 'sbml type' attribute.\nEvery node has to be classified as " +
         			"either 'reaction' or 'species'.\nIf the network was not imported as SBML create attribute 'sbml type' manually\nand " +
         			"classify all nodes as either 'reaction' or 'species'.";
-        	PanelDialogs.showMessage(msg, title);
+        	PanelText.showMessage(msg, title);
         	return;
         }
     	
@@ -213,7 +220,7 @@ public class FluxDistributionImporter {
     		String title = "Stoichiometry not complete.";
     		String msg = "Every edge should have stoichiometric information associated.\n" +
         			"Missing stoichiometric coefficients are handled as '1.0' in the visualisation.";
-    		PanelDialogs.showMessage(msg, title);
+    		PanelText.showMessage(msg, title);
         }
     	
         // Test if network for val files available
@@ -221,7 +228,7 @@ public class FluxDistributionImporter {
         if (networkView.getSelectedNodes().size() == 0) {
         	String title = "No network warning.";
         	String msg = "No nodes in network. Network must be loaded and selected before loading of val files.";
-        	PanelDialogs.showMessage(msg, title);
+        	PanelText.showMessage(msg, title);
         	return;
         }
         network.unselectAllNodes();

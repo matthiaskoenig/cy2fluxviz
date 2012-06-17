@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 import cyfluxviz.CyFluxViz;
 import cytoscape.Cytoscape;
 
-public class PanelDialogs {
-	private PanelDialogs(){};
+public class PanelText {
+	private PanelText(){};
 	
 	public static void showMessage(String msg, String title){
 		JOptionPane.showMessageDialog(Cytoscape.getDesktop(), msg, 
@@ -20,7 +20,7 @@ public class PanelDialogs {
 		return header;
 	}
 	
-	public static void setFluxVizInfo(FluxVizPanel fvPanel){
+	public static void setFluxVizInfo(CyFluxVizPanel fvPanel){
     	String info = 
     			getHTMLHeader() +
     			"<b>" + CyFluxViz.NAME + "-" + CyFluxViz.VERSION +"</b><br>" +
@@ -29,7 +29,7 @@ public class PanelDialogs {
     	fvPanel.updateInfoPaneHTMLText(info);
     }
 		
-    public static void setHelp(FluxVizPanel fvPanel){
+    public static void setHelp(CyFluxVizPanel fvPanel){
     	String help = 
     			getHTMLHeader() +
     			"<b>1. Select Network for visualisation</b>" +

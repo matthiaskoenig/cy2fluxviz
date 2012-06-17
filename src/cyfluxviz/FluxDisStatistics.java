@@ -2,11 +2,11 @@ package cyfluxviz;
 
 import java.util.HashMap;
 
-import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.gui.PanelText;
 import cytoscape.CyNetwork;
 
-public class FluxStatistics {
-	private FluxDistribution fluxDistribution;
+public class FluxDisStatistics {
+	private FluxDis fluxDistribution;
 
 	// statistical values
 	private double min = 0.0;
@@ -18,7 +18,7 @@ public class FluxStatistics {
 	private int networkEdgeCount = 0;
 	private int fluxEdgeCount = 0;
 
-	public FluxStatistics(FluxDistribution fluxDistribution) {
+	public FluxDisStatistics(FluxDis fluxDistribution) {
 		this.fluxDistribution = fluxDistribution;
 		networkEdgeCount = getNetworkEdgeCount();
 		calculateStatistics();
@@ -75,7 +75,7 @@ public class FluxStatistics {
 	}
 
 	public String toHTML() {
-		String out = String.format(PanelDialogs.getHTMLHeader()
+		String out = String.format(PanelText.getHTMLHeader()
 						+ "<b>Properties of selected flux distribution</b> <br>"
 						+ "<table>"
 						+ "<tr><td><i>min</i></td>           <td>%.3f</td></tr>"

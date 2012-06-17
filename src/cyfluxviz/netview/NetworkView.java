@@ -1,4 +1,4 @@
-package cyfluxviz.view;
+package cyfluxviz.netview;
 
 import java.util.HashSet;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 
 import cyfluxviz.CyFluxViz;
-import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.FluxStatistics;
-import cyfluxviz.gui.FluxVizPanel;
+import cyfluxviz.FluxDisCollection;
+import cyfluxviz.FluxDisStatistics;
+import cyfluxviz.gui.CyFluxVizPanel;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
@@ -29,7 +29,7 @@ import cytoscape.visual.mappings.PassThroughMapping;
 public class NetworkView {
 	
     public static void changeSubnetView(){
-    	FluxVizPanel panel = CyFluxViz.getFvPanel();
+    	CyFluxVizPanel panel = CyFluxViz.getFvPanel();
     	JCheckBox fluxBox = panel.getFluxSubnetCheckbox(); 
     	JCheckBox attributeBox = panel.getAttributeSubnetCheckbox();
     	
@@ -64,7 +64,7 @@ public class NetworkView {
 		}
 		
         // calculate the set of visible nodes based on the attribute condition
-    	FluxVizPanel panel = CyFluxViz.getFvPanel();
+    	CyFluxVizPanel panel = CyFluxViz.getFvPanel();
         String attribute = (String) panel.getNodeAttributeComboBox().getSelectedItem();
         
     	boolean nullVisible = panel.getNullVisibleCheckbox().isSelected();
@@ -143,7 +143,7 @@ public class NetworkView {
     
     /* View the attribute based subnetwork. */
     public static void viewAttributeSubnet(){
-    	FluxVizPanel panel = CyFluxViz.getFvPanel();
+    	CyFluxVizPanel panel = CyFluxViz.getFvPanel();
         String attribute = (String) panel.getNodeAttributeComboBox().getSelectedItem();
         boolean nullVisible = panel.getNullVisibleCheckbox().isSelected();
         Set<Object> selected = new HashSet<Object>();
@@ -254,11 +254,11 @@ public class NetworkView {
     }
   
     public static void updateFluxDistributionInformation(){
-    	FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
-        FluxStatistics fdStatistics = fdCollection.getActiveFluxDistribution().getFluxStatistics();
+    	FluxDisCollection fdCollection = FluxDisCollection.getInstance();
+        FluxDisStatistics fdStatistics = fdCollection.getActiveFluxDistribution().getFluxStatistics();
     	
         String info = fdStatistics.toHTML();
-        FluxVizPanel panel = CyFluxViz.getFvPanel();
+        CyFluxVizPanel panel = CyFluxViz.getFvPanel();
         panel.updateInfoPaneHTMLText(info);
         panel.selectInfoPane();
     }

@@ -1,4 +1,4 @@
-package cyfluxviz.view;
+package cyfluxviz.vizmap;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.util.FileUtil;

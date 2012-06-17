@@ -12,9 +12,9 @@ import cytoscape.view.CytoscapeDesktop;
 import cytoscape.view.cytopanels.*;
 import cytoscape.visual.VisualStyle;
 
-import cyfluxviz.attributes.AttributeUtils;
-import cyfluxviz.gui.FluxVizPanel;
-import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.gui.CyFluxVizPanel;
+import cyfluxviz.gui.PanelText;
+import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.Installation;
 import cyfluxviz.vizmap.LoadVizmap;
@@ -50,7 +50,7 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
 	public static final String EDGE_VISIBILITY_ATTRIBUTE = "CFV Visibility";
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 	
-	private static FluxVizPanel fvPanel;
+	private static CyFluxVizPanel fvPanel;
 	private static VisualStyle viStyle;
 		
     public CyFluxViz() {
@@ -72,12 +72,12 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
         
     private void createFluxVizPanel(){
 
-		fvPanel = new FluxVizPanel();
+		fvPanel = new CyFluxVizPanel();
 		CytoPanel cytoPanel = getCytoPanel();
 		cytoPanel.add(NAME, fvPanel);
 		cytoPanel.setState(CytoPanelState.DOCK);
-		PanelDialogs.setHelp(fvPanel);
-		PanelDialogs.setFluxVizInfo(fvPanel);
+		PanelText.setHelp(fvPanel);
+		PanelText.setFluxVizInfo(fvPanel);
 		
 		// Set the Visual Style at the beginning
 		System.out.println("CyFluxViz[INFO] -> Loading Visual Style");
@@ -93,7 +93,7 @@ public class CyFluxViz extends CytoscapePlugin implements  PropertyChangeListene
     	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
     }
         
-	public static FluxVizPanel getFvPanel() {
+	public static CyFluxVizPanel getFvPanel() {
 		return fvPanel;
 	}
 	

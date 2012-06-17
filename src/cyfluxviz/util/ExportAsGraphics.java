@@ -7,9 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
-import cyfluxviz.FluxDistribution;
-import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.attributes.AttributeUtils;
+import cyfluxviz.FluxDis;
+import cyfluxviz.FluxDisCollection;
 import cytoscape.Cytoscape;
 import cytoscape.dialogs.ExportAsGraphicsFileChooser;
 import cytoscape.dialogs.ExportBitmapOptionsDialog;
@@ -95,8 +94,8 @@ public class ExportAsGraphics
 						return;
 					}
 		    		// Set the FluxDistribution Active
-					FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
-					FluxDistribution fluxDistribution = fdCollection.getFluxDistribution(fdId);
+					FluxDisCollection fdCollection = FluxDisCollection.getInstance();
+					FluxDis fluxDistribution = fdCollection.getFluxDistribution(fdId);
 					fdCollection.setFluxDistributionActive(fluxDistribution);
 					
 					CyNetworkView view = Cytoscape.getCurrentNetworkView();

@@ -1,4 +1,4 @@
-package cyfluxviz.attributes;
+package cyfluxviz.util;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
 import cyfluxviz.CyFluxViz;
-import cyfluxviz.gui.FluxVizPanel;
+import cyfluxviz.gui.CyFluxVizPanel;
 
 public class AttributeUtils {
 
@@ -86,7 +86,7 @@ public class AttributeUtils {
         	model.addElement(obj);
         }
         // get the list and set the model
-        FluxVizPanel panel = CyFluxViz.getFvPanel();
+        CyFluxVizPanel panel = CyFluxViz.getFvPanel();
         JList list = panel.getNodeAttributeList();
         list.setModel(model);
 	}

@@ -12,10 +12,10 @@ import cytoscape.view.CyNetworkView;
 import cytoscape.visual.CalculatorCatalog;
 
 import cyfluxviz.CyFluxViz;
-import cyfluxviz.FluxDistribution;
-import cyfluxviz.FluxDistributionCollection;
-import cyfluxviz.attributes.FluxDistributionImporter;
-import cyfluxviz.gui.PanelDialogs;
+import cyfluxviz.FluxDis;
+import cyfluxviz.FluxDisCollection;
+import cyfluxviz.gui.PanelText;
+import cyfluxviz.io.FluxDistributionImporter;
 import cyfluxviz.vizmap.LoadVizmap;
 
 public class FileUtil {
@@ -65,8 +65,8 @@ public class FileUtil {
 			return;
 		}
 		FluxDistributionImporter fdImporter = new FluxDistributionImporter(valFile);
-		FluxDistribution fluxDistribution = fdImporter.getFluxDistribution();
-		FluxDistributionCollection fdCollection = FluxDistributionCollection.getInstance();
+		FluxDis fluxDistribution = fdImporter.getFluxDistribution();
+		FluxDisCollection fdCollection = FluxDisCollection.getInstance();
 		fdCollection.addFluxDistribution(fluxDistribution);
     }
         
