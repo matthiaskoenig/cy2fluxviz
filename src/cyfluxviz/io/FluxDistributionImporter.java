@@ -148,7 +148,8 @@ public class FluxDistributionImporter {
 			nodeId = node.getIdentifier();
 			nodeType = (String) nodeAttributes.getAttribute(nodeId, FluxDis.ATT_TYPE); 
 			
-			if (nodeType != null && nodeType.equals(FluxDis.NODE_TYPE_REACTION)){
+			//TODO: change to support multiple networks at once
+			if (nFluxes.containsKey(nodeId) && nodeType != null && nodeType.equals(FluxDis.NODE_TYPE_REACTION)){
 				@SuppressWarnings("unchecked")
 				List<CyEdge> adjEdges = network.getAdjacentEdgesList(node, true, true, true);
 				for (CyEdge edge: adjEdges){

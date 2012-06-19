@@ -642,7 +642,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
     
     private void updateNetworkViewForSelectedSettings(){
     	FluxDis fd = getSelectedFluxDistribution(); 
-        NetworkView.changeSubNetworkView(fd);
+        NetworkView.updateNetworkViewsForFluxDistribution(fd);
     }
     
   /// ATTRIBUTE SUBNETS ////    
