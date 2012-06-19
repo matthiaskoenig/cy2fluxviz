@@ -1,27 +1,21 @@
 package cyfluxviz.io;
+
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
-import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import javax.xml.bind.JAXBException;
-
-import cyfluxviz.CyFluxViz;
-import cyfluxviz.FluxDirection;
-import cyfluxviz.FluxDis;
-import cyfluxviz.gui.PanelText;
-import cyfluxviz.util.FileUtil;
-import cyfluxviz.util.FluxVizUtil;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
-import cytoscape.actions.LoadNetworkTask;
 import cytoscape.data.CyAttributes;
-import cytoscape.dialogs.ImportNetworkDialog;
 import cytoscape.view.CyNetworkView;
+
+import cyfluxviz.FluxDirection;
+import cyfluxviz.FluxDis;
+import cyfluxviz.gui.CyFluxVizPanel;
+import cyfluxviz.gui.PanelText;
+import cyfluxviz.util.FileUtil;
+import cyfluxviz.util.FluxVizUtil;
 
 /* Val file importer (simple key/value pairs for reactions). */
 public class FluxDistributionImporter {
@@ -32,7 +26,6 @@ public class FluxDistributionImporter {
 	private HashMap<String, Double> edgeFluxes = new HashMap<String, Double>();
 	private HashMap<String, FluxDirection> edgeDirections = new HashMap<String, FluxDirection>();
 	private FluxDis fluxDistribution;
-	
 	
 	public FluxDistributionImporter(File file){
 		importFromFile(file);
@@ -63,8 +56,10 @@ public class FluxDistributionImporter {
 	public static HashMap<String, Double> filterNodeFluxesInCytoscape(HashMap<String, Double> nFluxes){
 		HashMap<String, Double> filteredFluxes = new HashMap<String, Double>();
 		for (String id : nFluxes.keySet()){
+			double flux = nFluxes.get(id);
+			// only the reaction with non-zero flux are used
 			if (Cytoscape.getCyNode(id, false) != null){
-				filteredFluxes.put(id, nFluxes.get(id));
+				filteredFluxes.put(id, flux);
 			}else{
 				System.out.println("Id in flux mapping, but not in Cytoscape : " +  id);
 			}
@@ -206,10 +201,6 @@ public class FluxDistributionImporter {
 	
 	// TODO: Refactor all the tests
     public static void loadValFiles(){
-    	JCheckBox checkbox = CyFluxViz.getFvPanel().getFluxSubnetCheckbox(); 
-    	if (checkbox.isSelected() == true){
-    		checkbox.doClick();
-    	}
         CyNetwork network = Cytoscape.getCurrentNetwork();
         CyNetworkView networkView = Cytoscape.getCurrentNetworkView();
         
@@ -245,9 +236,7 @@ public class FluxDistributionImporter {
     		for (int k=0; k<valFiles.length; ++k){
     			FileUtil.createFluxDistributionFromValFile(valFiles[k]);
     		}
-    		//Update the table with the new FluxDistributions
-    		CyFluxViz.getFvPanel().updateTable();
+    		CyFluxVizPanel.getInstance().updateFluxDistributionTable();
     	}
     }
-	
 }

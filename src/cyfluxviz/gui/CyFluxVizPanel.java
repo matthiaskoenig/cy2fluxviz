@@ -1,17 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * FluxVizPanel.java
- *
- * Created on Jan 22, 2010, 3:15:26 PM
- */
-
 package cyfluxviz.gui;
 
 import java.net.URL;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
@@ -19,6 +12,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
+import cytoscape.Cytoscape;
+import cytoscape.view.CytoscapeDesktop;
+import cytoscape.visual.VisualPropertyType;
+import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
@@ -31,33 +29,60 @@ import cyfluxviz.util.ExportAsGraphics;
 import cyfluxviz.vizmap.ApplyEdgeWidthMapping;
 import cytoscape.util.OpenBrowser;
 
-import cytoscape.visual.VisualPropertyType;
-import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
-
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-
 @SuppressWarnings("serial")
-public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionListener {
+public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChangeListener, ListSelectionListener {
+	private static CyFluxVizPanel uniqueInstance;
 	
     private DefaultTableModel tableModel;
 	private final String[] columnNames = {"Name", "Network", "Id"};
+	private FluxDisCollection fdCollection = FluxDisCollection.getInstance();
     
-    public CyFluxVizPanel() {
+    private CyFluxVizPanel() {
+    	Cytoscape.getDesktop().getSwingPropertyChangeSupport().
+		addPropertyChangeListener(CytoscapeDesktop.NETWORK_VIEW_FOCUSED, this);
+    	Cytoscape.getPropertyChangeSupport().
+		addPropertyChangeListener(Cytoscape.ATTRIBUTES_CHANGED, this);
+    	Cytoscape.getPropertyChangeSupport().
+		addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
+    	
         initComponents();
 		initTable();
     }
+    
+    public static synchronized CyFluxVizPanel getInstance(){
+    	if (uniqueInstance == null){
+    		uniqueInstance = new CyFluxVizPanel();
+    	}
+    	return uniqueInstance;
+    }
 
     private void initComponents() {
-        testScrollPane = new javax.swing.JScrollPane();
-        testPanel = new javax.swing.JPanel();
-        hideButton = new javax.swing.JButton();
-        showButton = new javax.swing.JButton();
-        histogrammScrollPane = new javax.swing.JScrollPane();
-        histogrammPane = new javax.swing.JPanel();
+        infoPane = new javax.swing.JEditorPane();
+        
+        informationPane = new javax.swing.JTabbedPane();
+        infoScrollPane = new javax.swing.JScrollPane();
+
+        helpScrollPane = new javax.swing.JScrollPane();
+        helpPane = new javax.swing.JEditorPane();
+
+        
+        importScrollPane = new javax.swing.JScrollPane();
+        importPanel = new javax.swing.JPanel();
+        jButtonImportSim = new javax.swing.JButton();
+        jButtonImportVal = new javax.swing.JButton();
+        
+        subnetScrollPane = new javax.swing.JScrollPane();
+        subnetPanel = new javax.swing.JPanel();
+        
         mappingScrollPane = new javax.swing.JScrollPane();
         mappingPanel = new javax.swing.JPanel();
+
+        settingPane = new javax.swing.JTabbedPane();
+        
+        exportScrollPane = new javax.swing.JScrollPane();
+        exportPanel = new javax.swing.JPanel();
+        jButtonExportImage = new javax.swing.JButton();
+        
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -69,32 +94,25 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         jCheckBox8 = new javax.swing.JCheckBox();
         jCheckBox9 = new javax.swing.JCheckBox();
         jSplitPane1 = new javax.swing.JSplitPane();
-        informationPane = new javax.swing.JTabbedPane();
-        infoScrollPane = new javax.swing.JScrollPane();
-        infoPane = new javax.swing.JEditorPane();
-        helpScrollPane = new javax.swing.JScrollPane();
-        helpPane = new javax.swing.JEditorPane();
+
         jScrollPane2 = new javax.swing.JScrollPane();
+
         fluxTable = new javax.swing.JTable();
-        settingPane = new javax.swing.JTabbedPane();
-        subnetScrollPane = new javax.swing.JScrollPane();
-        subnetPanel = new javax.swing.JPanel();
+        
+        nodeAttributeComboBox = new javax.swing.JComboBox();
+
         jScrollPane3 = new javax.swing.JScrollPane();
         nodeAttributeList = new javax.swing.JList();
+        
         jCheckBoxFluxSubnet = new javax.swing.JCheckBox();
         jCheckBoxAttributeSubnet = new javax.swing.JCheckBox();
-        nodeAttributeComboBox = new javax.swing.JComboBox();
-        jSeparator1 = new javax.swing.JSeparator();
         jCheckBoxNullVisible = new javax.swing.JCheckBox();
-        importScrollPane = new javax.swing.JScrollPane();
-        importPanel = new javax.swing.JPanel();
-        jButtonImportSim = new javax.swing.JButton();
-        jButtonImportVal = new javax.swing.JButton();
+        
+        jSeparator1 = new javax.swing.JSeparator();
+        
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        exportScrollPane = new javax.swing.JScrollPane();
-        exportPanel = new javax.swing.JPanel();
-        jButtonExportImage = new javax.swing.JButton();
+
         jLabel2 = new javax.swing.JLabel();
         fluxMapScrollPane = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
@@ -108,57 +126,12 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         maxEdgeWidthField = new javax.swing.JTextField();
         imageIconLabel = new javax.swing.JLabel();
 
-        hideButton.setText("Hide");
-        hideButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hideButtonActionPerformed(evt);
-            }
-        });
-
-        showButton.setText("Show");
-        showButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout testPanelLayout = new javax.swing.GroupLayout(testPanel);
-        testPanel.setLayout(testPanelLayout);
-        testPanelLayout.setHorizontalGroup(
-            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(testPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(showButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(hideButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
-                .addContainerGap(122, Short.MAX_VALUE))
-        );
-        testPanelLayout.setVerticalGroup(
-            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(testPanelLayout.createSequentialGroup()
-                .addComponent(hideButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(showButton)
-                .addContainerGap(120, Short.MAX_VALUE))
-        );
-
-        testScrollPane.setViewportView(testPanel);
-
-        javax.swing.GroupLayout histogrammPaneLayout = new javax.swing.GroupLayout(histogrammPane);
-        histogrammPane.setLayout(histogrammPaneLayout);
-        histogrammPaneLayout.setHorizontalGroup(
-            histogrammPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
-        );
-        histogrammPaneLayout.setVerticalGroup(
-            histogrammPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
-        );
-
-        histogrammScrollPane.setViewportView(histogrammPane);
-
+        setMaximumSize(new java.awt.Dimension(32000, 32000));
+        setMinimumSize(new java.awt.Dimension(100, 300));
+        setPreferredSize(new java.awt.Dimension(180, 700));
+        
+        // Mapping Panel
         mappingPanel.setBackground(java.awt.Color.white);
-
         javax.swing.GroupLayout mappingPanelLayout = new javax.swing.GroupLayout(mappingPanel);
         mappingPanel.setLayout(mappingPanelLayout);
         mappingPanelLayout.setHorizontalGroup(
@@ -212,18 +185,15 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
                 .addComponent(jCheckBox8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
         mappingScrollPane.setViewportView(mappingPanel);
 
-        setMaximumSize(new java.awt.Dimension(32000, 32000));
-        setMinimumSize(new java.awt.Dimension(100, 300));
-        setPreferredSize(new java.awt.Dimension(180, 700));
 
         jSplitPane1.setDividerLocation(300);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setMinimumSize(new java.awt.Dimension(40, 40));
         jSplitPane1.setPreferredSize(new java.awt.Dimension(180, 600));
 
+        
         infoPane.setContentType("text/html");
         infoPane.setEditable(false);
         infoPane.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
@@ -249,9 +219,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
 
         informationPane.addTab("Help", helpScrollPane);
 
-
         jSplitPane1.setLeftComponent(informationPane);
-        informationPane.getAccessibleContext().setAccessibleName("histogramm");
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Flux distributions", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 0, 12), java.awt.Color.darkGray)); // NOI18N
         jScrollPane2.setForeground(new java.awt.Color(254, 254, 254));
@@ -260,14 +228,9 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
 
         fluxTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null}
             },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+            columnNames
         ));
         jScrollPane2.setViewportView(fluxTable);
 
@@ -287,12 +250,13 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         });
         jScrollPane3.setViewportView(nodeAttributeList);
 
+        
         jCheckBoxFluxSubnet.setBackground(java.awt.Color.white);
         jCheckBoxFluxSubnet.setText("Flux subnet");
         jCheckBoxFluxSubnet.setToolTipText("Only display the subnetwork consisting of reactions with fluxes.");
         jCheckBoxFluxSubnet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxFluxSubnetActionPerformed(evt);
+            	updateNetworkViewForSelectedSettings();
             }
         });
 
@@ -301,10 +265,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         jCheckBoxAttributeSubnet.setToolTipText("Only display the subnetwork consisting of reactions with fluxes.");
         jCheckBoxAttributeSubnet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxAttributeSubnetActionPerformed(evt);
+            	updateNetworkViewForSelectedSettings();
             }
         });
 
+        
         nodeAttributeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nodeAttributeComboBoxActionPerformed(evt);
@@ -317,7 +282,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         jCheckBoxNullVisible.setText("NullVisible");
         jCheckBoxNullVisible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxNullVisibleActionPerformed(evt);
+            	updateNetworkViewForSelectedSettings();
             }
         });
 
@@ -355,24 +320,21 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
         subnetScrollPane.setViewportView(subnetPanel);
-
         settingPane.addTab("Subnet", subnetScrollPane);
 
+        
+        jLabel3.setText("Load Flux Distributions");        
         importScrollPane.setBorder(null);
-
         importPanel.setBackground(java.awt.Color.white);
-
         jButtonImportVal.setText("Load val");
         jButtonImportVal.setToolTipText("Load additional val files for the current network.");
         jButtonImportVal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImportValActionPerformed(evt);
+                FluxDistributionImporter.loadValFiles();
             }
         });
 
-        jLabel3.setText("Load Flux Distributions");
 
         jLabel4.setText("Load Simulation Information");
 
@@ -425,7 +387,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         jButtonExportImage.setToolTipText("Export Images of flux distributions as SVG");
         jButtonExportImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExportImageActionPerformed(evt);
+            	 ExportAsGraphics.exportImage();
             }
         });
 
@@ -602,91 +564,129 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         
         fluxTable.getSelectionModel().addListSelectionListener(this);
     }
+    
+    public void selectInfoPane(){
+    	getInformationPane().setSelectedComponent(infoScrollPane);
+    }
 
     /////////////////////////////////////////////////////////////////////////////////
+                                                                                                                                
+    //// FLUX DISTRIBUTION TABLE ////
     
-    private void jButtonExportImageActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        ExportAsGraphics.exportImage();
-    }                                                  
+    public void initTable(){
+        tableModel = new DefaultTableModel(columnNames, 0);
+        fluxTable.setModel(tableModel);
+        TableColumn column = fluxTable.getColumnModel().getColumn(0);
+		column.setPreferredWidth(60);
+		column = fluxTable.getColumnModel().getColumn(1);
+		column.setPreferredWidth(60);
+		column = fluxTable.getColumnModel().getColumn(2);
+		column.setPreferredWidth(60);
 
-    private void jButtonImportValActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        FluxDistributionImporter.loadValFiles();
-    }                                                                                            
-
-    private void jCheckBoxFluxSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        if (getFluxTable().getModel().getRowCount() > 0){
-            NetworkView.changeSubNetworkView();
+		updateFluxDistributionTable();
+	}
+    
+    public void updateFluxDistributionTable(){
+        clearFluxDistributionTable();
+        
+        for (String fdId : fdCollection.getIdSet()){
+        	FluxDis fd = fdCollection.getFluxDistribution(fdId);
+        	
+        	Object[] row = new Object[columnNames.length];
+            row[0] = fd.getName();
+            row[1] = fd.getNetworkId();
+            row[2] = fdId;
+            tableModel.addRow(row);
         }
-    }         
-
-    private void helpPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {                                         
-        URL url = evt.getURL();
-		if (url != null) {
-			if (evt.getEventType() == HyperlinkEvent.EventType.ENTERED) {
-				CytoscapeWrapper.setStatusBarMsg(url.toString());
-			} else if (evt.getEventType() == HyperlinkEvent.EventType.EXITED) {
-				CytoscapeWrapper.clearStatusBar();
-			} else if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-				OpenBrowser.openURL(url.toString());
-			}
-		}
-    }                                        
-
-    private void infoPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {                                         
-        URL url = evt.getURL();
-		if (url != null) {
-			if (evt.getEventType() == HyperlinkEvent.EventType.ENTERED) {
-				CytoscapeWrapper.setStatusBarMsg(url.toString());
-			} else if (evt.getEventType() == HyperlinkEvent.EventType.EXITED) {
-				CytoscapeWrapper.clearStatusBar();
-			} else if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-				OpenBrowser.openURL(url.toString());
-			}
-		}
-    }                                                                                 
-
-    private void jCheckBoxAttributeSubnetActionPerformed(java.awt.event.ActionEvent evt) {                                                         
-        NetworkView.changeSubNetworkView();
-    }                                                        
-
+        selectFirstFluxDistribution();
+    }
+    
+    public void clearFluxDistributionTable(){
+    	if (tableModel.getRowCount() != 0){
+    		tableModel.setRowCount(0);
+    	}
+    }
+    
+    private void selectFirstFluxDistribution(){
+    	if (fluxTable.getRowCount()>0 && fluxTable.getColumnCount()>0){
+            fluxTable.setRowSelectionInterval(0, 0);
+        }
+    }
+    
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {        	
+        	FluxDis fd = getSelectedFluxDistribution();
+        	if (fd != null){
+                // Activate & Update information
+        		fdCollection.setFluxDistributionActive(fd);
+                NetworkViewTools.updateFluxDistributionInformation();
+            } else {
+            	// Deactivate
+            	fdCollection.deactivateFluxDistribution();
+            }
+        	updateNetworkViewForSelectedSettings();
+        }
+    }
+    
+    public FluxDis getSelectedFluxDistribution(){
+    	FluxDis fd = null;
+    	int selected = fluxTable.getSelectedRow();
+        if (selected != -1){	
+            String fdId = (String)tableModel.getValueAt(selected, 2);
+            fd = fdCollection.getFluxDistribution(fdId);
+        }
+        return fd;
+    }
+    
+	/// NETWORK VIEW CHANGES ////
+    
+    private void updateNetworkViewForSelectedSettings(){
+    	FluxDis fd = getSelectedFluxDistribution(); 
+        NetworkView.changeSubNetworkView(fd);
+    }
+    
+  /// ATTRIBUTE SUBNETS ////    
     private void nodeAttributeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // if new value is selected the content of the ValueSet list has to be
         // changed accordingly
         int index = nodeAttributeComboBox.getSelectedIndex();
         if (index!= -1){
+        	//TODO: has to be selected via all selected Attributes
             String attribute = (String) nodeAttributeComboBox.getSelectedItem();
             AttributeUtils.initNodeAttributeList(attribute);
         }
     }                                                     
 
-    private void hideButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkViewTools.hideAllNodesAndEdgesInCurrentView();
-    }                                          
-
-    private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        NetworkViewTools.showAllNodesAndEdgesInCurrentView();
-    }                                          
-
     private void nodeAttributeListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                               
-        //Listening to selection events
         if (evt.getValueIsAdjusting() == false) {
-            // Only change view if the attribute subnetwork feature is activated.
-            if (jCheckBoxAttributeSubnet.isSelected() == false){
-                return;
-            }
-            else{
-                NetworkView.changeSubNetworkView();
-            }
+        	updateNetworkViewForSelectedSettings();
         }
     }                                              
+                                      
+    ///// HYPERLINK LISTENERS //////    
+    
+    private void helpPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {                                         
+        openEventURLInBrowser(evt);
+    }                                        
+    private void infoPaneHyperlinkUpdate(HyperlinkEvent evt) {                                         
+        openEventURLInBrowser(evt);
 
-    private void jCheckBoxNullVisibleActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        NetworkView.changeSubNetworkView();
-    }                                                    
-
-    public void selectInfoPane(){
-    	getInformationPane().setSelectedComponent(infoScrollPane);
+    }      
+    private void openEventURLInBrowser(HyperlinkEvent evt){
+    	URL url = evt.getURL();
+    	if (url != null) {
+			if (evt.getEventType() == HyperlinkEvent.EventType.ENTERED) {
+				CytoscapeWrapper.setStatusBarMsg(url.toString());
+			} else if (evt.getEventType() == HyperlinkEvent.EventType.EXITED) {
+				CytoscapeWrapper.clearStatusBar();
+			} else if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+				OpenBrowser.openURL(url.toString());
+			}
+		}
     }
+    
+    
+    ///// FLUX DISTRIBUTION MAPPING //////
     
     private void updateMappingView(){
     	double maxFlux = getMaxFluxForMapping();
@@ -701,8 +701,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         imageIconLabel.setIcon(C2CMappingEditor.getIcon(161, 94, VisualPropertyType.EDGE_LINE_WIDTH));
     }
     
-    private double getMaxFluxForMapping(){
-    	FluxDisCollection fdCollection = FluxDisCollection.getInstance();   
+    private double getMaxFluxForMapping(){  
     	double maxFlux = 0.0;
         if (globalMaxBox.isSelected()){
             maxFlux = fdCollection.getGlobalAbsMax() * 1.01;
@@ -710,46 +709,33 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         else if (fdCollection.hasActiveFluxDistribution()){
             maxFlux = fdCollection.getActiveFluxDistribution().getFluxStatistics().getAbsMax() * 1.01;
         } else {
-        	System.out.println("No global or local ABS MAX setting applied !");
         	maxFlux = 1.0;
         }
         return maxFlux;
     }
 
     private void localMaxBoxActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // change state of localMaxBox
-        if (localMaxBox.isSelected() == true) {
-        	globalMaxBox.setSelected(false);
-        }
-        else {
-        	globalMaxBox.setSelected(true);
-        }
+        globalMaxBox.setSelected(!localMaxBox.isSelected());
         updateMappingView();
     }                                           
 
     private void globalMaxBoxActionPerformed(java.awt.event.ActionEvent evt) {                                             
-    	// change state of globalMaxBox
-        if (globalMaxBox.isSelected() == true){
-        	localMaxBox.setSelected(false);
-        }
-        else {
-        	localMaxBox.setSelected(true);
-        }
+        localMaxBox.setSelected(!globalMaxBox.isSelected());
         updateMappingView();
-    }                                            
-
+    }                                           
+    
     private void minEdgeWidthFieldActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         updateMappingView();
     }                                                 
 
     private void maxEdgeWidthFieldActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         //Update the slider setting
-        int maxEdgeWidth;
+        int maxEdgeWidth = 50;
         try {
             maxEdgeWidth = (int) Double.parseDouble(maxEdgeWidthField.getText());
         }
         catch(Exception e){
-            maxEdgeWidth = 50;
+        	maxEdgeWidthField.setText("50");
         }
         maxEdgeWidthSlider.setValue(maxEdgeWidth);
         if (maxEdgeWidth <= 80) maxEdgeWidthSlider.setMaximum(100);
@@ -762,7 +748,6 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         Integer maxEdgeWidth = maxEdgeWidthSlider.getValue();
         if (maxEdgeWidth <= 80) maxEdgeWidthSlider.setMaximum(100);
         else maxEdgeWidthSlider.setMaximum(maxEdgeWidth + 50);
-
         maxEdgeWidthField.setText(maxEdgeWidth.toString());
 
         updateMappingView();
@@ -785,52 +770,9 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
         public void windowActivated(WindowEvent arg0) {}
         public void windowDeactivated(WindowEvent arg0) {}
     }
-
     
     
-    // Table Changes //
-    public void initTable(){
-        tableModel = new DefaultTableModel(columnNames, 0);
-        fluxTable.setModel(tableModel);
-
-        TableColumn column = fluxTable.getColumnModel().getColumn(0);
-		column.setPreferredWidth(220);
-		column = fluxTable.getColumnModel().getColumn(1);
-		column.setPreferredWidth(40);
-		column = fluxTable.getColumnModel().getColumn(2);
-		column.setPreferredWidth(40);
-		
-		updateTable();
-	}
-
-    public void clearTable(){
-    	if (tableModel.getRowCount() != 0){
-    		tableModel.setRowCount(0);
-    	}
-    }
-
-    /* Updates list of flux distributions */
-    public void updateTable(){
-        clearTable();
-        
-        FluxDisCollection fdCollection = FluxDisCollection.getInstance();
-        for (String fdId : fdCollection.getIdSet()){
-        	FluxDis fd = fdCollection.getFluxDistribution(fdId);
-        	
-        	Object[] row = new Object[columnNames.length];
-            row[0] = fd.getName();
-            row[1] = fd.getNetworkId();
-            row[2] = fdId;
-            tableModel.addRow(row);
-        }
-        selectFirstFluxDistribution();
-    }
-    
-    private void selectFirstFluxDistribution(){
-    	if (fluxTable.getRowCount()>0 && fluxTable.getColumnCount()>0){
-            fluxTable.setRowSelectionInterval(0, 0);
-        }
-    }
+    ////// SET TEXT IN PANES ////////////
 
     //TODO: Somehow depending on local files which should not be
 	private void updatePaneHTMLText(javax.swing.JEditorPane pane,  String htmlText){
@@ -851,58 +793,57 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
 		updatePaneHTMLText(helpPane, htmlText);
 	}
 	
-    public void valueChanged(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting() == false) {
-        	FluxDisCollection fdCollection = FluxDisCollection.getInstance();
-        	
-        	int selected = fluxTable.getSelectedRow();
-            if (selected != -1){	
-            	// Activate FluxDistribution
-                String fdId = (String)tableModel.getValueAt(selected, 2);
-                fdCollection.setFluxDistributionActive(fdId);
-                // Update information
-                NetworkViewTools.updateFluxDistributionInformation();
-                
-            } else {
-            	// Deactivate FluxDistribution
-            	fdCollection.deactivateFluxDistribution();
-            }
-        }
-    }
-    
+	//////  Cytoscape Changes	////////////	
+	
+	public void propertyChange(PropertyChangeEvent e) {
+		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.ATTRIBUTES_CHANGED))
+		{
+			System.out.println("ATTRIBUTE CHANGED -> HANDLE IN MAPPING");
+			AttributeUtils.initNodeAttributeComboBox();
+		}
+		
+		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED))
+		{
+			System.out.println("SESSION LOADED -> HANDLE IN MAPPING");
+			AttributeUtils.initNodeAttributeComboBox();
+			
+			jCheckBoxAttributeSubnet.setSelected(false);
+			jCheckBoxFluxSubnet.setSelected(false);
+	    }
+	    
+		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
+		{
+			System.out.println("NETWORK_VIEW_FOCUSED -> HANDLE IN MAPPING");
+			AttributeUtils.initNodeAttributeComboBox();
+		}
+	} 
+	
+    ////// GETTER AND SETTER	////////////
+	
     public javax.swing.JTable getFluxTable(){
-        return this.fluxTable;
+        return fluxTable;
     }
     public javax.swing.table.DefaultTableModel getTableModel(){
-        return this.tableModel;
+        return tableModel;
     }
     public javax.swing.JCheckBox getFluxSubnetCheckbox(){
-        return this.jCheckBoxFluxSubnet;
+        return jCheckBoxFluxSubnet;
     }
     public javax.swing.JCheckBox getAttributeSubnetCheckbox(){
-        return this.jCheckBoxAttributeSubnet;
+        return jCheckBoxAttributeSubnet;
     }
     public javax.swing.JCheckBox getNullVisibleCheckbox(){
-        return this.jCheckBoxNullVisible;
+        return jCheckBoxNullVisible;
     }
     public javax.swing.JTabbedPane getInformationPane(){
         return informationPane;
     }
-
-    public javax.swing.JPanel getHistogramPane() {
-		return histogrammPane;
-	}
-    public void setHistogramPanel(javax.swing.JPanel histogramPane) {
-		this.histogrammPane = histogramPane;
-	}
-
     public javax.swing.JComboBox getNodeAttributeComboBox() {
 		return nodeAttributeComboBox;
 	}
     public javax.swing.JList getNodeAttributeList() {
 		return nodeAttributeList;
 	}
-
     public javax.swing.JScrollPane getHelpScrollPane() {
 		return helpScrollPane;
 	}
@@ -913,7 +854,9 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
 		return infoScrollPane;
 	}
 
-    // Variables declaration - do not modify
+    
+    ////// VARIABLE DECLARATION	////////////
+    
     private javax.swing.JPanel exportPanel;
     private javax.swing.JScrollPane exportScrollPane;
     private javax.swing.JScrollPane fluxMapScrollPane;
@@ -921,9 +864,6 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
     private javax.swing.JCheckBox globalMaxBox;
     private javax.swing.JEditorPane helpPane;
     private javax.swing.JScrollPane helpScrollPane;
-    private javax.swing.JButton hideButton;
-    private javax.swing.JPanel histogrammPane;
-    private javax.swing.JScrollPane histogrammScrollPane;
     private javax.swing.JLabel imageIconLabel;
     private javax.swing.JPanel importPanel;
     private javax.swing.JScrollPane importScrollPane;
@@ -966,10 +906,6 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements ListSelectionL
     private javax.swing.JComboBox nodeAttributeComboBox;
     private javax.swing.JList nodeAttributeList;
     private javax.swing.JTabbedPane settingPane;
-    private javax.swing.JButton showButton;
     private javax.swing.JPanel subnetPanel;
     private javax.swing.JScrollPane subnetScrollPane;
-    private javax.swing.JPanel testPanel;
-    private javax.swing.JScrollPane testScrollPane;
-    // End of variables declaration
 }

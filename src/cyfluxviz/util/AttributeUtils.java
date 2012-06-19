@@ -17,14 +17,15 @@ import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
-import cyfluxviz.CyFluxViz;
 import cyfluxviz.gui.CyFluxVizPanel;
 
 public class AttributeUtils {
 
+	// TODO: this is not the right place for the function should be
+	// close to getSelectedFluxDistribution
 	public static List<String> getSelectedFluxDistributions(){
-    	DefaultTableModel tableModel = CyFluxViz.getFvPanel().getTableModel();
-    	JTable fluxTable = CyFluxViz.getFvPanel().getFluxTable();
+    	DefaultTableModel tableModel = CyFluxVizPanel.getInstance().getTableModel();
+    	JTable fluxTable = CyFluxVizPanel.getInstance().getFluxTable();
     	int[] selected = fluxTable.getSelectedRows();
     	
     	List<String> fdIds = new LinkedList<String>(); 
@@ -86,8 +87,7 @@ public class AttributeUtils {
         	model.addElement(obj);
         }
         // get the list and set the model
-        CyFluxVizPanel panel = CyFluxViz.getFvPanel();
-        JList list = panel.getNodeAttributeList();
+        JList list = CyFluxVizPanel.getInstance().getNodeAttributeList();
         list.setModel(model);
 	}
     
@@ -97,7 +97,7 @@ public class AttributeUtils {
     	Arrays.sort(attributes);
     	
     	// get combo box and set the values
-    	JComboBox box = CyFluxViz.getFvPanel().getNodeAttributeComboBox();
+    	JComboBox box = CyFluxVizPanel.getInstance().getNodeAttributeComboBox();
     	DefaultComboBoxModel model = new DefaultComboBoxModel(attributes);
     	box.setModel(model); 	
     	
