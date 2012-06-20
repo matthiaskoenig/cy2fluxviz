@@ -28,15 +28,12 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
  * 		  Removal of Flux distributions
  * 
  * @author Matthias Koenig
- * @version 0.82
- * @date 120604
+ * @date 200604
  */
 
 public class CyFluxViz extends CytoscapePlugin {
-	public static final boolean DEVELOP = true;
-	
 	public static final String NAME = "CyFluxViz";
-	public static final String VERSION = "v0.82";
+	public static final String VERSION = "v0.85";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
 	

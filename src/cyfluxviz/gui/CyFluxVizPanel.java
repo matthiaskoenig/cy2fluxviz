@@ -687,7 +687,6 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
     
     
     ///// FLUX DISTRIBUTION MAPPING //////
-    
     private void updateMappingView(){
     	double maxFlux = getMaxFluxForMapping();
         double minEdgeWidth = Double.parseDouble(minEdgeWidthField.getText());

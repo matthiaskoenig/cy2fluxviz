@@ -1,11 +1,8 @@
 package cyfluxviz.mapping;
 
-import cyfluxviz.CyFluxViz;
-import cyfluxviz.netview.NetworkViewTools;
 import cyfluxviz.visualstyle.VisualStyleFactory;
 import cytoscape.Cytoscape;
 import cytoscape.visual.EdgeAppearanceCalculator;
-import cytoscape.visual.VisualMappingManager;
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.VisualStyle;
 import cytoscape.visual.calculators.Calculator;
@@ -25,6 +22,7 @@ public class ApplyEdgeWidthMapping {
 	}
 	
 	public void changeMapping(){
+		System.out.println("CyFluxViz[INFO] -> Change Mapping");
 		VisualStyle vs = VisualStyleFactory.setFluxVizVisualStyle(); 
 		
 		EdgeAppearanceCalculator edgeAppCalc = vs.getEdgeAppearanceCalculator();
@@ -43,12 +41,12 @@ public class ApplyEdgeWidthMapping {
 		EditorValueRangeTracer.getTracer().setMin(type, 0.0);
 		EditorValueRangeTracer.getTracer().setMax(type, maxFlux);
 		
-		Cytoscape.getVisualMappingManager().applyAppearances();
-		NetworkViewTools.applyFluxVizView(Cytoscape.getCurrentNetwork().getIdentifier());
+		//NetworkViewTools.applyFluxVizView(Cytoscape.getCurrentNetwork().getIdentifier());
 		
 		// necessary ?
-		//Cytoscape.getCurrentNetworkView().redrawGraph(false, true);
-		//Cytoscape.getCurrentNetworkView().updateView();
+		Cytoscape.getCurrentNetworkView().redrawGraph(false, true);
+		Cytoscape.getVisualMappingManager().applyAppearances();
+		Cytoscape.getCurrentNetworkView().updateView();
 	}
 	
 	
