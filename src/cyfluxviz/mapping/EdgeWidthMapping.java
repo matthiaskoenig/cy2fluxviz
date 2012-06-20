@@ -1,4 +1,4 @@
-package cyfluxviz.vizmap;
+package cyfluxviz.mapping;
 
 import java.util.List;
 

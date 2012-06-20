@@ -3,12 +3,10 @@ package cyfluxviz;
 import java.util.HashMap;
 import java.util.Set;
 
-import cyfluxviz.netview.FluxDistributionView;
+import cyfluxviz.netview.NetworkViewTools;
+import cyfluxviz.visualstyle.VisualStyleFactory;
 
-/* Storage container for all FluxDistributions.
- * Implement a listener to the active flux distribution. If it changes
- * all the changes have to be made.
- *  */
+
 public class FluxDisCollection {
 	
 	private static FluxDisCollection uniqueInstance;
@@ -119,7 +117,7 @@ public class FluxDisCollection {
 		
 		// Change graph
 		String networkId = activeFD.getNetworkId();
-        FluxDistributionView.applyFluxVizView(networkId);
+        NetworkViewTools.applyFluxVizView(networkId);
 	}
 	
 	public void deactivateFluxDistribution(){

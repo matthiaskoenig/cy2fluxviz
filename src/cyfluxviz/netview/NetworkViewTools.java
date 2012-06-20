@@ -1,7 +1,9 @@
 package cyfluxviz.netview;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,12 +13,45 @@ import cyfluxviz.FluxDisCollection;
 import cyfluxviz.FluxDisStatistics;
 import cyfluxviz.gui.CyFluxVizPanel;
 import cytoscape.CyEdge;
+import cytoscape.CyNetwork;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.view.CyNetworkView;
-import cytoscape.visual.VisualStyle;
 
 public class NetworkViewTools {
+  
+	/* Apply the Style & View to all views related to the network */
+    public static void applyFluxVizView (String networkId){
+    	CyNetwork network = Cytoscape.getNetwork(networkId);
+    	if (network != null){
+    		List<CyNetworkView> views = getCyNetworkViewsForNetworkId(networkId);
+    		for (CyNetworkView view: views){
+    			NetworkViewTools.setFluxVizVisualStyleForView(view);
+    			applyVisualStyleToView(view);
+    		}
+    	}
+    }
+    
+	public static void applyVisualStyleToView(CyNetworkView view){
+	    view.updateView();
+	    view.redrawGraph(true,true);
+	}
+    
+    public static List<CyNetworkView> getCyNetworkViewsForNetworkId(String networkId){
+    	List<CyNetworkView> views = new LinkedList<CyNetworkView> ();
+    	HashMap<String, CyNetworkView> netViewMap = (HashMap<String, CyNetworkView>) 
+    														Cytoscape.getNetworkViewMap();
+    	for (CyNetworkView view: netViewMap.values()){
+    		String viewNetId = view.getNetwork().getIdentifier();
+    		if (viewNetId.equals(networkId)){
+    			views.add(view);
+    		} else if (view.getTitle().startsWith(networkId + "--child")){
+    			views.add(view);
+    		}
+    	}
+    	return views;
+    }
+	
 	
 	// CHANGE VISIBILITY OF NODES AND EDGES //
 	
@@ -81,6 +116,7 @@ public class NetworkViewTools {
     	return edges;
     }
     
+    /*
     public static boolean currentVisualStyleIsFluxVizVisualStyle(){
     	VisualStyle currentVS = Cytoscape.getVisualMappingManager().getVisualStyle();
     	VisualStyle fluxvizVS = CyFluxViz.getViStyle();
@@ -90,16 +126,15 @@ public class NetworkViewTools {
     	}
     	return equal;
     }
+    */
     
 	public static void setFluxVizVisualStyleForCurrentView(){
 		setFluxVizVisualStyleForView(Cytoscape.getCurrentNetworkView());
 	}
 	
     public static void setFluxVizVisualStyleForView(CyNetworkView view){
-        if (!NetworkViewTools.currentVisualStyleIsFluxVizVisualStyle()){
-        	view.setVisualStyle(CyFluxViz.getViStyle().getName());
-            Cytoscape.getVisualMappingManager().setVisualStyle(CyFluxViz.getViStyle());	
-        }
+        Cytoscape.getVisualMappingManager().setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
+        view.setVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
     }
     
     public static void updateFluxDistributionInformation(){

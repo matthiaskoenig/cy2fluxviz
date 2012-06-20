@@ -5,12 +5,10 @@ import javax.swing.SwingConstants;
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
 import cytoscape.view.cytopanels.*;
-import cytoscape.visual.VisualStyle;
 
 import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.gui.PanelText;
-import cyfluxviz.netview.FluxDistributionView;
-import cyfluxviz.util.Installation;
+import cyfluxviz.visualstyle.VisualStyleFactory;
 
 /**
  * CyFluxViz visualizes flux information within Cytoscape networks.
@@ -43,20 +41,10 @@ public class CyFluxViz extends CytoscapePlugin {
 	public static final String DEFAULTVISUALSTYLE = NAME; 
 	
 	public static final String NODE_FLUX_ATTRIBUTE = "nodeFlux";
-	public static final String NODE_VISIBILITY_ATTRIBUTE = "nodeVisibility";
 	public static final String EDGE_FLUX_ATTRIBUTE = "edgeFlux";
-	public static final String EDGE_VISIBILITY_ATTRIBUTE = "edgeVisibility";
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
-	
-	private static VisualStyle viStyle;
 		
     public CyFluxViz() {    	
-    	// TODO: Manage the installation in a better way (no installation necessary ?)
-    	// Copy the files to correct paths
-    	Installation.doInstallation();
-    	
-    	// Set the visual style at the beginning
-    	FluxDistributionView.createFluxVizVisualStyle();
     	
     	// TODO: Manage all this stuff in the panel and only activate after click
     	// on the respective plugin icon in the menubar
@@ -65,6 +53,7 @@ public class CyFluxViz extends CytoscapePlugin {
     }
     
     private void createFluxVizPanel(){
+    	VisualStyleFactory.setFluxVizVisualStyle();
 		CyFluxVizPanel fvPanel = CyFluxVizPanel.getInstance();
 		addCyFluxVizPanelToCytoscape(fvPanel);
     }
@@ -86,6 +75,7 @@ public class CyFluxViz extends CytoscapePlugin {
         return description;
     }
     
+    /*
     // VisualStyle methods //
 	public static VisualStyle getViStyle() {
 		return CyFluxViz.viStyle;
@@ -103,4 +93,5 @@ public class CyFluxViz extends CytoscapePlugin {
 		}
 		return vsName;
 	}
+	*/
 }

@@ -21,12 +21,12 @@ import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.io.FluxDistributionImporter;
+import cyfluxviz.mapping.ApplyEdgeWidthMapping;
 import cyfluxviz.netview.NetworkView;
 import cyfluxviz.netview.NetworkViewTools;
 import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
-import cyfluxviz.vizmap.ApplyEdgeWidthMapping;
 import cytoscape.util.OpenBrowser;
 
 @SuppressWarnings("serial")

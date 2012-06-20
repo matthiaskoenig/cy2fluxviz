@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
-import cyfluxviz.netview.FluxDistributionView;
 import cyfluxviz.netview.NetworkView;
+import cyfluxviz.netview.NetworkViewTools;
 import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 import cytoscape.dialogs.ExportAsGraphicsFileChooser;
@@ -95,7 +95,7 @@ public class ExportAsGraphics
 		    			String networkId = fd.getNetworkId();
 		        		CyNetwork network = Cytoscape.getNetwork(networkId);
 		        		if (network != null){
-		        			List<CyNetworkView> views = FluxDistributionView.getCyNetworkViewsForNetworkId(networkId);
+		        			List<CyNetworkView> views = NetworkViewTools.getCyNetworkViewsForNetworkId(networkId);
 		        			for (CyNetworkView view: views){
 		        				String name = view.getTitle() + "_" + fd.getName();
 		    		    		String filename = selectedFile.getParent() + "/" + name + "." + extension;

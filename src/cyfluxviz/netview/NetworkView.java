@@ -26,7 +26,7 @@ public class NetworkView {
     		String networkId = fd.getNetworkId();
     		CyNetwork network = Cytoscape.getNetwork(networkId);
     		if (network != null){
-    			List<CyNetworkView> views = FluxDistributionView.getCyNetworkViewsForNetworkId(networkId);
+    			List<CyNetworkView> views = NetworkViewTools.getCyNetworkViewsForNetworkId(networkId);
     			for (CyNetworkView view: views){
     				updateNetworkView(view);		
     			}

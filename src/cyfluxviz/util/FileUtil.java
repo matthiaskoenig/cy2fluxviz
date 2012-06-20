@@ -5,13 +5,11 @@ import javax.swing.JFileChooser;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.PluginManager;
-import cytoscape.visual.CalculatorCatalog;
 
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.io.FluxDistributionImporter;
-import cyfluxviz.vizmap.LoadVizmap;
 
 public class FileUtil {
 
@@ -62,17 +60,5 @@ public class FileUtil {
 		FluxDis fluxDistribution = fdImporter.getFluxDistribution();
 		FluxDisCollection fdCollection = FluxDisCollection.getInstance();
 		fdCollection.addFluxDistribution(fluxDistribution);
-    }
-        
-    public static void loadVisualStyle(){
-        CalculatorCatalog calc_cat = Cytoscape.getVisualMappingManager().getCalculatorCatalog();
-        CyFluxViz.setViStyle(calc_cat.getVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE));
-        
-        // Load Visual Style if not available
-        if (CyFluxViz.getViStyle() == null) {        	
-        	@SuppressWarnings("unused")
-			LoadVizmap loadVM = new LoadVizmap(FileUtil.getVisualStyleFile());
-        	CyFluxViz.setViStyle(calc_cat.getVisualStyle(CyFluxViz.getViStyleName()));
-        }	
     }
 }

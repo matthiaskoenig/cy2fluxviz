@@ -7,7 +7,7 @@ import cytoscape.Cytoscape;
 import cytoscape.task.ui.JTaskConfig;
 import cytoscape.task.util.TaskManager;
 
-
+@Deprecated
 public class Installation {
 	
     /*
@@ -77,7 +77,4 @@ public class Installation {
     	File dir = new File(FileUtil.getFluxVizDataDirectory().getCanonicalPath());
     	DeleteDir.deleteDirectory(dir);
     }
-    
-
-	
 }
