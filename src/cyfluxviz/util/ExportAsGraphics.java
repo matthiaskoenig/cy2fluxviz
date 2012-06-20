@@ -5,10 +5,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
+import cyfluxviz.netview.FluxDistributionView;
+import cyfluxviz.netview.NetworkView;
+import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 import cytoscape.dialogs.ExportAsGraphicsFileChooser;
 import cytoscape.dialogs.ExportBitmapOptionsDialog;
@@ -73,33 +78,44 @@ public class ExportAsGraphics
 				ExportFilter filter = (ExportFilter) chooser.getSelectedFormat();
 				filter.setExportTextAsFont(chooser.getExportTextAsFont());
 				
-				File folder = chooser.getSelectedFile(); 
+				File selectedFile = chooser.getSelectedFile();
 				chooser.dispose();
 				
 				FileOutputStream stream = null;
-		    	for (String fdId : AttributeUtils.getSelectedFluxDistributions()){	
-		    		
-		    		String extension = (String) filter.getExtensionSet().toArray()[0];
-		            File file = new File(folder, fdId + "." + extension);
-					try
-					{
-						stream = new FileOutputStream(file);
-					}
-					catch (Exception exp)
-					{
-						JOptionPane.showMessageDialog(	
-								Cytoscape.getDesktop(),
-								String.format("Could not create file %s\nError: %s",
-											  file.getName(), exp.getMessage() ));
-						return;
-					}
-		    		// Set the FluxDistribution Active
-					FluxDisCollection fdCollection = FluxDisCollection.getInstance();
-					FluxDis fluxDistribution = fdCollection.getFluxDistribution(fdId);
-					fdCollection.setFluxDistributionActive(fluxDistribution);
+				FluxDisCollection fdCollection = FluxDisCollection.getInstance();
+				String extension = (String) filter.getExtensionSet().toArray()[0];
+				
+		    	for (String fdId : AttributeUtils.getSelectedFluxDistributions()){		
+		    		FluxDis fd = fdCollection.getFluxDistribution(fdId);
+					fdCollection.setFluxDistributionActive(fd);
+					NetworkView.updateNetworkViewsForFluxDistribution(fd);
 					
-					CyNetworkView view = Cytoscape.getCurrentNetworkView();
-					filter.export(view, stream);            
+		    		// Get all views for the
+		    		if (fd != null){
+		    			String networkId = fd.getNetworkId();
+		        		CyNetwork network = Cytoscape.getNetwork(networkId);
+		        		if (network != null){
+		        			List<CyNetworkView> views = FluxDistributionView.getCyNetworkViewsForNetworkId(networkId);
+		        			for (CyNetworkView view: views){
+		        				String name = view.getTitle() + "_" + fd.getName();
+		    		    		String filename = selectedFile.getParent() + "/" + name + "." + extension;
+		    		    		System.out.println("CyFluxViz[INFO] -> Export : " + filename);
+		    		            
+		    		    		File file = new File(filename);
+		    					try {
+		    						stream = new FileOutputStream(file);
+		    						filter.export(view, stream);  
+		    					} catch (Exception exp) {
+		    						exp.printStackTrace();
+		    						JOptionPane.showMessageDialog(	
+		    								Cytoscape.getDesktop(),
+		    								String.format("Could not create file %s\nError: %s",
+		    											  file.getName(), exp.getMessage() ));
+		    						return;
+		    					}
+		        			}
+		        		}		    		
+		    		}
 		    	}
 			}
 		};

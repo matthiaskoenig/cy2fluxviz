@@ -32,7 +32,7 @@ public class AttributeUtils {
     	String id;
     	if (selected != null){
     		for (int i=0; i<selected.length; ++i){
-    			id = (String) tableModel.getValueAt(selected[i], 0);
+    			id = (String) tableModel.getValueAt(selected[i], 2);
         		fdIds.add(id);
         	}	
     	}    	
