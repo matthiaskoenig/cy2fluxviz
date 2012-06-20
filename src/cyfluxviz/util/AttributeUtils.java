@@ -39,26 +39,7 @@ public class AttributeUtils {
     	return fdIds;
 	}
 
-	/**
-	 * Get Node attributes from table model.
-	 * @return array of string node attribute names
-	 */
-	public static Set<String> getTypeNodeAttributes(byte attrType){
-		Set<String> nameSet = new HashSet<String>();
-		CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
-		for (String name : nodeAttrs.getAttributeNames()){
-			if (nodeAttrs.getType(name) == attrType){
-				nameSet.add(name);
-			}
-		}
-    	return nameSet;
-	}
-	
-	/* Returns names of string NodeAttributes. */
-	public static Set<String> getStringNodeAttributes(){
-		return getTypeNodeAttributes(CyAttributes.TYPE_STRING);
-	}
-	
+
 	/* Get the set of different values used in the attribute. 
 	 * Identical function used for different types. */
 	@SuppressWarnings("unchecked")
@@ -123,4 +104,20 @@ public class AttributeUtils {
         	initNodeAttributeList(null);
         }	
     }
+    
+	public static Set<String> getStringNodeAttributes(){
+		return getTypeNodeAttributes(CyAttributes.TYPE_STRING);
+	}
+	
+	public static Set<String> getTypeNodeAttributes(byte attrType){
+		Set<String> nameSet = new HashSet<String>();
+		CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
+		for (String name : nodeAttrs.getAttributeNames()){
+			if (nodeAttrs.getType(name) == attrType){
+				nameSet.add(name);
+			}
+		}
+    	return nameSet;
+	}
+
 }

@@ -647,11 +647,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
     
   /// ATTRIBUTE SUBNETS ////    
     private void nodeAttributeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        // if new value is selected the content of the ValueSet list has to be
+        
+    	// if new value is selected the content of the ValueSet list has to be
         // changed accordingly
         int index = nodeAttributeComboBox.getSelectedIndex();
         if (index!= -1){
-        	//TODO: has to be selected via all selected Attributes
             String attribute = (String) nodeAttributeComboBox.getSelectedItem();
             AttributeUtils.initNodeAttributeList(attribute);
         }
@@ -798,22 +798,18 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.ATTRIBUTES_CHANGED))
 		{
-			System.out.println("ATTRIBUTE CHANGED -> HANDLE IN MAPPING");
 			AttributeUtils.initNodeAttributeComboBox();
 		}
 		
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED))
 		{
-			System.out.println("SESSION LOADED -> HANDLE IN MAPPING");
-			AttributeUtils.initNodeAttributeComboBox();
-			
+			AttributeUtils.initNodeAttributeComboBox();	
 			jCheckBoxAttributeSubnet.setSelected(false);
 			jCheckBoxFluxSubnet.setSelected(false);
 	    }
 	    
 		if (e.getPropertyName().equalsIgnoreCase(CytoscapeDesktop.NETWORK_VIEW_FOCUSED))
 		{
-			System.out.println("NETWORK_VIEW_FOCUSED -> HANDLE IN MAPPING");
 			AttributeUtils.initNodeAttributeComboBox();
 		}
 	} 
