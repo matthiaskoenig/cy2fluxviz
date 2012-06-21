@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
+import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.netview.NetworkView;
 import cyfluxviz.netview.NetworkViewTools;
 import cytoscape.CyNetwork;
@@ -85,7 +88,11 @@ public class ExportAsGraphics
 				FluxDisCollection fdCollection = FluxDisCollection.getInstance();
 				String extension = (String) filter.getExtensionSet().toArray()[0];
 				
-		    	for (String fdId : AttributeUtils.getSelectedFluxDistributions()){		
+				List<String> fdIds = new LinkedList<String>(fdCollection.getIdSet());
+				if (CyFluxVizPanel.getInstance().exportSelectedFluxDistributions()){
+					fdIds = AttributeUtils.getSelectedFluxDistributions();
+				} 
+		    	for (String fdId : fdIds){		
 		    		FluxDis fd = fdCollection.getFluxDistribution(fdId);
 					fdCollection.setFluxDistributionActive(fd);
 					NetworkView.updateNetworkViewsForFluxDistribution(fd);

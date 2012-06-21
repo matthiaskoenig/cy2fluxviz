@@ -113,8 +113,8 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 	private JTabbedPane settingPane;
 	private JPanel subnetPanel;
 	private JScrollPane subnetScrollPane;
-	private JCheckBox checkBox;
-	private JCheckBox checkBox_1;
+	private JCheckBox checkBoxSaveImagesSelected;
+	private JCheckBox checkBoxSaveImagesAll;
 	private JButton btnExportImages;
 	private JLabel label;
 	private JButton btnLoadCyfluxviz;
@@ -490,6 +490,10 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 			AttributeUtils.initNodeAttributeComboBox();
 		}
 	}
+	
+	public boolean exportSelectedFluxDistributions(){
+		return checkBoxSaveImagesSelected.isSelected();
+	}
 
 	// //// GETTER AND SETTER ////////////
 	public javax.swing.JTable getFluxTable() {
@@ -558,6 +562,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		mappingPanel = new javax.swing.JPanel();
 
 		settingPane = new javax.swing.JTabbedPane();
+		
 
 		exportScrollPane = new javax.swing.JScrollPane();
 		exportPanel = new javax.swing.JPanel();
@@ -852,6 +857,8 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		jLabel7 = new javax.swing.JLabel();
 		jLabel8 = new javax.swing.JLabel();
 		maxEdgeWidthSlider = new javax.swing.JSlider();
+		maxEdgeWidthSlider.setMaximum(50);
+		maxEdgeWidthSlider.setValue(15);
 		localMaxBox = new javax.swing.JCheckBox();
 		globalMaxBox = new javax.swing.JCheckBox();
 		maxEdgeWidthField = new javax.swing.JTextField();
@@ -882,7 +889,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 
 		maxEdgeWidthSlider.setBackground(java.awt.Color.white);
 		maxEdgeWidthSlider.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
-		maxEdgeWidthSlider.setMajorTickSpacing(25);
+		maxEdgeWidthSlider.setMajorTickSpacing(10);
 		maxEdgeWidthSlider.setPaintLabels(true);
 		maxEdgeWidthSlider.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -919,7 +926,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		});
 
 		maxEdgeWidthField.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
-		maxEdgeWidthField.setText("32.0");
+		maxEdgeWidthField.setText("15.0");
 		maxEdgeWidthField
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -939,131 +946,55 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				jPanel1);
+		jPanel1Layout.setHorizontalGroup(
+			jPanel1Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel1Layout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(jPanel1Layout.createSequentialGroup()
+							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(jPanel1Layout.createSequentialGroup()
+									.addGap(12)
+									.addComponent(imageIconLabel, GroupLayout.PREFERRED_SIZE, 161, GroupLayout.PREFERRED_SIZE))
+								.addComponent(jLabel7)
+								.addComponent(jLabel8)
+								.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+									.addComponent(jLabel6)
+									.addGroup(jPanel1Layout.createSequentialGroup()
+										.addComponent(localMaxBox)
+										.addGap(33)
+										.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+											.addComponent(globalMaxBox)
+											.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+												.addComponent(maxEdgeWidthField, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+												.addComponent(minEdgeWidthField, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))))
+							.addContainerGap())
+						.addGroup(jPanel1Layout.createSequentialGroup()
+							.addComponent(maxEdgeWidthSlider, 0, 0, Short.MAX_VALUE)
+							.addGap(93))))
+		);
+		jPanel1Layout.setVerticalGroup(
+			jPanel1Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel1Layout.createSequentialGroup()
+					.addComponent(jLabel6)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(localMaxBox)
+						.addComponent(globalMaxBox))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(jLabel7)
+						.addComponent(minEdgeWidthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(jLabel8)
+						.addComponent(maxEdgeWidthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(2)
+					.addComponent(maxEdgeWidthSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(imageIconLabel, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE))
+		);
 		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																jPanel1Layout
-																		.createSequentialGroup()
-																		.addGap(12,
-																				12,
-																				12)
-																		.addComponent(
-																				imageIconLabel,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				161,
-																				javax.swing.GroupLayout.PREFERRED_SIZE))
-														.addComponent(jLabel7)
-														.addComponent(jLabel8)
-														.addGroup(
-																jPanel1Layout
-																		.createParallelGroup(
-																				javax.swing.GroupLayout.Alignment.TRAILING,
-																				false)
-																		.addComponent(
-																				maxEdgeWidthSlider,
-																				javax.swing.GroupLayout.Alignment.LEADING,
-																				0,
-																				0,
-																				Short.MAX_VALUE)
-																		.addComponent(
-																				jLabel6,
-																				javax.swing.GroupLayout.Alignment.LEADING)
-																		.addGroup(
-																				javax.swing.GroupLayout.Alignment.LEADING,
-																				jPanel1Layout
-																						.createSequentialGroup()
-																						.addComponent(
-																								localMaxBox)
-																						.addGap(33,
-																								33,
-																								33)
-																						.addGroup(
-																								jPanel1Layout
-																										.createParallelGroup(
-																												javax.swing.GroupLayout.Alignment.LEADING)
-																										.addComponent(
-																												globalMaxBox)
-																										.addGroup(
-																												jPanel1Layout
-																														.createParallelGroup(
-																																javax.swing.GroupLayout.Alignment.TRAILING)
-																														.addComponent(
-																																maxEdgeWidthField,
-																																javax.swing.GroupLayout.PREFERRED_SIZE,
-																																45,
-																																javax.swing.GroupLayout.PREFERRED_SIZE)
-																														.addComponent(
-																																minEdgeWidthField,
-																																javax.swing.GroupLayout.PREFERRED_SIZE,
-																																46,
-																																javax.swing.GroupLayout.PREFERRED_SIZE))))))
-										.addContainerGap()));
-		jPanel1Layout
-				.setVerticalGroup(jPanel1Layout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addComponent(jLabel6)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(
-																localMaxBox)
-														.addComponent(
-																globalMaxBox))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(jLabel7)
-														.addComponent(
-																minEdgeWidthField,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												jPanel1Layout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(jLabel8)
-														.addComponent(
-																maxEdgeWidthField,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGap(2, 2, 2)
-										.addComponent(
-												maxEdgeWidthSlider,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(
-												imageIconLabel,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												94,
-												javax.swing.GroupLayout.PREFERRED_SIZE)));
 
 		fluxMapScrollPane.setViewportView(jPanel1);
 
@@ -1125,16 +1056,31 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		chckbxSaveSelectedFD.setBackground(Color.WHITE);
 		chckbxSaveSelectedFD.setBounds(58, 29, 116, 23);
 
-		checkBox = new JCheckBox("Selected");
-		checkBox.setBackground(Color.WHITE);
-		checkBox.setBounds(58, 119, 116, 23);
+		checkBoxSaveImagesSelected = new JCheckBox("Selected");
+		checkBoxSaveImagesSelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				checkBoxSaveImagesAll.setSelected(!checkBoxSaveImagesSelected.isSelected());
+			}
+		});
+		checkBoxSaveImagesSelected.setSelected(true);
+		checkBoxSaveImagesSelected.setBackground(Color.WHITE);
+		checkBoxSaveImagesSelected.setBounds(58, 119, 116, 23);
 
-		checkBox_1 = new JCheckBox("All");
-		checkBox_1.setBackground(Color.WHITE);
-		checkBox_1.setBounds(12, 119, 42, 23);
-		checkBox_1.setSelected(true);
+		checkBoxSaveImagesAll = new JCheckBox("All");
+		checkBoxSaveImagesAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				checkBoxSaveImagesSelected.setSelected(!checkBoxSaveImagesAll.isSelected());
+			}
+		});
+		checkBoxSaveImagesAll.setBackground(Color.WHITE);
+		checkBoxSaveImagesAll.setBounds(12, 119, 42, 23);
 
 		btnExportImages = new JButton();
+		btnExportImages.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ExportAsGraphics.exportImage();
+			}
+		});
 		btnExportImages.setBounds(12, 150, 134, 25);
 		btnExportImages
 				.setToolTipText("Export Images of flux distributions as SVG");
@@ -1142,8 +1088,8 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 
 		exportScrollPane.setViewportView(exportPanel);
 		exportPanel.setLayout(null);
-		exportPanel.add(checkBox_1);
-		exportPanel.add(checkBox);
+		exportPanel.add(checkBoxSaveImagesAll);
+		exportPanel.add(checkBoxSaveImagesSelected);
 		exportPanel.add(separator);
 		exportPanel.add(btnExportFd);
 		exportPanel.add(chckbxSaveAllFD);
@@ -1205,7 +1151,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		fluxDisPanel.add(btnRemoveSelectedFD);
 
 		settingPane.getAccessibleContext().setAccessibleName("Settings");
-
+		settingPane.setSelectedIndex(1);
 		fluxTable.getSelectionModel().addListSelectionListener(this);
 	}
 }

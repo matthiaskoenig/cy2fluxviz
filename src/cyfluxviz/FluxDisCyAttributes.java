@@ -64,17 +64,21 @@ public class FluxDisCyAttributes {
 	}
 	
 	public static void selectTableAttributes(){
-		// selected node attributes
 		AttributeBrowser nodeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.NODES);
 		List<String> selectedNodeAtts = nodeAttributeBrowser.getSelectedAttributes();
-		selectedNodeAtts.add(CyFluxViz.NODE_FLUX_ATTRIBUTE);
-		nodeAttributeBrowser.setSelectedAttributes(selectedNodeAtts);
+		if (! selectedNodeAtts.contains(CyFluxViz.NODE_FLUX_ATTRIBUTE)){
+			selectedNodeAtts.add(CyFluxViz.NODE_FLUX_ATTRIBUTE);
+			nodeAttributeBrowser.setSelectedAttributes(selectedNodeAtts);
+		}
 		
-		// selected edge attributes
 		AttributeBrowser edgeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.EDGES);
 		List<String> selectedEdgeAtts = edgeAttributeBrowser.getSelectedAttributes();
-		selectedEdgeAtts.add(CyFluxViz.EDGE_DIRECTION_ATTRIBUTE);
-		selectedEdgeAtts.add(CyFluxViz.EDGE_FLUX_ATTRIBUTE);
+		if (! selectedNodeAtts.contains(CyFluxViz.EDGE_DIRECTION_ATTRIBUTE)){
+			selectedEdgeAtts.add(CyFluxViz.EDGE_DIRECTION_ATTRIBUTE);
+		}
+		if (! selectedNodeAtts.contains(CyFluxViz.EDGE_FLUX_ATTRIBUTE)){
+			selectedEdgeAtts.add(CyFluxViz.EDGE_FLUX_ATTRIBUTE);
+		}
 		edgeAttributeBrowser.setSelectedAttributes(selectedEdgeAtts);
 	}
 }
