@@ -47,6 +47,7 @@ public class VisualStyleFactory {
 		NodeAppearanceCalculator nodeAppCalc = new NodeAppearanceCalculator();
 		nodeAppCalc.setCalculator(createNodeShapeCalculator(network));
 		nodeAppCalc.setCalculator(createNodeLabelCalculator(network));
+		nodeAppCalc.setCalculator(createNodeFillColorCalculator(network));
 		
 		EdgeAppearanceCalculator edgeAppCalc = new EdgeAppearanceCalculator();
 		edgeAppCalc.setCalculator(createEdgeWidthCalculator(network));
@@ -66,13 +67,14 @@ public class VisualStyleFactory {
 		return visualStyle;
 	}
     
-    // NODE SHAPE
+    // NODE LABEL
 	private static Calculator createNodeLabelCalculator(CyNetwork network){
 		PassThroughMapping mapping = new PassThroughMapping(new String(), ObjectMapping.NODE_MAPPING);
 		mapping.setControllingAttributeName(CySBMLConstants.ATT_NAME, network, false);
 		return new BasicCalculator("CYSBML_NODE_LABEL", mapping, VisualPropertyType.NODE_LABEL);
 	}
 	
+	// NODE SHAPE
 	private static Calculator createNodeShapeCalculator(CyNetwork network){
 		DiscreteMapping disMapping = new DiscreteMapping(NodeShape.RECT,
                 ObjectMapping.NODE_MAPPING);
@@ -82,6 +84,15 @@ public class VisualStyleFactory {
 		disMapping.putMapValue(CySBMLConstants.NODETYPE_QUAL_SPECIES, NodeShape.ELLIPSE);
 		disMapping.putMapValue(CySBMLConstants.NODETYPE_QUAL_TRANSITION, NodeShape.DIAMOND);
 		return new BasicCalculator("CYSBML_NODE_SHAPE", disMapping, VisualPropertyType.NODE_SHAPE);
+	}
+	
+	// NODE FILL COLOR
+	private static Calculator createNodeFillColorCalculator(CyNetwork network){
+		DiscreteMapping disMapping = new DiscreteMapping(Color.WHITE, ObjectMapping.NODE_MAPPING);
+		disMapping.setControllingAttributeName(CySBMLConstants.ATT_REVERSIBLE, network, false);
+		disMapping.putMapValue(true, new Color(0,153,0));
+		disMapping.putMapValue(false, new Color(255,51,51));
+		return new BasicCalculator("CYSBML_NODE_FILL_COLOR", disMapping, VisualPropertyType.NODE_FILL_COLOR);
 	}
 	
     // EDGE WIDTH

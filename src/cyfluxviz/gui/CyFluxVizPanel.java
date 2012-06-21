@@ -37,6 +37,7 @@ import javax.swing.table.TableColumn;
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
+import cyfluxviz.FluxDisCyAttributes;
 import cyfluxviz.io.ValFluxDistributionImporter;
 import cyfluxviz.mapping.ApplyEdgeWidthMapping;
 import cyfluxviz.netview.NetworkView;
@@ -176,7 +177,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		updateFluxDistributionTable();
 		updateMappingView();
 	}
-
+	
 	public void updateFluxDistributionTable() {
 		clearFluxDistributionTable();
 		
@@ -199,6 +200,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 			}
 			uniqueInstance.selectCyFluxVizPanelAndSetDialogs();
 		}
+		FluxDisCyAttributes.selectTableAttributes();
 	}
 
 	public void clearFluxDistributionTable() {
@@ -917,7 +919,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		});
 
 		maxEdgeWidthField.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
-		maxEdgeWidthField.setText("50.0");
+		maxEdgeWidthField.setText("32.0");
 		maxEdgeWidthField
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {

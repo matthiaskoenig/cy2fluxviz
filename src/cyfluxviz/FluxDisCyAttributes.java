@@ -2,6 +2,11 @@ package cyfluxviz;
 
 import java.util.HashMap;
 
+import java.util.List;
+
+import browser.AttributeBrowser;
+import browser.AttributeBrowserPlugin;
+
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
 
@@ -56,5 +61,20 @@ public class FluxDisCyAttributes {
 		for (String id: data.keySet()){
 			edgeAttributes.setAttribute(id, attName, data.get(id).toInt());
 		}
+	}
+	
+	public static void selectTableAttributes(){
+		// selected node attributes
+		AttributeBrowser nodeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.NODES);
+		List<String> selectedNodeAtts = nodeAttributeBrowser.getSelectedAttributes();
+		selectedNodeAtts.add(CyFluxViz.NODE_FLUX_ATTRIBUTE);
+		nodeAttributeBrowser.setSelectedAttributes(selectedNodeAtts);
+		
+		// selected edge attributes
+		AttributeBrowser edgeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.EDGES);
+		List<String> selectedEdgeAtts = edgeAttributeBrowser.getSelectedAttributes();
+		selectedEdgeAtts.add(CyFluxViz.EDGE_DIRECTION_ATTRIBUTE);
+		selectedEdgeAtts.add(CyFluxViz.EDGE_FLUX_ATTRIBUTE);
+		edgeAttributeBrowser.setSelectedAttributes(selectedEdgeAtts);
 	}
 }
