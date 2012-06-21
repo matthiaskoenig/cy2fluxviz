@@ -26,6 +26,9 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
  * TODO : Context menu for flux distributions -> filter for networkId or other criteria,
  * 		  Removal of Flux distributions
  * TODO : Update the attribute information only if the attribute subnets are selected
+ * TODO : Sorting of FluxDistributions, Context Menu, Filter by Network
+ * TODO : Calculate Secondary Flux Distributions (mean, diff, ...)
+ * TODO : Flux Correlation Matrix for Flux Distributions
  * 
  * @author Matthias Koenig
  * @date 200604

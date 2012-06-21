@@ -53,9 +53,12 @@ public class FluxDisCollection {
 		updateGlobalAbsValues(fluxDistribution);
 	}
 
-	public void removeFluxDistribution(FluxDis fluxDistribution) {
-		String fdId = fluxDistribution.getId();
+	public void removeFluxDistribution(FluxDis fd) {
+		String fdId = fd.getId();
 		if (containsFluxDistribution(fdId)) {
+			if (activeFD == fd){
+				deactivateFluxDistribution();
+			}
 			fluxDistributions.remove(fdId);
 			updateGlobalAbsValues();
 		}
