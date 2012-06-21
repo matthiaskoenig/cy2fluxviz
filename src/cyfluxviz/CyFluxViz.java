@@ -80,11 +80,13 @@ public class CyFluxViz extends CytoscapePlugin {
 	    }
 	    
 	    private void addCyFluxVizPanelToCytoscape(CyFluxVizPanel fvPanel){
+	    	String name = CyFluxViz.NAME;
 	    	CytoPanel cytoPanel = getCytoPanel();
-	    	cytoPanel.add(NAME, fvPanel);
+	    	cytoPanel.add(name, fvPanel);
 			cytoPanel.setState(CytoPanelState.DOCK);
+			cytoPanel.setSelectedIndex(cytoPanel.indexOfComponent(name));
+			PanelText.setInfo(fvPanel);
 			PanelText.setHelp(fvPanel);
-			PanelText.setFluxVizInfo(fvPanel);
 	    }
 	    
 	    private CytoPanel getCytoPanel(){

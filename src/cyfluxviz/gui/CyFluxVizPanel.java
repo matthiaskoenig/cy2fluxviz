@@ -1,11 +1,14 @@
 package cyfluxviz.gui;
 
+import java.io.IOException;
 import java.net.URL;
+import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -127,8 +130,8 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
         imageIconLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(32000, 32000));
-        setMinimumSize(new java.awt.Dimension(100, 300));
-        setPreferredSize(new java.awt.Dimension(180, 700));
+        setMinimumSize(new java.awt.Dimension(180, 300));
+        setPreferredSize(new java.awt.Dimension(300, 700));
         
         // Mapping Panel
         mappingPanel.setBackground(java.awt.Color.white);
@@ -196,6 +199,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
         
         infoPane.setContentType("text/html");
         infoPane.setEditable(false);
+        infoPane.setFont(new Font("Dialog", Font.PLAIN, 11));
         infoPane.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
             public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {
                 infoPaneHyperlinkUpdate(evt);
@@ -203,10 +207,12 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
         });
         infoScrollPane.setViewportView(infoPane);
 
-        informationPane.addTab("Info", infoScrollPane);
+        ImageIcon fluxVizIcon = new ImageIcon(getClass().getResource("/cyfluxviz/gui/images/CyFluxViz_logo_small.png"));
+        informationPane.addTab("Info ", fluxVizIcon, infoScrollPane);
 
         helpPane.setContentType("text/html");
         helpPane.setEditable(false);
+        helpPane.setFont(new Font("Dialog", Font.PLAIN, 11));
         helpPane.setToolTipText("Information about the flux distributions.");
         helpPane.setMinimumSize(new java.awt.Dimension(130, 50));
         helpPane.setPreferredSize(new java.awt.Dimension(180, 100));
@@ -785,12 +791,28 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
 		pane.setText(info);
 	}
 	
+	private void updatePaneHTMLText(javax.swing.JEditorPane pane,  URL url){
+		try {
+			pane.setPage(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void updateInfoPaneHTMLText(String htmlText){
 		updatePaneHTMLText(infoPane, htmlText);
 	}
+	public void updateInfoPaneHTMLText(URL url){
+		updatePaneHTMLText(infoPane, url);
+	}
+	
 	public void updateHelpPaneHTMLText(String htmlText){
 		updatePaneHTMLText(helpPane, htmlText);
 	}
+	public void updateHelpPaneHTMLText(URL url){
+		updatePaneHTMLText(helpPane, url);
+	}
+	
 	
 	//////  Cytoscape Changes	////////////	
 	

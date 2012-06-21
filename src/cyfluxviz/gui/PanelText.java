@@ -1,8 +1,11 @@
 package cyfluxviz.gui;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.JOptionPane;
 
-import cyfluxviz.CyFluxViz;
+import cysbml.gui.CySBMLNavigationPanel;
 import cytoscape.Cytoscape;
 
 public class PanelText {
@@ -20,31 +23,24 @@ public class PanelText {
 		return header;
 	}
 	
-	public static void setFluxVizInfo(CyFluxVizPanel fvPanel){
-    	String info = 
-    			getHTMLHeader() +
-    			"<b>" + CyFluxViz.NAME + "-" + CyFluxViz.VERSION +"</b><br>" +
-    			"Visualisation of flux distributions in networks.<br>" +
-    			"Developed by <span color=\"gray\">Matthias König</span> at Charite Berlin.";
-    	fvPanel.updateInfoPaneHTMLText(info);
+		
+	public static void setInfo(CyFluxVizPanel fvPanel){
+		URL url;
+		try {
+			url = new URL(CySBMLNavigationPanel.class.getResource("/cyfluxviz/gui/dialogs/cyfluxviz_info.html").toString());
+			fvPanel.updateInfoPaneHTMLText(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
     }
 		
     public static void setHelp(CyFluxVizPanel fvPanel){
-    	String help = 
-    			getHTMLHeader() +
-    			"<b>1. Select Network for visualisation</b>" +
-    			"<br>Load ('File -> Import Network' or 'File -> Open') or create Network for visualization of flux distributions.<br>" +
-    			" CyFluxViz works on the current NetworkView.<br />" +
-    			
-    			"<b>2. Load flux distributions</b><br/>" +
-    			"Import flux distribution via *.val files ('Import' menu).<br/>" +
-    			
-    			"<b>3. Adapt mapping functions and subnet view [optional]</b><br>" +
-    			"The NetworkView can be reduced to flux containing subnets (Subnet -> Flux subnet) or attribute subnets " +
-    			"(Subnet -> Attribute subnet)<br />" +
-    			
-    			"<b>4. Export Images [optional]</b><br>Select val file for Flux visualisation and export images in selected" +
-    			"format (PDF, SVG, EPS, JPG, PNG, BMP).";
-    	fvPanel.updateHelpPaneHTMLText(help);
+		URL url;
+		try {
+			url = new URL(CySBMLNavigationPanel.class.getResource("/cyfluxviz/gui/dialogs/cyfluxviz_help.html").toString());
+			fvPanel.updateHelpPaneHTMLText(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
     }
 }
