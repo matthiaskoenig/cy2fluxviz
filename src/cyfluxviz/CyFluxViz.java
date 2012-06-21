@@ -4,12 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
 import cytoscape.util.CytoscapeAction;
-import cytoscape.view.cytopanels.*;
 
 import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.gui.PanelText;
@@ -27,6 +25,7 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
  * TODO : export, loading of set of flux distributions
  * TODO : Context menu for flux distributions -> filter for networkId or other criteria,
  * 		  Removal of Flux distributions
+ * TODO : Update the attribute information only if the attribute subnets are selected
  * 
  * @author Matthias Koenig
  * @date 200604
