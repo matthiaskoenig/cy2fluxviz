@@ -52,7 +52,7 @@ public class CyFluxViz extends CytoscapePlugin {
         String description = "CyFluxViz - Visualise fluxes in Cytoscape networks.";
         return description;
     }
-
+    
 	@SuppressWarnings("serial")
 	public class CyFluxVizStartAction extends CytoscapeAction {
 	    public CyFluxVizStartAction() {super("CyFluxViz Startup");}
@@ -70,27 +70,10 @@ public class CyFluxViz extends CytoscapePlugin {
 		
 		/* This method is called when the user selects the menu item. */
 	    public void actionPerformed(ActionEvent ae) {
-	    	createFluxVizPanel();
-	    }
-	    
-	    private void createFluxVizPanel(){
+	    	// Creates the unique instance of the singleton CyFluxVizPanel
+	    	CyFluxVizPanel fvPanel = CyFluxVizPanel.getInstance();
+	    	PanelText.setInfo(fvPanel);
 	    	VisualStyleFactory.setFluxVizVisualStyle();
-			CyFluxVizPanel fvPanel = CyFluxVizPanel.getInstance();
-			addCyFluxVizPanelToCytoscape(fvPanel);
-	    }
-	    
-	    private void addCyFluxVizPanelToCytoscape(CyFluxVizPanel fvPanel){
-	    	String name = CyFluxViz.NAME;
-	    	CytoPanel cytoPanel = getCytoPanel();
-	    	cytoPanel.add(name, fvPanel);
-			cytoPanel.setState(CytoPanelState.DOCK);
-			cytoPanel.setSelectedIndex(cytoPanel.indexOfComponent(name));
-			PanelText.setInfo(fvPanel);
-			PanelText.setHelp(fvPanel);
-	    }
-	    
-	    private CytoPanel getCytoPanel(){
-	    	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
 	    }
 	}
 }

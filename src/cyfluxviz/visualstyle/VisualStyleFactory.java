@@ -34,9 +34,10 @@ public class VisualStyleFactory {
 		CalculatorCatalog calcCatalog = vmm.getCalculatorCatalog();
 		VisualStyle vs = calcCatalog.getVisualStyle(CyFluxViz.DEFAULTVISUALSTYLE);
 		if (vs == null){
+			// only create once
 			vs = createFluxVizVisualStyle(Cytoscape.getCurrentNetwork());
+			calcCatalog.addVisualStyle(vs);
 		}
-		calcCatalog.addVisualStyle(vs);
 		vmm.setVisualStyle(vs);
 		vmm.applyAppearances();
 		return vs;

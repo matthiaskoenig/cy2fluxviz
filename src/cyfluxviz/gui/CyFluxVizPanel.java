@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -18,9 +19,12 @@ import javax.swing.table.TableColumn;
 
 import cytoscape.Cytoscape;
 import cytoscape.view.CytoscapeDesktop;
+import cytoscape.view.cytopanels.CytoPanel;
+import cytoscape.view.cytopanels.CytoPanelState;
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 
+import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.io.ValFluxDistributionImporter;
@@ -50,13 +54,32 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
     	
         initComponents();
 		initTable();
+		addCyFluxVizPanelToCytoscape();
     }
     
     public static synchronized CyFluxVizPanel getInstance(){
     	if (uniqueInstance == null){
     		uniqueInstance = new CyFluxVizPanel();
     	}
+    	uniqueInstance.selectCyFluxVizPanelAndSetDialogs();
     	return uniqueInstance;
+    }
+    
+    public void addCyFluxVizPanelToCytoscape(){
+    	CytoPanel cytoPanel = getCytoPanel();
+    	cytoPanel.add(CyFluxViz.NAME, this);
+		cytoPanel.setState(CytoPanelState.DOCK);
+    }
+        
+    public void selectCyFluxVizPanelAndSetDialogs(){
+    	CytoPanel cytoPanel = getCytoPanel();
+    	cytoPanel.setSelectedIndex(cytoPanel.indexOfComponent(CyFluxViz.NAME));
+		PanelText.setInfo(this);
+		PanelText.setHelp(this);
+    }
+    
+    private CytoPanel getCytoPanel(){
+    	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
     }
 
     private void initComponents() {
