@@ -3,6 +3,7 @@ package cyfluxviz.io;
 import java.io.*;
 import java.util.*;
 
+import cysbml.CySBMLConstants;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
@@ -18,7 +19,7 @@ import cyfluxviz.util.FileUtil;
 import cyfluxviz.util.FluxVizUtil;
 
 /* Val file importer (simple key/value pairs for reactions). */
-public class FluxDistributionImporter {
+public class ValFluxDistributionImporter {
 	
 	private String networkId;
 	private String name;
@@ -27,7 +28,7 @@ public class FluxDistributionImporter {
 	private HashMap<String, FluxDirection> edgeDirections = new HashMap<String, FluxDirection>();
 	private FluxDis fluxDistribution;
 	
-	public FluxDistributionImporter(File file){
+	public ValFluxDistributionImporter(File file){
 		importFromFile(file);
 	}
 	
@@ -146,18 +147,18 @@ public class FluxDistributionImporter {
 		for (CyNode node : cyNodes){
 			
 			nodeId = node.getIdentifier();
-			nodeType = (String) nodeAttributes.getAttribute(nodeId, FluxDis.ATT_TYPE); 
+			nodeType = (String) nodeAttributes.getAttribute(nodeId, CySBMLConstants.ATT_TYPE); 
 			
 			//TODO: change to support multiple networks at once
-			if (nFluxes.containsKey(nodeId) && nodeType != null && nodeType.equals(FluxDis.NODE_TYPE_REACTION)){
+			if (nFluxes.containsKey(nodeId) && nodeType != null && nodeType.equals(CySBMLConstants.NODETYPE_REACTION)){
 				@SuppressWarnings("unchecked")
 				List<CyEdge> adjEdges = network.getAdjacentEdgesList(node, true, true, true);
 				for (CyEdge edge: adjEdges){
 					edgeId = edge.getIdentifier();
 					
 					stoichiometry = 1.0;
-					if (edgeAttributes.getAttribute(edgeId, FluxDis.ATT_STOICHIOMETRY) != null){
-						stoichiometry = (Double) edgeAttributes.getAttribute(edgeId, FluxDis.ATT_STOICHIOMETRY);
+					if (edgeAttributes.getAttribute(edgeId, CySBMLConstants.ATT_STOICHIOMETRY) != null){
+						stoichiometry = (Double) edgeAttributes.getAttribute(edgeId, CySBMLConstants.ATT_STOICHIOMETRY);
 					}
 					flux = 0.0;
 					if (nFluxes.containsKey(nodeId)){

@@ -9,7 +9,7 @@ import cytoscape.plugin.PluginManager;
 import cyfluxviz.CyFluxViz;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
-import cyfluxviz.io.FluxDistributionImporter;
+import cyfluxviz.io.ValFluxDistributionImporter;
 
 public class FileUtil {
 
@@ -56,7 +56,7 @@ public class FileUtil {
 		if (! valFile.getAbsolutePath().endsWith(".val") ){
 			return;
 		}
-		FluxDistributionImporter fdImporter = new FluxDistributionImporter(valFile);
+		ValFluxDistributionImporter fdImporter = new ValFluxDistributionImporter(valFile);
 		FluxDis fluxDistribution = fdImporter.getFluxDistribution();
 		FluxDisCollection fdCollection = FluxDisCollection.getInstance();
 		fdCollection.addFluxDistribution(fluxDistribution);

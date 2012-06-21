@@ -6,26 +6,7 @@ import java.util.UUID;
 import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 
-/* A FluxDistribution is HashMap of Double Values for the Edges in the Network.
- * Fluxes are > 0 if the flux is in direction of definition of the edge, < 0 
- * otherwise. 
- * 
- * Flux Distribution has to have a name and must be associated to a network;
- * 
- * Different importers of Fluxes which all generate the same type of Flux Distribution.
- * - import general flux distribution
- * - import metabolic network flux distribution (using given stoichiometry for the network).
- * 
- * - test methods for the flux distributions 
- *
- * Only in the importers the 
- * 
- * */
-public class FluxDis {
-	public final static String ATT_STOICHIOMETRY = "sbml stoichiometry";
-	public final static String ATT_TYPE = "sbml type";
-	public final static String NODE_TYPE_REACTION = "reaction";
-	
+public class FluxDis {	
 	private UUID id;
 	private String name;
 	private String networkId;
@@ -43,8 +24,7 @@ public class FluxDis {
 		id = UUID.randomUUID();
 		this.name = name;
 		this.networkId = networkId;
-		if (hasValidNetworkId()){
-			
+		if (hasValidNetworkId()){	
 			this.nodeFluxes = nodeFluxes;
 			this.edgeFluxes = edgeFluxes;
 			this.edgeDirections = edgeDirections;
@@ -52,8 +32,6 @@ public class FluxDis {
 		} else {
 			reset();
 		}
-		System.out.println("CyFluxViz[INFO] -> FluxDistribution created");
-		System.out.println(this.toString());
 	}
 	
 	public String toString(){
@@ -81,7 +59,6 @@ public class FluxDis {
 				id, name, networkId, nodeFluxes.size(), edgeFluxes.size(), edgeDirections.size());
 		return info;
 	}
-	
 	
 	private void reset(){
 		id = null;
@@ -167,5 +144,4 @@ public class FluxDis {
 	public CyNetwork getCyNetwork(){
 		return Cytoscape.getNetwork(networkId);
 	}
-	
 }

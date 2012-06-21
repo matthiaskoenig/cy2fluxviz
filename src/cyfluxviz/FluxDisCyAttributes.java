@@ -8,7 +8,6 @@ import cytoscape.data.CyAttributes;
 public class FluxDisCyAttributes {
 	
 	public static void setCytoscapeAttributesForFluxDistribution(FluxDis fluxDistribution){
-		
 		setNodeFluxAttribute(fluxDistribution);
 		setEdgeFluxAttribute(fluxDistribution);
 		setEdgeDirectionAttribute(fluxDistribution);

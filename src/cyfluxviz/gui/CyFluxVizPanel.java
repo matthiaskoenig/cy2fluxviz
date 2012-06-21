@@ -20,7 +20,7 @@ import cytoscape.visual.ui.editors.continuous.C2CMappingEditor;
 
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
-import cyfluxviz.io.FluxDistributionImporter;
+import cyfluxviz.io.ValFluxDistributionImporter;
 import cyfluxviz.mapping.ApplyEdgeWidthMapping;
 import cyfluxviz.netview.NetworkView;
 import cyfluxviz.netview.NetworkViewTools;
@@ -331,7 +331,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements PropertyChange
         jButtonImportVal.setToolTipText("Load additional val files for the current network.");
         jButtonImportVal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FluxDistributionImporter.loadValFiles();
+                ValFluxDistributionImporter.loadValFiles();
             }
         });
 

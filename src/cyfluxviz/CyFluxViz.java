@@ -1,9 +1,14 @@
 package cyfluxviz;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import cytoscape.Cytoscape;
 import cytoscape.plugin.CytoscapePlugin;
+import cytoscape.util.CytoscapeAction;
 import cytoscape.view.cytopanels.*;
 
 import cyfluxviz.gui.CyFluxVizPanel;
@@ -18,12 +23,8 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
  * Certain node and edge attributes are mandatory and are normally made available from 
  * the imported SBML via CySBML.
  * 
- * TODO : no activation at startup, only on selection 
- * TODO : Reduce the calculation overhead, problematic for large networks (Test with HepatoNet)
- * 		  (Especially the subnetwork generation)
  * TODO : support of multiple visual styles & settings panel for different styles
  * TODO : export, loading of set of flux distributions
- * TODO : creation of VisualSyle instead of import
  * TODO : Context menu for flux distributions -> filter for networkId or other criteria,
  * 		  Removal of Flux distributions
  * 
@@ -42,53 +43,52 @@ public class CyFluxViz extends CytoscapePlugin {
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 		
     public CyFluxViz() {    	
-    	
-    	// TODO: Manage all this stuff in the panel and only activate after click
-    	// on the respective plugin icon in the menubar
-    	// Just Create the icon with the action -> not activated at startup.
-    	createFluxVizPanel();
+    	ImageIcon fluxVizIcon = new ImageIcon(getClass().getResource("/cyfluxviz/gui/images/CyFluxViz_logo.png"));
+    	CyFluxVizStartAction startAction = new CyFluxVizStartAction(fluxVizIcon, this);
+    	Cytoscape.getDesktop().getCyMenus().addCytoscapeAction((CytoscapeAction) startAction);
     }
-    
-    private void createFluxVizPanel(){
-    	VisualStyleFactory.setFluxVizVisualStyle();
-		CyFluxVizPanel fvPanel = CyFluxVizPanel.getInstance();
-		addCyFluxVizPanelToCytoscape(fvPanel);
-    }
-    
-    private static void addCyFluxVizPanelToCytoscape(CyFluxVizPanel fvPanel){
-    	CytoPanel cytoPanel = getCytoPanel();
-    	cytoPanel.add(NAME, fvPanel);
-		cytoPanel.setState(CytoPanelState.DOCK);
-		PanelText.setHelp(fvPanel);
-		PanelText.setFluxVizInfo(fvPanel);
-    }
-    
-    private static CytoPanel getCytoPanel(){
-    	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
-    }
-        	
+
     public String describe() {
         String description = "CyFluxViz - Visualise fluxes in Cytoscape networks.";
         return description;
     }
-    
-    /*
-    // VisualStyle methods //
-	public static VisualStyle getViStyle() {
-		return CyFluxViz.viStyle;
-	}
-	public static void setViStyle(VisualStyle newViStyle) {
-		viStyle = newViStyle;
-	}
-	public static boolean isSetViStyle(){
-    	return (viStyle != null);
-    }
-    public static String getViStyleName(){
-		String vsName = null;
-		if (isSetViStyle()){
-			vsName = viStyle.getName();
+
+	@SuppressWarnings("serial")
+	public class CyFluxVizStartAction extends CytoscapeAction {
+	    public CyFluxVizStartAction() {super("CyFluxViz Startup");}
+	    
+		public CyFluxVizStartAction(ImageIcon icon, CyFluxViz plugin) {
+			super("", icon);
+			this.putValue(Action.SHORT_DESCRIPTION, "CyFluxViz Startup");
 		}
-		return vsName;
+		public boolean isInToolBar() {
+			return true;
+		}
+		public boolean isInMenuBar() {
+			return false;
+		}
+		
+		/* This method is called when the user selects the menu item. */
+	    public void actionPerformed(ActionEvent ae) {
+	    	createFluxVizPanel();
+	    }
+	    
+	    private void createFluxVizPanel(){
+	    	VisualStyleFactory.setFluxVizVisualStyle();
+			CyFluxVizPanel fvPanel = CyFluxVizPanel.getInstance();
+			addCyFluxVizPanelToCytoscape(fvPanel);
+	    }
+	    
+	    private void addCyFluxVizPanelToCytoscape(CyFluxVizPanel fvPanel){
+	    	CytoPanel cytoPanel = getCytoPanel();
+	    	cytoPanel.add(NAME, fvPanel);
+			cytoPanel.setState(CytoPanelState.DOCK);
+			PanelText.setHelp(fvPanel);
+			PanelText.setFluxVizInfo(fvPanel);
+	    }
+	    
+	    private CytoPanel getCytoPanel(){
+	    	return Cytoscape.getDesktop().getCytoPanel (SwingConstants.WEST);
+	    }
 	}
-	*/
 }
