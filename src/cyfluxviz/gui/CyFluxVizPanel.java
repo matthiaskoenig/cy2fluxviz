@@ -84,9 +84,13 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 	private JScrollPane infoScrollPane;
 	private JTabbedPane informationPane;
 	private JButton btnImportVal;
-	private JCheckBox jCheckBoxAttributeSubnet;
-	private JCheckBox jCheckBoxFluxSubnet;
+	
+	private JCheckBox chckbxFullNetwork;
+	private JCheckBox chckbxFluxSubnet;
+	
+	
 	private JCheckBox jCheckBoxNullVisible;
+	private JCheckBox jCheckBoxAttributeSubnet;
 	private JLabel jLabel2;
 	private JLabel jLabel3;
 	private JLabel jLabel6;
@@ -170,6 +174,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		column.setPreferredWidth(60);
 
 		updateFluxDistributionTable();
+		updateMappingView();
 	}
 
 	public void updateFluxDistributionTable() {
@@ -475,7 +480,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		if (e.getPropertyName().equalsIgnoreCase(Cytoscape.SESSION_LOADED)) {
 			AttributeUtils.initNodeAttributeComboBox();
 			jCheckBoxAttributeSubnet.setSelected(false);
-			jCheckBoxFluxSubnet.setSelected(false);
+			chckbxFluxSubnet.setSelected(false);
 		}
 
 		if (e.getPropertyName().equalsIgnoreCase(
@@ -494,7 +499,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 	}
 
 	public javax.swing.JCheckBox getFluxSubnetCheckbox() {
-		return jCheckBoxFluxSubnet;
+		return chckbxFluxSubnet;
 	}
 
 	public javax.swing.JCheckBox getAttributeSubnetCheckbox() {
@@ -542,6 +547,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		importScrollPane = new javax.swing.JScrollPane();
 		importPanel = new javax.swing.JPanel();
 		btnImportVal = new javax.swing.JButton();
+		btnImportVal.setBounds(12, 33, 163, 25);
 
 		subnetScrollPane = new javax.swing.JScrollPane();
 		subnetPanel = new javax.swing.JPanel();
@@ -565,15 +571,17 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		jScrollPane3 = new javax.swing.JScrollPane();
 		nodeAttributeList = new javax.swing.JList();
 
-		jCheckBoxFluxSubnet = new javax.swing.JCheckBox();
+		chckbxFluxSubnet = new javax.swing.JCheckBox();
 		jCheckBoxAttributeSubnet = new javax.swing.JCheckBox();
 		jCheckBoxNullVisible = new javax.swing.JCheckBox();
 
 		jSeparator1 = new javax.swing.JSeparator();
 
 		jLabel3 = new javax.swing.JLabel();
+		jLabel3.setBounds(12, 12, 163, 15);
 
 		jLabel2 = new javax.swing.JLabel();
+		jLabel2.setBounds(12, 12, 162, 15);
 
 		setMaximumSize(new java.awt.Dimension(32000, 32000));
 		setMinimumSize(new java.awt.Dimension(180, 300));
@@ -655,16 +663,29 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 				});
 		jScrollPane3.setViewportView(nodeAttributeList);
 
-		jCheckBoxFluxSubnet.setBackground(java.awt.Color.white);
-		jCheckBoxFluxSubnet.setText("Flux Subnet");
-		jCheckBoxFluxSubnet
+		chckbxFluxSubnet.setBackground(java.awt.Color.white);
+		chckbxFluxSubnet.setText("Flux Subnet");
+		chckbxFluxSubnet
 				.setToolTipText("Only display the subnetwork consisting of reactions with fluxes.");
-		jCheckBoxFluxSubnet
+		chckbxFluxSubnet
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						chckbxFullNetwork.setSelected(!chckbxFluxSubnet.isSelected());
 						updateNetworkViewForSelectedSettings();
 					}
 				});
+		chckbxFullNetwork = new JCheckBox();
+		chckbxFullNetwork.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				chckbxFluxSubnet.setSelected(!chckbxFullNetwork.isSelected());
+			}
+		});
+		chckbxFullNetwork.setSelected(true);
+		chckbxFullNetwork
+				.setToolTipText("Only display the subnetwork consisting of reactions with fluxes.");
+		chckbxFullNetwork.setText("Full Network");
+		chckbxFullNetwork.setBackground(Color.WHITE);
+
 
 		jCheckBoxAttributeSubnet.setBackground(java.awt.Color.white);
 		jCheckBoxAttributeSubnet.setText("Attribute subnet");
@@ -695,13 +716,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 					}
 				});
 
-		JCheckBox chckbxFullNetwork = new JCheckBox();
-		chckbxFullNetwork.setSelected(true);
-		chckbxFullNetwork
-				.setToolTipText("Only display the subnetwork consisting of reactions with fluxes.");
-		chckbxFullNetwork.setText("Full Network");
-		chckbxFullNetwork.setBackground(Color.WHITE);
-
+	
 		javax.swing.GroupLayout subnetPanelLayout = new javax.swing.GroupLayout(
 				subnetPanel);
 		subnetPanelLayout
@@ -770,7 +785,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 																		.addPreferredGap(
 																				ComponentPlacement.RELATED)
 																		.addComponent(
-																				jCheckBoxFluxSubnet)
+																				chckbxFluxSubnet)
 																		.addGap(52)))));
 		subnetPanelLayout
 				.setVerticalGroup(subnetPanelLayout
@@ -786,7 +801,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 														.addComponent(
 																chckbxFullNetwork)
 														.addComponent(
-																jCheckBoxFluxSubnet))
+																chckbxFluxSubnet))
 										.addPreferredGap(
 												ComponentPlacement.RELATED)
 										.addComponent(jSeparator1,
@@ -838,7 +853,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		localMaxBox = new javax.swing.JCheckBox();
 		globalMaxBox = new javax.swing.JCheckBox();
 		maxEdgeWidthField = new javax.swing.JTextField();
-		imageIconLabel = new javax.swing.JLabel();
+		imageIconLabel = new javax.swing.JLabel("Edge Line Mapper");
 
 		jPanel1.setBackground(java.awt.Color.white);
 
@@ -1053,9 +1068,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		settingPane.addTab("FluxMap", fluxMapScrollPane);
 
 		label = new JLabel();
+		label.setBounds(12, 70, 163, 15);
 		label.setText("Load Flux Distributions");
 
 		btnLoadCyfluxviz = new JButton();
+		btnLoadCyfluxviz.setBounds(12, 91, 163, 25);
 		btnLoadCyfluxviz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -1064,78 +1081,12 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 				.setToolTipText("Load Flux Distributions in CyFluxVizFormat.");
 		btnLoadCyfluxviz.setText("Load CyFluxViz");
 
-		javax.swing.GroupLayout importPanelLayout = new javax.swing.GroupLayout(
-				importPanel);
-		importPanelLayout
-				.setHorizontalGroup(importPanelLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								importPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												importPanelLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																importPanelLayout
-																		.createSequentialGroup()
-																		.addGroup(
-																				importPanelLayout
-																						.createParallelGroup(
-																								Alignment.TRAILING,
-																								false)
-																						.addComponent(
-																								btnLoadCyfluxviz,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								label,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								163,
-																								Short.MAX_VALUE))
-																		.addContainerGap(
-																				120,
-																				Short.MAX_VALUE))
-														.addGroup(
-																importPanelLayout
-																		.createSequentialGroup()
-																		.addGroup(
-																				importPanelLayout
-																						.createParallelGroup(
-																								Alignment.TRAILING,
-																								false)
-																						.addComponent(
-																								btnImportVal,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								jLabel3,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE))
-																		.addContainerGap(
-																				120,
-																				Short.MAX_VALUE)))));
-		importPanelLayout.setVerticalGroup(importPanelLayout
-				.createParallelGroup(Alignment.LEADING).addGroup(
-						importPanelLayout.createSequentialGroup()
-								.addContainerGap().addComponent(jLabel3)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnImportVal)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(label)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnLoadCyfluxviz).addGap(133)));
-		importPanel.setLayout(importPanelLayout);
-
 		importScrollPane.setViewportView(importPanel);
+		importPanel.setLayout(null);
+		importPanel.add(btnLoadCyfluxviz);
+		importPanel.add(label);
+		importPanel.add(btnImportVal);
+		importPanel.add(jLabel3);
 
 		settingPane.addTab("Import", importScrollPane);
 		importScrollPane.getAccessibleContext().setAccessibleName("Import");
@@ -1150,132 +1101,54 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		jLabel2.setText("Save Flux Distributions");
 
 		JButton btnExportFd = new JButton();
+		btnExportFd.setBounds(12, 53, 134, 25);
 		btnExportFd
 				.setToolTipText("Export Images of flux distributions as SVG");
 		btnExportFd.setText("Export FD");
 
 		JLabel lblSaveImages = new JLabel();
+		lblSaveImages.setBounds(12, 102, 162, 15);
 		lblSaveImages.setText("Save Images");
 
 		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 90, 188, 10);
 
 		JCheckBox chckbxSaveAllFD = new JCheckBox("All");
+		chckbxSaveAllFD.setBackground(Color.WHITE);
+		chckbxSaveAllFD.setForeground(Color.BLACK);
+		chckbxSaveAllFD.setBounds(12, 29, 42, 23);
 		chckbxSaveAllFD.setSelected(true);
 
 		JCheckBox chckbxSaveSelectedFD = new JCheckBox("Selected");
+		chckbxSaveSelectedFD.setBackground(Color.WHITE);
+		chckbxSaveSelectedFD.setBounds(58, 29, 116, 23);
 
 		checkBox = new JCheckBox("Selected");
+		checkBox.setBackground(Color.WHITE);
+		checkBox.setBounds(58, 119, 116, 23);
 
 		checkBox_1 = new JCheckBox("All");
+		checkBox_1.setBackground(Color.WHITE);
+		checkBox_1.setBounds(12, 119, 42, 23);
 		checkBox_1.setSelected(true);
 
 		btnExportImages = new JButton();
+		btnExportImages.setBounds(12, 150, 134, 25);
 		btnExportImages
 				.setToolTipText("Export Images of flux distributions as SVG");
 		btnExportImages.setText("Export Images");
 
-		javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(
-				exportPanel);
-		exportPanelLayout
-				.setHorizontalGroup(exportPanelLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								exportPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												exportPanelLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																exportPanelLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				checkBox_1,
-																				GroupLayout.PREFERRED_SIZE,
-																				42,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(4)
-																		.addComponent(
-																				checkBox,
-																				GroupLayout.PREFERRED_SIZE,
-																				116,
-																				GroupLayout.PREFERRED_SIZE))
-														.addComponent(
-																separator,
-																GroupLayout.PREFERRED_SIZE,
-																258,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btnExportFd,
-																GroupLayout.PREFERRED_SIZE,
-																134,
-																GroupLayout.PREFERRED_SIZE)
-														.addGroup(
-																exportPanelLayout
-																		.createParallelGroup(
-																				Alignment.LEADING,
-																				false)
-																		.addGroup(
-																				exportPanelLayout
-																						.createSequentialGroup()
-																						.addComponent(
-																								chckbxSaveAllFD)
-																						.addPreferredGap(
-																								ComponentPlacement.UNRELATED)
-																						.addComponent(
-																								chckbxSaveSelectedFD,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE))
-																		.addComponent(
-																				jLabel2))
-														.addComponent(
-																lblSaveImages,
-																GroupLayout.PREFERRED_SIZE,
-																162,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btnExportImages,
-																GroupLayout.PREFERRED_SIZE,
-																134,
-																GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(99, Short.MAX_VALUE)));
-		exportPanelLayout.setVerticalGroup(exportPanelLayout
-				.createParallelGroup(Alignment.LEADING).addGroup(
-						exportPanelLayout
-								.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(jLabel2)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(
-										exportPanelLayout
-												.createParallelGroup(
-														Alignment.BASELINE)
-												.addComponent(chckbxSaveAllFD)
-												.addComponent(
-														chckbxSaveSelectedFD))
-								.addGap(1)
-								.addComponent(btnExportFd)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(separator,
-										GroupLayout.PREFERRED_SIZE, 10,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(lblSaveImages)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(
-										exportPanelLayout
-												.createParallelGroup(
-														Alignment.LEADING)
-												.addComponent(checkBox_1)
-												.addComponent(checkBox))
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(btnExportImages)
-								.addContainerGap(293, Short.MAX_VALUE)));
-		exportPanel.setLayout(exportPanelLayout);
-
 		exportScrollPane.setViewportView(exportPanel);
+		exportPanel.setLayout(null);
+		exportPanel.add(checkBox_1);
+		exportPanel.add(checkBox);
+		exportPanel.add(separator);
+		exportPanel.add(btnExportFd);
+		exportPanel.add(chckbxSaveAllFD);
+		exportPanel.add(chckbxSaveSelectedFD);
+		exportPanel.add(jLabel2);
+		exportPanel.add(lblSaveImages);
+		exportPanel.add(btnExportImages);
 
 		settingPane.addTab("Export", exportScrollPane);
 		exportScrollPane.getAccessibleContext().setAccessibleName("Export");
@@ -1306,41 +1179,28 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 										javax.swing.GroupLayout.PREFERRED_SIZE)));
 
 		JScrollPane fluxdisScrollPane = new JScrollPane();
-		settingPane.addTab("FluxDis", null, fluxdisScrollPane, null);
+		settingPane.addTab("FluxDis", null, fluxdisScrollPane, "Manage Flux Distributions");
+		settingPane.setEnabledAt(4, true);
 
 		JPanel fluxDisPanel = new JPanel();
+		fluxDisPanel.setBackground(Color.WHITE);
 		fluxdisScrollPane.setViewportView(fluxDisPanel);
 
 		JLabel lblRemoveSelectedFlux = new JLabel(
 				"Delete Selected Flux Distributions");
+		lblRemoveSelectedFlux.setBounds(12, 12, 241, 15);
 
 		JButton btnRemoveSelectedFD = new JButton("Delete");
+		btnRemoveSelectedFD.setBounds(12, 33, 81, 25);
 		btnRemoveSelectedFD.setToolTipText("Deletes the selected Flux Distributions.");
 		btnRemoveSelectedFD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				removeSelectedFluxDistributions();
 			}
 		});
-		GroupLayout gl_fluxDisPanel = new GroupLayout(fluxDisPanel);
-		gl_fluxDisPanel.setHorizontalGroup(gl_fluxDisPanel.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_fluxDisPanel
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(
-								gl_fluxDisPanel
-										.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblRemoveSelectedFlux)
-										.addComponent(btnRemoveSelectedFD))
-						.addContainerGap(210, Short.MAX_VALUE)));
-		gl_fluxDisPanel.setVerticalGroup(gl_fluxDisPanel.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_fluxDisPanel.createSequentialGroup().addContainerGap()
-						.addComponent(lblRemoveSelectedFlux)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnRemoveSelectedFD)
-						.addContainerGap(170, Short.MAX_VALUE)));
-		fluxDisPanel.setLayout(gl_fluxDisPanel);
+		fluxDisPanel.setLayout(null);
+		fluxDisPanel.add(lblRemoveSelectedFlux);
+		fluxDisPanel.add(btnRemoveSelectedFD);
 
 		settingPane.getAccessibleContext().setAccessibleName("Settings");
 
