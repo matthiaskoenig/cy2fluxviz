@@ -1,0 +1,1522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
+<model id="Koenig2012_Erythrocyte" name="Koenig2012_Erythrocyte">
+
+  <listOfCompartments>
+    <compartment id="cell" size="1" name="cytosol" />
+    <compartment id="ext" size="1" name="external compartment" />
+  </listOfCompartments>
+
+  <listOfSpecies>
+    <species id="Glc_ext"  name="Glucose" boundaryCondition="true"  compartment="ext">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000047">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17234"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00293"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Pi_ext"  name="Phosphate" boundaryCondition="true"  compartment="ext">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000048">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A35780"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Lac_ext"  name="Lactate" boundaryCondition="true"  compartment="ext">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000045">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00256"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Pyr_ext"  name="Pyruvate" boundaryCondition="true"  compartment="ext">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000046">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A32816"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00022"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PrPP_ext"  name="5-Phosphoribosyl_1-pyrophosphate" boundaryCondition="true"  compartment="ext">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000044">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17111"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00119"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="CO2_ext"  name="Carbon_dioxide" boundaryCondition="true"  compartment="ext" />
+
+    <species id="Glc_cell"  name="Glucose" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000004">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17234"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00293"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Glc6P_cell"  name="Glucose_6-phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000006">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17665"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00668"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Fru6P_cell"  name="Fructose_6-phosphate" boundaryCondition="false"  compartment="cell">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000008">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16084"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C05345"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Fru16P_cell"  name="Fructose_1,6-bisphosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000009">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A28013"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C05378"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="GraP_cell"  name="Glyceraldehyde_3-phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000010">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A29052"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00118"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="DHAP_cell"  name="Dihydroxyacetone_phosphate" boundaryCondition="false"  compartment="cell">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000011">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16108"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00111"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PG13_cell"  name="1,3-Bisphospho-D-glycerate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000014">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16001"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00236"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PG23_cell"  name="2,3-Bisphospho-D-glycerate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000017">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17720"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C01159"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PG3_cell"  name="3-Phospho-D-glycerate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000016">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17794"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00197"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PG2_cell"  name="2-Phospho-D-glycerate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000018">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17835"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00631"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PEP_cell"  name="Phosphoenolpyruvate" boundaryCondition="false"  compartment="cell">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000019">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00074"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A18021"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="ATP_cell"  name="Adenosine_triphosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000035">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A15422"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00002"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="ADP_cell"  name="Adenosine_diphosphate" boundaryCondition="false"  compartment="cell">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000025">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16761"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00008"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="AMP_cell"  name="Adenosine_monophosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000024">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16027"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00020"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PG6_cell"  name="Phospho-D-glucono-1,5-lactone" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000026">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16938"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C01236"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Pi_cell"  name="Phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000012">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A35780"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="NAD_cell"  name="Nicotinamide_adenine_dinucleotide" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000013">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A15846"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00003"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="NADH_cell"  name="Nicotinamide_adenine_dinucleotide_protonated" boundaryCondition="false"  compartment="cell" >
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000015">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16908"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00004"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="NADPH_cell"  name="Nicotinamide_adenine_dinucleotide_phosphate_protonated" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000022">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16474"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00005"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="NADP_cell"  name="Nicotinamide_adenine_dinucleotide_phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000023">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A18009"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00006"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Pyr_cell"  name="Pyruvate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000020">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A15361"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00022"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Lac_cell"  name="Lactate" boundaryCondition="false"  compartment="cell">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000021">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00256"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="Ru5P_cell"  name="Ribulose_5-phosphate" boundaryCondition="false"  compartment="cell">
+   <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000027">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17363"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00199"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="CO2_cell"  name="Carbon_dioxide" boundaryCondition="false"  compartment="cell">
+    </species>
+
+    <species id="GSSG_cell"  name="Glutathione_disulfide" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000028">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17858"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00127"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="GSH_cell"  name="Glutathione" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000029">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16856"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00051"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="X5P_cell"  name="Xylulose_5-phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000030">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16332"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00231"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="R5P_cell"  name="Ribose_5-phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000031">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17797"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00117"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="S7P_cell"  name="Sedoheptulose_7-phosphate" boundaryCondition="false"  compartment="cell">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000032">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C05382"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="E4P_cell"  name="Erythrose_4-phosphate" boundaryCondition="false"  compartment="cell">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000033">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A16897"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00279"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+
+    <species id="PrPP_cell"  name="5-Phosphoribosyl_1-pyrophosphate" boundaryCondition="false"  compartment="cell">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000044">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.chebi:CHEBI%3A17111"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.compound:C00119"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    </species>
+  </listOfSpecies>
+
+
+  <listOfReactions>
+  <reaction id="GlcT" name="Glucose transport" reversible="false">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000049">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0046323"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2092"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Glc_ext" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Glc_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="HK" name="Hexokinase" reversible="true">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000050">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.1.2"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00299"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1318"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Glc_cell" stoichiometry="1"/>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Glc6P_cell" stoichiometry="1"/>
+      <speciesReference species="ADP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="3900"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="GPI" name="Glucosephosphate isomerase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000051">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.3.1.9"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00771"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1164"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Fru6P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Glc6P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="2.54777"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PFK" name="Phosphofructokinase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000052">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.1.11"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00756"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_736"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Fru6P_cell" stoichiometry="1"/>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Fru16P_cell" stoichiometry="1"/>
+      <speciesReference species="ADP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="ALD" name="Aldolase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000053">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:4.1.2.13"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01070"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1602"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+      <speciesReference species="DHAP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Fru16P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="8.77193"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="TPI" name="Triosephosphate isomerase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000054">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.3.1.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01015"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_775"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="DHAP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="24.57"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="GAPDH" name="Glyceraldehyde 3-phosphate dehydrogenase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000055">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01061"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1847"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.2.1.12"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+      <speciesReference species="Pi_cell" stoichiometry="1"/>
+      <speciesReference species="NAD_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG13_cell" stoichiometry="1"/>
+      <speciesReference species="NADH_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="5208.33"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PGK" name="Phosphoglycerate kinase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000056">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01512"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1186"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.2.3"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG13_cell" stoichiometry="1"/>
+      <speciesReference species="ADP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG3_cell" stoichiometry="1"/>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1455"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="DPGM" name="Bisphosphoglycerate mutase" reversible="true">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000057">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.4.2.4"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01662"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG13_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG23_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="DPGase" name="Bisphosphoglycerate phosphatase" reversible="false">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000058">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01516"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:3.1.3.13"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG23_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG3_cell" stoichiometry="1"/>
+      <speciesReference species="Pi_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PGM" name="Phosphoglycerate mutase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000059">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.4.2.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01518"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_576"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG2_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG3_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="6.89655"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="EN" name="Enolase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000060">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:4.2.1.11"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00658"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1400"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG2_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PEP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1.7"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PK" name="Pyruvate kinase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000061">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00200"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1911"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.1.40"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PEP_cell" stoichiometry="1"/>
+      <speciesReference species="ADP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+      <speciesReference species="Pyr_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="13790"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="LDH" name="Lactate dehydrogenase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000062">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00703"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_178"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.1.1.27"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="NADH_cell" stoichiometry="1"/>
+      <speciesReference species="Pyr_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="NAD_cell" stoichiometry="1"/>
+      <speciesReference species="Lac_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="9090"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="LDH_P" name="Lactate dehydrogenase NADPH" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000063">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.1.1.27"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="NADPH_cell" stoichiometry="1"/>
+      <speciesReference species="Pyr_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="NADP_cell" stoichiometry="1"/>
+      <speciesReference species="Lac_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="14181.8"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="ATPase" name="ATPase" reversible="false">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000064">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00086"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:3.6.1.3"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="ADP_cell" stoichiometry="1"/>
+      <speciesReference species="Pi_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="AK" name="Adenylate kinase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000065">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.4.3"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00127"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="ADP_cell" stoichiometry="2"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+      <speciesReference species="AMP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="4"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="G6PD" name="Glucose 6-phosphate dehydrogenase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000066">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.1.1.49"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:hasVersion>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1868"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1125"/>
+                  </rdf:Bag>
+                </bqbiol:hasVersion>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00835"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Glc6P_cell" stoichiometry="1"/>
+      <speciesReference species="NADP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PG6_cell" stoichiometry="1"/>
+      <speciesReference species="NADPH_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="2000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PGD6" name="Phosphogluconate dehydrogenase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000067">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.1.1.44"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:hasPart>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R02035"/>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01528"/>
+                  </rdf:Bag>
+                </bqbiol:hasPart>
+                <bqbiol:hasPart>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2072"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_611"/>
+                  </rdf:Bag>
+                </bqbiol:hasPart>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="PG6_cell" stoichiometry="1"/>
+      <speciesReference species="NADP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="NADPH_cell" stoichiometry="1"/>
+      <speciesReference species="Ru5P_cell" stoichiometry="1"/>
+      <speciesReference species="CO2_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="141.7"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="GSSGR" name="Glutathione reductase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000068">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R00094"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2220"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.8.1.7"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="NADPH_cell" stoichiometry="1"/>
+      <speciesReference species="GSSG_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="NADP_cell" stoichiometry="1"/>
+      <speciesReference species="GSH_cell" stoichiometry="2"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1.04"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="GSHox" name="Glutathione oxidation" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000069">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:1.8.1.7"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqmodel:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2037"/>
+                  </rdf:Bag>
+                </bqmodel:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="GSH_cell" stoichiometry="2"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="GSSG_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="EP" name="Phosphoribulose epimerase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000070">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01529"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1522"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.1.3.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Ru5P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="X5P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="2.7"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="KI" name="Ribose phosphate isomerase" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000071">
+                <bqmodel:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:5.3.1.6"/>
+                  </rdf:Bag>
+                </bqmodel:is>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01056"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2033"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Ru5P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="R5P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="3"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="TK1" name="Transketolase 1" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000072">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.2.1.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01641"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1629"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="X5P_cell" stoichiometry="1"/>
+      <speciesReference species="R5P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+      <speciesReference species="S7P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1.05"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="TA" name="Transaldolase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000073">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.2.1.2"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01827"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_479"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+      <speciesReference species="S7P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Fru6P_cell" stoichiometry="1"/>
+      <speciesReference species="E4P_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1.0500"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PRPPS" name="Phosphoribosylpyrophosphate synthetase" reversible="true">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000074">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.7.6.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01049"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_2023"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="ATP_cell" stoichiometry="1"/>
+      <speciesReference species="R5P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="AMP_cell" stoichiometry="1"/>
+      <speciesReference species="PrPP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="100000.0000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="TK2" name="Transketolase 2" reversible="true">
+<annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000075">
+                <bqbiol:is>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:kegg.reaction:R01830"/>
+                    <rdf:li rdf:resource="urn:miriam:reactome:REACT_1811"/>
+                  </rdf:Bag>
+                </bqbiol:is>
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:ec-code:2.2.1.1"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="X5P_cell" stoichiometry="1"/>
+      <speciesReference species="E4P_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Fru6P_cell" stoichiometry="1"/>
+      <speciesReference species="GraP_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1.2000"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PT" name="Phosphate exchange" reversible="true">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000076">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0009935"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Pi_ext" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Pi_cell" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="LacT" name="Lactate exchange" reversible="false">
+ <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000077">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0009935"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Lac_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Lac_ext" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PyrT" name="Pyruvate exchange" reversible="false">
+  <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+              <rdf:Description rdf:about="#metaid_0000078">
+                <bqbiol:isVersionOf>
+                  <rdf:Bag>
+                    <rdf:li rdf:resource="urn:miriam:obo.go:GO%3A0009935"/>
+                  </rdf:Bag>
+                </bqbiol:isVersionOf>
+              </rdf:Description>
+            </rdf:RDF>
+          </annotation>
+    <listOfReactants>
+      <speciesReference species="Pyr_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="Pyr_ext" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="PPrPT" name="PPrP Exchange" reversible="false">
+    <listOfReactants>
+      <speciesReference species="PrPP_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="PrPP_ext" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+
+  <reaction id="CO2T" name="CO2 Exchange" reversible="false">
+    <listOfReactants>
+      <speciesReference species="CO2_cell" stoichiometry="1"/>
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species="CO2_ext" stoichiometry="1"/>
+    </listOfProducts>
+    <kineticLaw>
+    <listOfParameters>
+      <parameter id="equilibrium_constant" value="1"/>
+    </listOfParameters>
+  </kineticLaw>
+  </reaction>
+  </listOfReactions>
+</model>
+</sbml>
+

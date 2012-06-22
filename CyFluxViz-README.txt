@@ -1,5 +1,5 @@
 ------------------------------------------------------------
-CyFluxViz-v0.8 for Cytoscape-v2.8
+CyFluxViz-v0.86 for Cytoscape-v2.8
 ------------------------------------------------------------
 We are pleased to announce the release of CyFluxViz
 which is available for download at
@@ -25,6 +25,14 @@ matthias.koenig@charite.de
 
 Thanks and have fun 
 The CyFluxViz team.
+------------------------------------------------------------
+
+v0.86 (Mayor Release)
+- full support & compatibility to CySBML
+- XML import and export of Flux Distributions
+- support of multiple networks and subnetworks
+- complete redesign of architecture for speed improvement 
+- new example files (packed in Jar)
 
 ------------------------------------------------------------
 Matthias Koenig
