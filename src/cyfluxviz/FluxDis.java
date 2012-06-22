@@ -34,14 +34,20 @@ public class FluxDis {
 		}
 	}
 	
+	public void setIdFromString(String id){
+		this.id = UUID.fromString(id);
+	}
+	
 	public String toString(){
 		String info = String.format(
+				"---------------------------\n" + 
 				"id : %s\n" +
 				"name : %s\n" +
 				"networkId : %s\n" +
 				"nodeFluxes : %s\n" +
 				"edgeFluxes : %s\n" +
-				"edgeDirections : %s\n", 
+				"edgeDirections : %s\n" +
+				"---------------------------", 
 				id, name, networkId, nodeFluxes.size(), edgeFluxes.size(), edgeDirections.size());
 		
 		return info;

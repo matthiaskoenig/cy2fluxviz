@@ -32,6 +32,18 @@ public class ValFluxDistributionImporter {
 		importFromFile(file);
 	}
 	
+	public ValFluxDistributionImporter(String id, String name, String networkId, HashMap<String, Double> nodeFluxes){
+		this.name = name;
+		this.networkId = networkId;
+		this.nodeFluxes = nodeFluxes;
+		// Reduce to nodes currently in Cytoscape
+		nodeFluxes = testNodeFluxesInCytoscape(nodeFluxes);
+		edgeFluxes = getEdgeFluxesFromNodeFluxes(nodeFluxes);
+		edgeDirections = getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
+		fluxDistribution = new FluxDis(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
+		fluxDistribution.setIdFromString(id);
+	}
+	
 	public FluxDis getFluxDistribution(){
 		return fluxDistribution;
 	}
@@ -41,11 +53,14 @@ public class ValFluxDistributionImporter {
 		networkId = getCurrentNetworkId();
 		nodeFluxes = getNodeFluxesFromFile(file);
 		// Reduce to nodes currently in Cytoscape
-		nodeFluxes = filterNodeFluxesInCytoscape(nodeFluxes);
+		nodeFluxes = testNodeFluxesInCytoscape(nodeFluxes);
 		edgeFluxes = getEdgeFluxesFromNodeFluxes(nodeFluxes);
 		edgeDirections = getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
 		fluxDistribution = new FluxDis(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
 	}
+	
+
+	
 	
 	public String getFluxDistributionNameFromFile(File file){
 		String name = file.getName();
@@ -54,16 +69,17 @@ public class ValFluxDistributionImporter {
 		return name;
 	}
 	
-	public static HashMap<String, Double> filterNodeFluxesInCytoscape(HashMap<String, Double> nFluxes){
+	public static HashMap<String, Double> testNodeFluxesInCytoscape(HashMap<String, Double> nFluxes){
 		HashMap<String, Double> filteredFluxes = new HashMap<String, Double>();
 		for (String id : nFluxes.keySet()){
 			double flux = nFluxes.get(id);
 			// only the reaction with non-zero flux are used
-			if (Cytoscape.getCyNode(id, false) != null){
-				filteredFluxes.put(id, flux);
+			if (Cytoscape.getCyNode(id, false) == null){
+				System.out.println("CyFluxViz[WARNING] -> Val Import : Id in flux mapping not in Cytoscape : " +  id);
 			}else{
-				System.out.println("Id in flux mapping, but not in Cytoscape : " +  id);
+				
 			}
+			filteredFluxes.put(id, flux);
 		}
 		return filteredFluxes;
 	}

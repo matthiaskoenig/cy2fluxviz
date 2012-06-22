@@ -36,7 +36,7 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
 
 public class CyFluxViz extends CytoscapePlugin {
 	public static final String NAME = "CyFluxViz";
-	public static final String VERSION = "v0.85";
+	public static final String VERSION = "v0.86";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
 	
