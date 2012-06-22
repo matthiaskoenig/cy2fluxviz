@@ -51,6 +51,20 @@ public class FileUtil {
         return valFiles;
     }
     
+    /* Opens file selection menu for xml fluxdistributions files. */
+    public static File selectXMLFile(){    	
+        File xmlFile = null;
+        JFileChooser fc = new JFileChooser();
+        fc.setFileHidingEnabled(false); 
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        fc.setDialogTitle("Select *.xml files for flux distribution.");
+        if (fc.showOpenDialog(Cytoscape.getDesktop()) == JFileChooser.APPROVE_OPTION) {
+            xmlFile = fc.getSelectedFile();
+        }
+        return xmlFile;
+    }
+    
 
     public static void createFluxDistributionFromValFile(File valFile){
 		if (! valFile.getAbsolutePath().endsWith(".val") ){

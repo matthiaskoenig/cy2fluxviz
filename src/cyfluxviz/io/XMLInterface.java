@@ -44,8 +44,12 @@ public class XMLInterface {
 	
 
 	// XML EXPORT //
-	
 	public static void writeXMLFileForFluxDistributions(String filename, Collection<FluxDis> fdCollection){
+		File xmlFile = new File(filename);
+		writeXMLFileForFluxDistributions(xmlFile, fdCollection);
+	}
+	
+	public static void writeXMLFileForFluxDistributions(File xmlFile, Collection<FluxDis> fdCollection){
 		Document doc = createXMLDocumentFromFluxDistributions(fdCollection);
 		try {
 			// write the content into xml file
@@ -55,7 +59,7 @@ public class XMLInterface {
 			transformer = transformerFactory.newTransformer();
 
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filename));
+			StreamResult result = new StreamResult(xmlFile);
 
 			// Output to console for testing
 			StreamResult resultConsole = new StreamResult(System.out);
@@ -113,10 +117,14 @@ public class XMLInterface {
 	// XML IMPORT //
 	
 	public static Collection<FluxDis> readFluxDistributionsFromXML(String filename){
+		File xmlFile = new File(filename);
+		return readFluxDistributionsFromXML(xmlFile);
+	}
+	
+	public static Collection<FluxDis> readFluxDistributionsFromXML(File xmlFile){
 		List<FluxDis> fdCollection = new LinkedList<FluxDis>();
 		
 		try {
-			File xmlFile = new File(filename);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlFile);

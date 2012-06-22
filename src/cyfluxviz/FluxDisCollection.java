@@ -1,5 +1,6 @@
 package cyfluxviz;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import cyfluxviz.netview.NetworkViewTools;
@@ -36,6 +37,10 @@ public class FluxDisCollection {
 		return globalAbsMin;
 	}
 
+	public Collection<FluxDis> getFluxDistributions(){
+		return fluxDistributions.values();
+	}
+	
 	public FluxDis getFluxDistribution(String fdId) {
 		FluxDis fd = null;
 		if (containsFluxDistribution(fdId)) {

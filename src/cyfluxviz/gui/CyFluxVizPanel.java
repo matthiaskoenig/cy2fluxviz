@@ -5,8 +5,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,12 +41,14 @@ import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.FluxDisCyAttributes;
 import cyfluxviz.io.ValFluxDistributionImporter;
+import cyfluxviz.io.XMLInterface;
 import cyfluxviz.mapping.ApplyEdgeWidthMapping;
 import cyfluxviz.netview.NetworkView;
 import cyfluxviz.netview.NetworkViewTools;
 import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
+import cyfluxviz.util.FileUtil;
 import cytoscape.Cytoscape;
 import cytoscape.util.OpenBrowser;
 import cytoscape.view.CyNetworkView;
@@ -116,8 +120,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 	private JCheckBox checkBoxSaveImagesSelected;
 	private JCheckBox checkBoxSaveImagesAll;
 	private JButton btnExportImages;
-	private JLabel label;
+	private JLabel lblLoadXmlFlux;
 	private JButton btnLoadCyfluxviz;
+	
+	JCheckBox chckbxSaveAllFD;
+	JCheckBox chckbxSaveSelectedFD;
 
 	private CyFluxVizPanel() {
 		Cytoscape
@@ -585,10 +592,10 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		jSeparator1 = new javax.swing.JSeparator();
 
 		jLabel3 = new javax.swing.JLabel();
-		jLabel3.setBounds(12, 12, 163, 15);
+		jLabel3.setBounds(12, 12, 215, 15);
 
 		jLabel2 = new javax.swing.JLabel();
-		jLabel2.setBounds(12, 12, 162, 15);
+		jLabel2.setBounds(12, 12, 206, 15);
 
 		setMaximumSize(new java.awt.Dimension(32000, 32000));
 		setMinimumSize(new java.awt.Dimension(180, 300));
@@ -840,10 +847,10 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		subnetScrollPane.setViewportView(subnetPanel);
 		settingPane.addTab("Subnet", subnetScrollPane);
 
-		jLabel3.setText("Load Flux Distributions");
+		jLabel3.setText("Load Val Flux Distributions");
 		importScrollPane.setBorder(null);
 		importPanel.setBackground(java.awt.Color.white);
-		btnImportVal.setText("Load val");
+		btnImportVal.setText("Load Val");
 		btnImportVal.setToolTipText("Load Flux Distributions in val format.");
 		btnImportVal.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1000,24 +1007,34 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 
 		settingPane.addTab("FluxMap", fluxMapScrollPane);
 
-		label = new JLabel();
-		label.setBounds(12, 70, 163, 15);
-		label.setText("Load Flux Distributions");
+		lblLoadXmlFlux = new JLabel();
+		lblLoadXmlFlux.setBounds(12, 70, 215, 15);
+		lblLoadXmlFlux.setText("Load XML Flux Distributions");
 
 		btnLoadCyfluxviz = new JButton();
 		btnLoadCyfluxviz.setBounds(12, 91, 163, 25);
 		btnLoadCyfluxviz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// Get the filename
+				File file = FileUtil.selectXMLFile();
+				if (file != null){
+					Collection<FluxDis> fdList = XMLInterface.readFluxDistributionsFromXML(file);
+					for (FluxDis fd : fdList){
+						FluxDisCollection fdCollection = FluxDisCollection.getInstance();
+						fdCollection.addFluxDistribution(fd);
+					}
+				}
+				updateFluxDistributionTable();
 			}
 		});
 		btnLoadCyfluxviz
 				.setToolTipText("Load Flux Distributions in CyFluxVizFormat.");
-		btnLoadCyfluxviz.setText("Load CyFluxViz");
+		btnLoadCyfluxviz.setText("Load XML");
 
 		importScrollPane.setViewportView(importPanel);
 		importPanel.setLayout(null);
 		importPanel.add(btnLoadCyfluxviz);
-		importPanel.add(label);
+		importPanel.add(lblLoadXmlFlux);
 		importPanel.add(btnImportVal);
 		importPanel.add(jLabel3);
 
@@ -1031,13 +1048,30 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		exportPanel.setBackground(java.awt.Color.white);
 		exportPanel.setRequestFocusEnabled(false);
 
-		jLabel2.setText("Save Flux Distributions");
+		jLabel2.setText("Export XML Flux Distributions");
 
 		JButton btnExportFd = new JButton();
+		btnExportFd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// Get xmlFile (FileChooser)
+				File xmlFile = FileUtil.selectXMLFile();
+				
+				// export FD to XML file
+				Set<FluxDis> fds = null;
+				if (chckbxSaveSelectedFD.isSelected()){
+					fds = getAllSelectedFluxDistributions();
+				} else{
+					FluxDisCollection fdCollection = FluxDisCollection.getInstance();
+					fds = new HashSet<FluxDis>(fdCollection.getFluxDistributions());
+				}
+				XMLInterface.writeXMLFileForFluxDistributions(xmlFile, fds);
+			}
+		});
 		btnExportFd.setBounds(12, 53, 134, 25);
 		btnExportFd
 				.setToolTipText("Export Images of flux distributions as SVG");
-		btnExportFd.setText("Export FD");
+		btnExportFd.setText("Export XML");
 
 		JLabel lblSaveImages = new JLabel();
 		lblSaveImages.setBounds(12, 102, 162, 15);
@@ -1046,16 +1080,26 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		JSeparator separator = new JSeparator();
 		separator.setBounds(12, 90, 188, 10);
 
-		JCheckBox chckbxSaveAllFD = new JCheckBox("All");
+		chckbxSaveAllFD = new JCheckBox("All");
+		chckbxSaveAllFD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				chckbxSaveSelectedFD.setSelected(!chckbxSaveAllFD.isSelected());
+			}
+		});
 		chckbxSaveAllFD.setBackground(Color.WHITE);
 		chckbxSaveAllFD.setForeground(Color.BLACK);
 		chckbxSaveAllFD.setBounds(12, 29, 42, 23);
 		chckbxSaveAllFD.setSelected(true);
 
-		JCheckBox chckbxSaveSelectedFD = new JCheckBox("Selected");
+		chckbxSaveSelectedFD = new JCheckBox("Selected");
 		chckbxSaveSelectedFD.setBackground(Color.WHITE);
 		chckbxSaveSelectedFD.setBounds(58, 29, 116, 23);
-
+		chckbxSaveSelectedFD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				chckbxSaveAllFD.setSelected(!chckbxSaveSelectedFD.isSelected());
+			}
+		});
+		
 		checkBoxSaveImagesSelected = new JCheckBox("Selected");
 		checkBoxSaveImagesSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
