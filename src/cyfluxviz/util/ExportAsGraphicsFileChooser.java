@@ -209,7 +209,7 @@ public class ExportAsGraphicsFileChooser extends JDialog implements ActionListen
 				// Only selection of folder for export instead of single file
 				// TODO: Use different file chooser
 				
-				File file = FileUtil.getFolder();
+				File file = FluxVizFileUtil.getFolder();
 				if (file != null)
 				{
 					assignFile(file);

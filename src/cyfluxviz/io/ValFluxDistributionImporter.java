@@ -9,13 +9,15 @@ import cytoscape.CyNetwork;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
+import cytoscape.util.CyFileFilter;
+import cytoscape.util.FileUtil;
 import cytoscape.view.CyNetworkView;
 
 import cyfluxviz.FluxDirection;
 import cyfluxviz.FluxDis;
 import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.gui.PanelText;
-import cyfluxviz.util.FileUtil;
+import cyfluxviz.util.FluxVizFileUtil;
 import cyfluxviz.util.FluxVizUtil;
 
 /* Val file importer (simple key/value pairs for reactions). */
@@ -249,10 +251,11 @@ public class ValFluxDistributionImporter {
         network.unselectAllNodes();
     	
 	    // Select the val files and create the attributes
-    	File[] valFiles = FileUtil.selectValFiles();
+        CyFileFilter[] filter = { new CyFileFilter("val", "Val Flux Distributions")};
+    	File[] valFiles = FileUtil.getFiles("Select val files for current network.", FileUtil.LOAD, filter);
     	if (valFiles != null){
     		for (int k=0; k<valFiles.length; ++k){
-    			FileUtil.createFluxDistributionFromValFile(valFiles[k]);
+    			FluxVizFileUtil.createFluxDistributionFromValFile(valFiles[k]);
     		}
     		CyFluxVizPanel.getInstance().updateFluxDistributionTable();
     	}

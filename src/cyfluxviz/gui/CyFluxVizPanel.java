@@ -48,8 +48,8 @@ import cyfluxviz.netview.NetworkViewTools;
 import cyfluxviz.util.AttributeUtils;
 import cyfluxviz.util.CytoscapeWrapper;
 import cyfluxviz.util.ExportAsGraphics;
-import cyfluxviz.util.FileUtil;
 import cytoscape.Cytoscape;
+import cytoscape.util.FileUtil;
 import cytoscape.util.OpenBrowser;
 import cytoscape.view.CyNetworkView;
 import cytoscape.view.CytoscapeDesktop;
@@ -1016,7 +1016,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		btnLoadCyfluxviz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Get the filename
-				File file = FileUtil.selectXMLFile();
+				File file = FileUtil.getFile("Select *.xml files for flux distribution.", FileUtil.LOAD);
 				if (file != null){
 					Collection<FluxDis> fdList = XMLInterface.readFluxDistributionsFromXML(file);
 					for (FluxDis fd : fdList){
@@ -1054,8 +1054,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		btnExportFd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				// Get xmlFile (FileChooser)
-				File xmlFile = FileUtil.selectXMLFile();
+				File xmlFile = FileUtil.getFile("Select *.xml files for flux distribution.", FileUtil.SAVE);
 				
 				// export FD to XML file
 				Set<FluxDis> fds = null;

@@ -23,6 +23,6 @@
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/automatic-layout-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/attribute-browser-2.8.2-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/advanced-network-merge-2.8.2-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CySBML-v1.2.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CySBML-v1.22.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
