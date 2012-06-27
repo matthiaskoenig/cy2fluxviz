@@ -1,5 +1,5 @@
 ------------------------------------------------------------
-CyFluxViz-v0.86 for Cytoscape-v2.8
+CyFluxViz-v0.88 for Cytoscape-v2.8
 ------------------------------------------------------------
 We are pleased to announce the release of CyFluxViz
 which is available for download at
@@ -27,6 +27,11 @@ Thanks and have fun
 The CyFluxViz team.
 ------------------------------------------------------------
 
+v0.88
+- smaller bugfixes
+- better file import
+
+------------------------------------------------------------
 v0.86 (Mayor Release)
 - full support & compatibility to CySBML
 - XML import and export of Flux Distributions
