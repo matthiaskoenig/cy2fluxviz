@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Set;
 import java.io.File;
 
+import cyfluxviz.FluxDirection;
 import cyfluxviz.FluxDis;
+import cyfluxviz.FluxDisCollection;
 
 
 public class XMLInterface {
@@ -41,6 +43,7 @@ public class XMLInterface {
 	public static String FLUX_VALUE = "fluxValue";
 	public static String FLUX_TYPE = "type";
 	public static String FLUX_TYPE_NODE = "nodeFlux";
+	public static String FLUX_TYPE_EDGE = "edgeFlux";
 	
 
 	// XML EXPORT //
@@ -142,38 +145,70 @@ public class XMLInterface {
 		return fdCollection;
 	}
 	
+	private static Node getFluxListNodeFromFluxDistributionNode(Node fdNode){
+		Node flNode = null;
+		NodeList nList = fdNode.getChildNodes();
+		for (int i=0; i<nList.getLength(); ++i){
+			Node node = nList.item(i);
+			if (node.getNodeName().equals(FLUX_LIST)){
+				flNode = node;
+				break;
+			}
+		}
+		return flNode;
+	}
+
 	private static FluxDis readFluxDistributionFromNode(Node fdNode){
 		NamedNodeMap map = fdNode.getAttributes();
 		String id = map.getNamedItem(FD_ID).getTextContent(); 
 		String name = map.getNamedItem(FD_NAME).getTextContent();
 		String networkId = map.getNamedItem(FD_NETWORK_ID).getTextContent();
 		
-		HashMap<String, Double> nodeFluxes = new HashMap<String, Double>();
-		// Get the listOfFluxes
-		
-		// TODO: handle errors in the xml files
-		Node fluxList = fdNode.getFirstChild();
+		Node fluxList = getFluxListNodeFromFluxDistributionNode(fdNode);
 		NodeList fluxes = fluxList.getChildNodes();
+		
+		// Read the node & edge fluxes
+		HashMap<String, Double> nodeFluxes = new HashMap<String, Double>();
+		HashMap<String, Double> edgeFluxes = new HashMap<String, Double>();
 		if (fluxes != null && fluxes.getLength() > 0){
-			// TODO: handle the type 
 			for (int k=0; k<fluxes.getLength(); ++k){
+				
 				Node flux = fluxes.item(k);
-				NamedNodeMap fluxAttMap = flux.getAttributes();
-				String fluxId = fluxAttMap.getNamedItem(FLUX_ID).getTextContent();
-				String fluxValueString = fluxAttMap.getNamedItem(FLUX_VALUE).getTextContent();
-				Double fluxValue = Double.parseDouble(fluxValueString);
-				nodeFluxes.put(fluxId, fluxValue);
+				if (flux.getNodeName().equals(FLUX)){				
+					NamedNodeMap fluxAttMap = flux.getAttributes();
+					String fluxType = fluxAttMap.getNamedItem(FLUX_TYPE).getTextContent();
+					String fluxId = fluxAttMap.getNamedItem(FLUX_ID).getTextContent();
+					String fluxValueString = fluxAttMap.getNamedItem(FLUX_VALUE).getTextContent();
+					Double fluxValue = Double.parseDouble(fluxValueString);
+					if (fluxType.equals(FLUX_TYPE_NODE)){ 
+						nodeFluxes.put(fluxId, fluxValue);
+					} else if (fluxType.equals(FLUX_TYPE_EDGE)){
+						edgeFluxes.put(fluxId, fluxValue);
+					}
+					System.out.println(fluxId + " -> " + fluxValue);
+				}
 			}
 		}
 		
-		// Use the ValImporter to generate the node fluxes
-		ValFluxDistributionImporter valImporter = new ValFluxDistributionImporter(
+		FluxDis fd = null;
+		if (edgeFluxes.size() == 0){
+			// Use the ValImporter to generate the edge Fluxes
+			ValFluxDistributionImporter valImporter = new ValFluxDistributionImporter(
 									id, name, networkId, nodeFluxes);
-		return valImporter.getFluxDistribution();
+			fd = valImporter.getFluxDistribution();
+		} else {
+			// Generate edge directions and flux distribution
+			HashMap<String, FluxDirection> edgeDirections = ValFluxDistributionImporter.getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
+			fd = new FluxDis(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
+			fd.setIdFromString(id);
+		}
+		return fd;
 	}
 	
 	
 	public static void main(String[] args){
+		
+
 		// Load some val files as FluxDistributionCollection
 		System.out.println("*** Load Val Files ***");
 		Set<FluxDis> fdSet = new HashSet<FluxDis>();
@@ -200,6 +235,12 @@ public class XMLInterface {
 		// Import the generated XML as FluxDistributions again
 		System.out.println("*** Import XML ***");
 		Collection<FluxDis> fdCollection = readFluxDistributionsFromXML(xmlFilename);
+		for (FluxDis fd: fdCollection){
+			System.out.println(fd);
+		}
+
+		String xmlTest ="/home/mkoenig/Science/projects/BockMayr/source/matthias/models/Koenig2012_Hepatocyte_Small/test_data.xml";
+		fdCollection = readFluxDistributionsFromXML(xmlTest);
 		for (FluxDis fd: fdCollection){
 			System.out.println(fd);
 		}

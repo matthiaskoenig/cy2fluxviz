@@ -7,7 +7,7 @@ import cytoscape.CyNetwork;
 import cytoscape.Cytoscape;
 
 public class FluxDis {	
-	private UUID id;
+	private String id;
 	private String name;
 	private String networkId;
 	private HashMap<String, Double> edgeFluxes;
@@ -21,7 +21,7 @@ public class FluxDis {
 							HashMap<String, Double> edgeFluxes,
 							HashMap<String, FluxDirection> edgeDirections
 							){
-		id = UUID.randomUUID();
+		id = UUID.randomUUID().toString();
 		this.name = name;
 		this.networkId = networkId;
 		if (hasValidNetworkId()){	
@@ -35,7 +35,7 @@ public class FluxDis {
 	}
 	
 	public void setIdFromString(String id){
-		this.id = UUID.fromString(id);
+		this.id = id;
 	}
 	
 	public String toString(){
