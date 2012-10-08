@@ -36,7 +36,7 @@ import cyfluxviz.visualstyle.VisualStyleFactory;
 
 public class CyFluxViz extends CytoscapePlugin {
 	public static final String NAME = "CyFluxViz";
-	public static final String VERSION = "v0.89";
+	public static final String VERSION = "v0.90";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	public static final String DEFAULTVISUALSTYLE = NAME; 
 	
@@ -45,13 +45,14 @@ public class CyFluxViz extends CytoscapePlugin {
 	public static final String EDGE_DIRECTION_ATTRIBUTE = "edgeFluxDirection";
 		
     public CyFluxViz() {    	
+    	System.out.println("CyFluxViz[INFO] -> " + NAME + "-" + VERSION);  
     	ImageIcon fluxVizIcon = new ImageIcon(getClass().getResource("/cyfluxviz/gui/images/CyFluxViz_logo.png"));
     	CyFluxVizStartAction startAction = new CyFluxVizStartAction(fluxVizIcon, this);
     	Cytoscape.getDesktop().getCyMenus().addCytoscapeAction((CytoscapeAction) startAction);
     }
 
     public String describe() {
-        String description = "CyFluxViz - Visualise fluxes in Cytoscape networks.";
+        String description = "CyFluxViz - Visualize fluxes in Cytoscape networks.";
         return description;
     }
     

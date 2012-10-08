@@ -182,13 +182,18 @@ public class XMLInterface {
 					Double fluxValue = Double.parseDouble(fluxValueString);
 					if (fluxType.equals(FLUX_TYPE_NODE)){ 
 						nodeFluxes.put(fluxId, fluxValue);
+						System.out.println("nodeFlux: " + fluxId + " -> " + fluxValue);
 					} else if (fluxType.equals(FLUX_TYPE_EDGE)){
 						edgeFluxes.put(fluxId, fluxValue);
+						System.out.println("edgeFlux: " + fluxId + " -> " + fluxValue);
 					}
-					System.out.println(fluxId + " -> " + fluxValue);
+					
 				}
 			}
 		}
+		
+		System.out.println("edgeFluxes: #" + edgeFluxes.size());
+		System.out.println("nodeFluxes: #" + nodeFluxes.size());
 		
 		FluxDis fd = null;
 		if (edgeFluxes.size() == 0){
@@ -197,6 +202,7 @@ public class XMLInterface {
 									id, name, networkId, nodeFluxes);
 			fd = valImporter.getFluxDistribution();
 		} else {
+			System.out.println("EdgeFluxes from XML parsed");
 			// Generate edge directions and flux distribution
 			HashMap<String, FluxDirection> edgeDirections = ValFluxDistributionImporter.getEdgeDirectionsFromEdgeFluxes(edgeFluxes);
 			fd = new FluxDis(name, networkId, nodeFluxes, edgeFluxes, edgeDirections);
@@ -208,7 +214,6 @@ public class XMLInterface {
 	
 	public static void main(String[] args){
 		
-
 		// Load some val files as FluxDistributionCollection
 		System.out.println("*** Load Val Files ***");
 		Set<FluxDis> fdSet = new HashSet<FluxDis>();

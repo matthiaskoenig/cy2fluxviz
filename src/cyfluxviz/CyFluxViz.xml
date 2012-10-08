@@ -3,7 +3,7 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="cyfluxviz">
-        <jar destfile="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CyFluxViz-v0.89.jar">
+        <jar destfile="/home/mkoenig/Desktop/CySBML/dev/cytoscape-2.8.2/plugins/CyFluxViz-v0.90.jar">
             <manifest>
                 <attribute name="Class-Path" value="."/>
     			<attribute name="Cytoscape-Plugin" value="cyfluxviz.CyFluxViz"/>

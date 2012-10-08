@@ -189,7 +189,7 @@ public class ValFluxDistributionImporter {
 		return eFluxes;
 	}
 	
-	private static HashMap<String, FluxDirection> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
+	public static HashMap<String, FluxDirection> getEdgeDirectionsFromEdgeFluxes(HashMap<String, Double> eFluxes){
 		
 		HashMap<String, FluxDirection> directionMap = new HashMap<String, FluxDirection>();
 		CyAttributes edgeAttributes = Cytoscape.getEdgeAttributes();
@@ -197,7 +197,9 @@ public class ValFluxDistributionImporter {
 		for (String edgeId : eFluxes.keySet()){
 			
 			int direction = 1;
-				
+			
+			
+			
 			// reverse direction for reaction-reactant edges
 			String edgeType = edgeAttributes.getStringAttribute(edgeId, "interaction");
 			if (edgeType.equals("reaction-reactant")){
