@@ -31,23 +31,17 @@ public class VisualStyleFactory {
 
 	public static VisualStyle createVisualStyle(String name){
 		VisualStyle vs = null;
-		switch(name){
-			case CyFluxVizStyles.DEFAULTVISUALSTYLE:
-				vs = createDefaultVisualStyle();
-				break;
-			case CyFluxVizStyles.C13STYLE:
-				vs = createC13VisualStyle();
-				break;
-			case CyFluxVizStyles.KINETICSTYLE:
-				vs = createKineticVisualStyle();
-				break;
-			default:
-				System.out.println("CyFluxViz[INFO]: VisualStyle not supported by VisualStyleFactory -> " + name);
+		if (name.equals(CyFluxVizStyles.DEFAULTVISUALSTYLE)){
+			vs = createDefaultVisualStyle();
+		} else if (name.equals(CyFluxVizStyles.C13STYLE)){
+			vs = createC13VisualStyle();
+		} else if (name.equals(CyFluxVizStyles.KINETICSTYLE))
+			vs = createKineticVisualStyle();
+		else {	
+			System.out.println("CyFluxViz[INFO]: VisualStyle not supported by VisualStyleFactory -> " + name);
 		}
-		
 		return vs;
 	}
-	
 	
 	/** Creates the standard/default CyFluxViz VisualStyle. */
 	private static VisualStyle createDefaultVisualStyle() {

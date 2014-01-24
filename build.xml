@@ -5,7 +5,7 @@
     </description>
   	
 	<!-- set global properties for this build -->
-	<property name="cytoLibDir" value="C:\Users\mkoenig\Desktop\Cytoscape_2\cytoscape-2.8.3"/>
+	<property name="cytoLibDir" value="${user.home}/Programs/Cytoscape_2/cytoscape-2.8.3"/>
   	<property name="name" value="CyFluxViz"/>
     <property name="version" value="v0.94"/>
     <property name="libDir" value="lib"/>	
@@ -14,13 +14,10 @@
 	<property name="dist"  location="dist"/>
 	
 	 <path id="master-classpath">
-	   <fileset dir="${libDir}">
-	     <include name="CySBML-v1.29.jar"/>
-	   </fileset>
 	   <fileset dir="${cytoLibDir}"/>
 	   <fileset dir="${cytoLibDir}/plugins">
 	   		<exclude name="/**/*sbml*"/>
-	   	    <exclude name="/**/*SBML*"/>
+	   	    <include name="/**/CySBML*"/>
 	   </fileset>
 	 </path>
 	
