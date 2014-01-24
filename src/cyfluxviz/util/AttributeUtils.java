@@ -2,7 +2,6 @@ package cyfluxviz.util;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -10,8 +9,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
@@ -19,61 +16,17 @@ import cytoscape.data.CyAttributes;
 
 import cyfluxviz.gui.CyFluxVizPanel;
 
+/** TODO: Rewrite, better handling of the attribute lists.
+ * Collection of tools to handle the attribute list and work
+ * with the selected attributes. 
+ * These is the core functionality for the attribute subnetworks.
+ */
 public class AttributeUtils {
 
-	// TODO: this is not the right place for the function should be
-	// close to getSelectedFluxDistribution
-	public static List<String> getSelectedFluxDistributions(){
-    	DefaultTableModel tableModel = CyFluxVizPanel.getInstance().getTableModel();
-    	JTable fluxTable = CyFluxVizPanel.getInstance().getFluxTable();
-    	int[] selected = fluxTable.getSelectedRows();
-    	
-    	List<String> fdIds = new LinkedList<String>(); 
-    	String id;
-    	if (selected != null){
-    		for (int i=0; i<selected.length; ++i){
-    			id = (String) tableModel.getValueAt(selected[i], 2);
-        		fdIds.add(id);
-        	}	
-    	}    	
-    	return fdIds;
-	}
-
-
-	/* Get the set of different values used in the attribute. 
-	 * Identical function used for different types. */
-	@SuppressWarnings("unchecked")
-	public static Set getValueSet(String attributeName){
-		Set valueSet = new HashSet();
-    	if (attributeName == null){ return valueSet;}
-		
-		CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
-		List<CyNode> nodeList = Cytoscape.getCyNodesList();
-		for (CyNode node: nodeList){
-			if (nodeAttrs.getAttribute(node.getIdentifier(), attributeName) != null){
-				valueSet.add(nodeAttrs.getAttribute(node.getIdentifier(), attributeName));
-			}
-		}
-		return valueSet;
-	}
-	
-    public static void initNodeAttributeList(String attribute){    	
-    	// 1. Get the possible values that can occur in the attribute
-    	Object[] listObjects = getValueSet(attribute).toArray();
-    	Arrays.sort(listObjects);
-    	// Set the values in the list
-		// 2.Set table model
-        DefaultListModel model = new DefaultListModel();
-        for (Object obj: listObjects){
-        	model.addElement(obj);
-        }
-        // get the list and set the model
-        JList list = CyFluxVizPanel.getInstance().getNodeAttributeList();
-        list.setModel(model);
-	}
-    
-    /* Set the current NodeAttributes of type string in the ComboBox. */
+    /** Set the current NodeAttributes of type string in the ComboBox. 
+     * Is called when attributes are changing. */
     public static void initNodeAttributeComboBox(){
+    	System.out.println("CyFluxViz[INFO]: initNodeAttributeComboBox()");
     	Object[] attributes = getStringNodeAttributes().toArray();
     	Arrays.sort(attributes);
     	
@@ -101,10 +54,46 @@ public class AttributeUtils {
         }
         // if no string attributes are available initialize empty.
         else{
+        	System.out.println("CyFluxViz[INFO]: empty attribute list initialized !");
         	initNodeAttributeList(null);
         }	
     }
+	
+	/** Initializes the list of possible values for the selected attributes. */
+    public static void initNodeAttributeList(String attribute){    	
+    	// 1. Get the possible values that can occur in the attribute
+    	Object[] listObjects = getValueSet(attribute).toArray();
+    	Arrays.sort(listObjects);
+    	// Set the values in the list
+		// 2.Set table model
+        DefaultListModel<Object> model = new DefaultListModel<Object>();
+        for (Object obj: listObjects){
+        	model.addElement(obj);
+        }
+        // get the list and set the model
+		JList<Object> list = CyFluxVizPanel.getInstance().getNodeAttributeList();
+        list.setModel(model);
+	}
     
+	/** Get the set of different values used in the attribute. 
+	 * Here for every attribute the values which can be used for the attribute subnetworks
+	 * are defined.
+	 * Identical function used for different types. */
+	public static Set<Object> getValueSet(String attributeName){
+		Set<Object> valueSet = new HashSet<Object>();
+    	if (attributeName == null){ return valueSet;}
+		
+		CyAttributes nodeAttrs = Cytoscape.getNodeAttributes();
+		@SuppressWarnings("unchecked")
+		List<CyNode> nodeList = Cytoscape.getCyNodesList();
+		for (CyNode node: nodeList){
+			if (nodeAttrs.getAttribute(node.getIdentifier(), attributeName) != null){
+				valueSet.add(nodeAttrs.getAttribute(node.getIdentifier(), attributeName));
+			}
+		}
+		return valueSet;
+	}
+	
 	public static Set<String> getStringNodeAttributes(){
 		return getTypeNodeAttributes(CyAttributes.TYPE_STRING);
 	}

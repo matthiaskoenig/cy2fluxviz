@@ -1,0 +1,9 @@
+model Koenig_minimal
+
+GLCK: glc + atp -> glc1p + adp;
+GALK: gal + atp -> gal1p + adp;
+ATPS: adp + p -> atp;
+
+end
+
+

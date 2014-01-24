@@ -2,11 +2,12 @@ package cyfluxviz;
 
 import java.util.HashMap;
 
-import cyfluxviz.gui.PanelText;
-import cytoscape.CyNetwork;
-
+/** Calculate statistical values for a given FluxDistribution. 
+ * Has to be recalculated when the fluxDistribution changes. 
+ *
+ * @author mkoenig
+ */
 public class FluxDisStatistics {
-	private FluxDis fluxDistribution;
 
 	// statistical values
 	private double min = 0.0;
@@ -14,27 +15,16 @@ public class FluxDisStatistics {
 	private double absMin = 0.0;
 	private double absMax = 0.0;
 	private double absMean = 0.0;
-	private double fluxFraction = 0.0;
-	private int zeroEdgeCount = 0;
-	private int networkEdgeCount = 0;
 	private int fluxEdgeCount = 0;
 
-	public FluxDisStatistics(FluxDis fluxDistribution) {
-		this.fluxDistribution = fluxDistribution;
-		networkEdgeCount = getNetworkEdgeCount();
-		calculateStatistics();
+	public FluxDisStatistics(FluxDis fd) {
+		calculateStatistics(fd);
 	}
 
-	private int getNetworkEdgeCount() {
-		CyNetwork network = fluxDistribution.getCyNetwork();
-		return network.getEdgeCount();
-	}
+	private void calculateStatistics(FluxDis fd) {
 
-	private void calculateStatistics() {
-
-		HashMap<String, Double> fluxes = fluxDistribution.getEdgeFluxes();
+		HashMap<String, Double> fluxes = fd.getEdgeFluxes();
 		fluxEdgeCount = fluxes.size();
-		zeroEdgeCount = 0;
 
 		Double absSum = 0.0;
 		for (Double flux : fluxes.values()) {
@@ -55,11 +45,7 @@ public class FluxDisStatistics {
 			if (Math.abs(flux) > absMax) {
 				absMax = flux;
 			}
-			if (flux == 0.0){
-				zeroEdgeCount++;
-			}
 		}
-		fluxFraction = 1.0 * (fluxEdgeCount-zeroEdgeCount) / networkEdgeCount;
 		absMean = absSum / fluxEdgeCount;
 	}
 
@@ -88,18 +74,14 @@ public class FluxDisStatistics {
 						+ "<tr><td><i>Abs Min</i></td>        <td>%.3f</td></tr>"
 						+ "<tr><td><i>Abs Max</i></td>        <td>%.3f</td></tr>"
 						+ "<tr><td><i>Abs Mean</i></td>       <td>%.3f</td></tr>"
-						+ "<tr><td><i>fluxFraction</i></td>  <td>%.3f [%d/%d] </td></tr>"
-						+ "</table>", min, max, absMin, absMax, absMean,
-						fluxFraction, (fluxEdgeCount-zeroEdgeCount), networkEdgeCount);
+						+ "</table>", min, max, absMin, absMax, absMean);
 		return out;
 	}
 
 	public String toString() {
 		String output = String.format("min: %s\n" + "max: %s\n"
-				+ "absMin: %s\n" + "absMax: %s\n" + "absMean: %s\n"
-				+ "fluxFraction: [%s/%s] %s", min, max, absMin, absMax,
-				absMean, fluxFraction, fluxEdgeCount, networkEdgeCount,
-				fluxFraction);
+				+ "absMin: %s\n" + "absMax: %s\n" + "absMean: %s\n", 
+				min, max, absMin, absMax, absMean);
 		return output;
 	}
 }

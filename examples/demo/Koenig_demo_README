@@ -1,0 +1,46 @@
+Simple Demo Network for CySBML & CyFluxViz
+---------------------------------------------
+author: Matthias Koenig
+contact: matthias.koenig@charite.de
+date: 18June 2012
+---------------------------------------------
+demo.tif 
+        - overview model
+Koenig_demo.xml
+        - SBML for network model
+Koenig_demo.xml
+        - SBML for network model		
+Koenig_demo_FD_*.val
+        - example flux distributions in network model
+CreateDemoNetwork.java
+        - Java script for generating model and flux distributions (JSBML)
+
+---------------------------------------------
+
+
+[2] Load demo network with CySBML
+[3] Load val files via the CyFluxViz val import dialog and select the 
+        Flux Distribution you want to display
+[4] More complex example in the erythrocyte folder.
+
+If you have questions just write.
+Kind regards,
+Matthias König
+
+-- 
+Matthias Koenig
+Computational Systems Biochemistry
+Institute of Biochemistry
+Charité - Universitätsmedizin Berlin
+Reinickendorfer Str. 61
+Haus 10
+13347 Berlin
+Germany
+http://www.charite.de/sysbio/people/koenig/
+
+Tel: + 49 30 450 528 404
+Fax: + 49 30 450 528 937
+Email: matthias.koenig@charite.de 
+
+
+

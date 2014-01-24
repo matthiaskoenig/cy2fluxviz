@@ -13,7 +13,7 @@ pluginName=CyFluxViz
 pluginDescription=Cytoscape Plugin for the visualisation of fluxes in biochemical networks.
 
 # Plugin version number, this must be two numbers separated by a decimlal.  Ex. 0.2, 14.03
-pluginVersion=0.82
+pluginVersion=0.93
 
 # Compatible Cytoscape version. If there are more than one version, seperate by ",".
 cytoscapeVersion=2.8
@@ -31,7 +31,7 @@ projectURL=http://www.charite.de/sysbio/people/koenig/software/cyfluxviz/
 pluginAuthorsInstitutions=Matthias Koenig:Computational Systems Biochemistry Berlin;
 
 # Date this plugin/plugin version was released
-releaseDate=June 15, 2012
+releaseDate=August 7, 2013
 
 # If this plugin is never meant to be downloaded except as part of a plugin (not common) add this property.  Default is "no"
 themeOnly=no

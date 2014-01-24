@@ -1,5 +1,10 @@
 package cyfluxviz;
 
+/** 
+ * Enum to help handle the Flux directions in the network.
+ * @author mkoenig
+ *
+ */
 public enum FluxDirection {
 	FORWARD(1), REVERSE(-1);
 	

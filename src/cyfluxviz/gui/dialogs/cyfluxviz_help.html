@@ -1,31 +1,38 @@
-<html>
-<body>
+
 <a href='http://www.charite.de/sysbio/people/koenig/software/fluxviz/help/'>Online Help</a> |
 <a href='http://www.charite.de/sysbio/people/koenig/'>Contact</a><br/>
 
 <h2>CyFluxViz Workflow</h2>
-<b>Load Network for visualisation</b><br>
-Load Network via <br/>
-<i>File -> Import Network</i> or <i>File -> Open</i>)
-for visualization of flux distributions within the network.<br />
+<b>[A] Load SBML Network</b><br>
+<i>File -> Import Network</i> or click the CySBML network loader icon<br/>
+<img src="../images/import_network.png" alt="Load SBML network" border=0 height=35 width=35></img>
+
 <p>	
-<b>Import Flux Distributions</b><br/>
+<b>[B] Import FluxDistributions</b><br/>
 Flux distributions are imported for the currently selected network.<br/>
-Import flux distribution in the <i>Import Tab</i> below.<br/>
-</p>
-<p>
-<b>Adapt Mapping Function</b><br />
-The mapping between fluxes and the network attributes can be adapted in the <i>FluxMap Tab</i>.
+Import flux distribution via the <i>Import/Export Tab</i>.<br/>
+<img src="../images/import_fluxdistributions.png" alt="Load FluxDistributions" border=0></img>
 
 </p>
+
+<p>	
+<b>[C] Select CyFluxViz VisualStyle</b><br/>
+Select an alternative VisualStyle via the <i>VizMapper Tab</i>. If no style is selected the 
+default CyFluxViz style is used.
+</p>
+
 <p>
-<b>Change Sub-Network View </b><br/>
-The NetworkView can be adapted based on the selected flux distribution to flux containing subnets 
-(<i>Subnet -> Flux subnet</i>) or attribute subnets (<i>Subnet -> Attribute subnet</i>).<br />
+<b>[D] Adapt Mapping Function</b><br />
+The mapping between fluxes and network attributes can be adapted in the <i>FluxMapping Tab</i>. 
 </p>
+
+<p>
+<b>[E] Change Sub-Network View </b><br/>
+The NetworkView can be adapted based on the selected flux distribution to flux containing subnetworks 
+(<i>SubNetwork Tab -> Flux subnet</i>) or attribute subnetworks (<i>Subnetwork Tab -> Attribute subnet</i>).<br />
+</p>
+
 <p> 			
-<b>Export Images</b><br />
-Select Flux Distributions for export and export in PDF, SVG, EPS, JPG, PNG or BMP (<i>Export Tab</i>).
+<b>[F] Export Images</b><br />
+Select Flux Distributions for export and export in PDF, SVG, EPS, JPG, PNG or BMP (<i>Import/Export Tab</i>).
 </p>
-</body>
-</html>

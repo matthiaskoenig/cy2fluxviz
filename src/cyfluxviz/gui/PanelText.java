@@ -5,7 +5,7 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
-import cysbml.gui.CySBMLNavigationPanel;
+import cysbml.gui.NavigationPanel;
 import cytoscape.Cytoscape;
 
 public class PanelText {
@@ -23,24 +23,48 @@ public class PanelText {
 		return header;
 	}
 	
-		
 	public static void setInfo(CyFluxVizPanel fvPanel){
-		URL url;
+		String source = "/cyfluxviz/gui/dialogs/cyfluxviz_about.html";
 		try {
-			url = new URL(CySBMLNavigationPanel.class.getResource("/cyfluxviz/gui/dialogs/cyfluxviz_info.html").toString());
-			fvPanel.updateInfoPaneHTMLText(url);
+			fvPanel.updateInfoPaneHTMLText(getResourceURL(source));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
     }
 		
     public static void setHelp(CyFluxVizPanel fvPanel){
-		URL url;
+		String source = "/cyfluxviz/gui/dialogs/cyfluxviz_help.html";
 		try {
-			url = new URL(CySBMLNavigationPanel.class.getResource("/cyfluxviz/gui/dialogs/cyfluxviz_help.html").toString());
-			fvPanel.updateHelpPaneHTMLText(url);
+			fvPanel.updateHelpPaneHTMLText(getResourceURL(source));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
     }
+    
+	public static void setAbout(CyFluxVizPanel fvPanel){
+		String source = "/cyfluxviz/gui/dialogs/cyfluxviz_about.html";
+		try {
+			fvPanel.updateAboutPaneHTMLText(getResourceURL(source));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+    }
+    
+	
+    public static URL getResourceURL(String source) throws MalformedURLException{
+    	String res = getResourceString(source);
+    	URL url = new URL(res);
+    	return url;
+    }
+	
+    /** Some magic to get the right filename within the src folder
+     * to load some additional files.
+     * @param source
+     * @return
+     */
+    public static String getResourceString(String source){
+    	String res = NavigationPanel.class.getResource(source).toString();
+    	return res;
+    }
+	
 }

@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.4 with libSBML version 5.8.0. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="Koenig2013_galactose" name="Koenig2013_galactose" substanceUnits="substance" volumeUnits="volume" areaUnits="area" lengthUnits="length">
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area">
+        <listOfUnits>
+          <unit kind="metre" exponent="2" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="length">
+        <listOfUnits>
+          <unit kind="metre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mM">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+          <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mmol_per_s">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="per_s">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mmol">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="disse" spatialDimensions="3" size="0.2" units="litre" constant="true"/>
+      <compartment id="hepatocyte" spatialDimensions="3" size="1" units="litre" constant="true"/>
+      <compartment id="protein" spatialDimensions="3" size="1" units="litre" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="glc_dis" name="D-glucose[disse]" compartment="disse" initialConcentration="5.5" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="gal_dis" name="D-galactose[disse]" compartment="disse" initialConcentration="0.0012" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="galM_dis" name="D-galactoseM[disse]" compartment="disse" initialConcentration="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="glc" name="D-glucose" compartment="hepatocyte" initialConcentration="5.5" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="gal" name="D-galactose" compartment="hepatocyte" initialConcentration="0.00012" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="galM" name="D-galactoseM" compartment="hepatocyte" initialConcentration="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="glc1p" name="D-glucose 1-phophate" compartment="hepatocyte" initialConcentration="0.012" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="glc6p" name="D-glucose 6-phosphate" compartment="hepatocyte" initialConcentration="0.12" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="gal1p" name="D-galactose 1-phosphate" compartment="hepatocyte" initialConcentration="0.001" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="udpglc" name="UDP-D-glucose" compartment="hepatocyte" initialConcentration="0.34" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="udpgal" name="UDP-D-galactose" compartment="hepatocyte" initialConcentration="0.11" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="galtol" name="D-galactitol" compartment="hepatocyte" initialConcentration="0.001" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="atp" name="ATP" compartment="hepatocyte" initialConcentration="2.7" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="adp" name="ADP" compartment="hepatocyte" initialConcentration="1.2" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="utp" name="UTP" compartment="hepatocyte" initialConcentration="0.27" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="udp" name="UDP" compartment="hepatocyte" initialConcentration="0.09" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="phos" name="phosphate" compartment="hepatocyte" initialConcentration="5" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="ppi" name="pyrophosphate" compartment="hepatocyte" initialConcentration="0.008" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="nadp" name="NADP" compartment="hepatocyte" initialConcentration="0.1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="nadph" name="NADPH" compartment="hepatocyte" initialConcentration="0.1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="GLUT2_P" name="GLUT2" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="GALK_P" name="GALK" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="IMP_P" name="IMP" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="ATPS_P" name="ATPS" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="ALDR_P" name="ALDR" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="NADPR_P" name="NADPR" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="GALT_P" name="GALT" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="GALE_P" name="GALE" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="UGP_P" name="UGP" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="PPASE_P" name="PPASE" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="NDKU_P" name="NDKU" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="PGM1_P" name="PGM1" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="GTFGAL_P" name="GTFGAL" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+      <species id="GTFGLC_P" name="GTFGLC" compartment="protein" initialConcentration="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="nadp_tot" constant="false"/>
+      <parameter id="atp_tot" constant="false"/>
+      <parameter id="utp_tot" constant="false"/>
+      <parameter id="phos_tot" constant="false"/>
+      <parameter id="REF_P" value="1" units="mM" constant="true"/>
+      <parameter id="deficiency" value="0" units="dimensionless" constant="true"/>
+      <parameter id="scale" value="1e-015" units="dimensionless" constant="true"/>
+      <parameter id="GALK_kcat" constant="false"/>
+      <parameter id="GALK_k_gal" constant="false"/>
+      <parameter id="GALK_k_atp" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="nadp_tot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <ci> nadp </ci>
+            <ci> nadph </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="atp_tot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <ci> atp </ci>
+            <ci> adp </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="utp_tot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <ci> utp </ci>
+            <ci> udp </ci>
+            <ci> udpglc </ci>
+            <ci> udpgal </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="phos_tot">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <cn type="integer"> 3 </cn>
+              <ci> atp </ci>
+            </apply>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> adp </ci>
+            </apply>
+            <apply>
+              <times/>
+              <cn type="integer"> 3 </cn>
+              <ci> utp </ci>
+            </apply>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> udp </ci>
+            </apply>
+            <ci> phos </ci>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> ppi </ci>
+            </apply>
+            <ci> glc1p </ci>
+            <ci> glc6p </ci>
+            <ci> gal1p </ci>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> udpglc </ci>
+            </apply>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <ci> udpgal </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="GLUT2_GLC" name="GLUT2 (glucose)" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="glc_dis" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="glc" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGLUT2_GLC" species="GLUT2_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GLUT2_GAL" name="GLUT2 (galactose)" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal_dis" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="gal" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGLUT2_GAL" species="GLUT2_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GLUT2_GALM" name="GLUT2 (galactose M)" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="galM_dis" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="galM" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGLUT2_GALM" species="GLUT2_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GALK" name="Galactokinase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal" stoichiometry="1" constant="true"/>
+          <speciesReference species="atp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="gal1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="adp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGALK" species="GALK_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GALKM" name="Galactokinase M" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="galM" stoichiometry="1" constant="true"/>
+          <speciesReference species="atp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="gal1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="adp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGALKM" species="GALK_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="IMP" name="Inositol monophosphatase" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal1p" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="gal" stoichiometry="1" constant="true"/>
+          <speciesReference species="phos" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pIMP" species="IMP_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="ATPS" name="ATP synthase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="adp" stoichiometry="1" constant="true"/>
+          <speciesReference species="phos" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="atp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pATPS" species="ATPS_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="ALDR" name="Aldose reductase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal" stoichiometry="1" constant="true"/>
+          <speciesReference species="nadph" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="galtol" stoichiometry="1" constant="true"/>
+          <speciesReference species="nadp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pALDR" species="ALDR_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="NADPR" name="NADP reductase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="nadp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="nadph" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pNADPR" species="NADPR_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GALT" name="Galactose-1-phosphate uridyl transferase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="udpglc" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="glc1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="udpgal" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGALT" species="GALT_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GALE" name="UDP-glucose 4-epimerase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="udpglc" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="udpgal" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGALE" species="GALE_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="UGP" name="UDP-glucose pyrophosphorylase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="glc1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="utp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="udpglc" stoichiometry="1" constant="true"/>
+          <speciesReference species="ppi" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pUGP" species="UGP_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="UGALP" name="UDP-galactose pyrophosphorylase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="gal1p" stoichiometry="1" constant="true"/>
+          <speciesReference species="utp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="udpgal" stoichiometry="1" constant="true"/>
+          <speciesReference species="ppi" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pUGALP" species="UGP_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="PPASE" name="Pyrophosphatase" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="ppi" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="phos" stoichiometry="2" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pPPASE" species="PPASE_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="NDKU" name="Nucleoside diphosphokinase" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="atp" stoichiometry="1" constant="true"/>
+          <speciesReference species="udp" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="adp" stoichiometry="1" constant="true"/>
+          <speciesReference species="utp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pNDKU" species="NDKU_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="PGM1" name="Phosphoglucomutase-1" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="glc1p" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="glc6p" stoichiometry="1" constant="true"/>
+          <speciesReference species="phos" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pPGM1" species="PGM1_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GTFGLC" name="Glycosyltransferase glucose" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="udpglc" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="udp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGTFGLC" species="GTFGLC_P"/>
+        </listOfModifiers>
+      </reaction>
+      <reaction id="GTFGAL" name="Glycosyltransferase galactose" reversible="true" fast="false">
+        <listOfReactants>
+          <speciesReference species="udpgal" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="udp" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference name="pGTFGAL" species="GTFGAL_P"/>
+        </listOfModifiers>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+      <event id="EGAL1" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <eq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn type="integer"> 50 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="gal_dis">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM" type="integer"> 3 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="EGAL2" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <eq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn type="integer"> 100 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="gal_dis">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM" type="integer"> 0 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="E1" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <eq/>
+              <ci> deficiency </ci>
+              <cn type="integer"> 1 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="GALK_k_atp">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 0.13 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_k_gal">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 7.7 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_kcat">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="per_s" type="integer"> 2 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="E2" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <eq/>
+              <ci> deficiency </ci>
+              <cn type="integer"> 2 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="GALK_k_atp">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 0.11 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_k_gal">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 0.43 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_kcat">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="per_s"> 3.9 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="E3" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <eq/>
+              <ci> deficiency </ci>
+              <cn type="integer"> 3 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="GALK_k_atp">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 0.026 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_k_gal">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="mM"> 0.66 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="GALK_kcat">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+              <cn sbml:units="per_s"> 5.9 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>

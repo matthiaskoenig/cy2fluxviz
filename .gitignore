@@ -1,0 +1,9 @@
+bin/*
+build/*
+.~*
+*.class
+.metadata
+.project
+.hgignore
+.hg/*
+

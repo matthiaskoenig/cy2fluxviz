@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Created by CySBML version v1.2 on 2012-06-18 18:16 with jsbml version 0.8-rc1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level2/version3" level="2" version="3">
+  <model id="Koenig2013_demo" name="Demo Network" metaid="_3dd7ccbd-dc6c-4512-8080-b826dd336782">
+    <annotation>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">
+        <rdf:Description rdf:about="#_3dd7ccbd-dc6c-4512-8080-b826dd336782">
+          <dc:creator>
+            <Bag>
+              <li parseType="Resource">
+                <vCard:N rdf:parseType="Resource">
+                  <vCard:Family>Koenig</vCard:Family>
+                  <vCard:Given>Matthias</vCard:Given>
+                </vCard:N>
+                <vCard:EMAIL>matthias.koenig@charite.de</vCard:EMAIL>
+                <vCard:ORG parseType="Resource">
+                  <vCard:Orgname>Charite Berlin</vCard:Orgname>
+                </vCard:ORG>
+              </li>
+            </Bag>
+          </dc:creator>
+          <created parseType="Resource">
+            <W3CDTF>2012-06-18T16:16:27Z</W3CDTF>
+          </created>
+          <modified parseType="Resource">
+            <W3CDTF>2012-06-18T16:16:27Z</W3CDTF>
+          </modified>
+        </rdf:Description>
+      </rdf:RDF>
+    </annotation>
+    <listOfCompartments>
+      <compartment id="outside" name="Outer Compartment"/>
+      <compartment id="inside" name="Inner Compartment"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A_in" name="A_in" compartment="inside"/>
+      <species id="B_in" name="B_in" compartment="inside"/>
+      <species id="C_in" name="C_in" compartment="inside"/>
+      <species id="A_out" name="A_out" compartment="inside"/>
+      <species id="B_out" name="B_out" compartment="inside"/>
+      <species id="C_out" name="C_out" compartment="inside"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="b1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="A_out" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A_in" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="b2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="B_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B_out" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="b3" reversible="false">
+        <listOfReactants>
+          <speciesReference species="C_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C_out" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="v1">
+        <listOfReactants>
+          <speciesReference species="A_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B_in" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="v2">
+        <listOfReactants>
+          <speciesReference species="A_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C_in" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="v3">
+        <listOfReactants>
+          <speciesReference species="C_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A_in" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="v4">
+        <listOfReactants>
+          <speciesReference species="C_in" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B_in" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
