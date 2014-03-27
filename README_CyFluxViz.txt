@@ -59,6 +59,9 @@ Disclaimer: There exist still some minor bugs using multiple networks with multi
 		 CyFluxViz should be used to visualize various FluxDistributions within
 		 one network.
 --------------------------------------------------------------------------
+v0.94 [2014-01-24]
+- java 1.6 compatibility (bug fix)
+
 v0.93 [2013-08-07] bugfix release
 - attribute subnetwork functionality fixed
 - updated CyFluxViz style (SBML localization & irreversibel reactions)

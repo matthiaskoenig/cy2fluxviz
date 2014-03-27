@@ -6,4 +6,5 @@ build/*
 .project
 .hgignore
 .hg/*
-
+.classpath
+.settings/*

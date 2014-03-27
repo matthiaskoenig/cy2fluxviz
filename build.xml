@@ -30,7 +30,7 @@
 
 	<target name="compile" depends="init" description="compile the source " >
 	    <!-- Compile the java code from ${src} into ${build} -->
-	    <javac target="1.6" source="1.6" srcdir="${src}" 
+	    <javac target="1.7" source="1.7" srcdir="${src}" 
 	    	   destdir="${build}"
 	    	   includeantruntime="false"
 	    	   classpathref="master-classpath"/>
@@ -41,7 +41,7 @@
 	    <delete dir="${build}"/>
 	</target>
 	
-    <target name="cyfluxviz" depends="init, compile">
+    <target name="cyfluxviz" depends="clean, init, compile">
        <jar destfile="${build}/${name}-${version}.jar">	
         	<manifest>
                 <attribute name="Class-Path" value="."/>

@@ -9,9 +9,9 @@
 	<classpathentry kind="lib" path="lib/sbml/jsbml-comp-1.0-b1.jar"/>
 	<classpathentry kind="lib" path="lib/sbml/jsbml-layout-1.0-b1.jar"/>
 	<classpathentry kind="lib" path="lib/sbml/jsbml-qual-2.1-b1.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/cytoscape.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/cytoscape.jar" sourcepath="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/advanced-network-merge-2.8.3-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/attribute-browser-2.8.3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/attribute-browser-2.8.3-jar-with-dependencies.jar" sourcepath="/home/mkoenig/workspace/java/Cytoscape2Plugins/Cytoscape-v2.8.3-master"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/automatic-layout-2.8.3-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/biomart-client-2.8.3-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/Programs/Cytoscape_2/cytoscape-2.8.3/plugins/biopax-2.8.3-jar-with-dependencies.jar"/>

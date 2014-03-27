@@ -167,7 +167,10 @@ public class FluxDis implements Comparable<FluxDis>{
 			int direction = 1;
 			// reverse direction for reaction-reactant edges
 			String edgeType = edgeAttributes.getStringAttribute(edgeId, "interaction");
-			if (edgeType.equals("reaction-reactant")){
+			if (
+					(edgeType.equals(CySBMLConstants.EDGETYPE_REACTION_REACTANT)) ||
+					(edgeType.equals(CySBMLConstants.EDGETYPE_REACTION_SIDEREACTANT))
+				){
 				direction = - direction;
 			}
 			// reverse direction for negative fluxes
