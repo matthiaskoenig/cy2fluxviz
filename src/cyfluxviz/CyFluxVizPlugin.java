@@ -51,6 +51,10 @@ import cyfluxviz.gui.CyFluxVizPanel;
  
  * Things to come for Cy3
  * --------------------------------------------------------------------------------------
+ * TODO : generate OSGI app
+ * TODO : handle all dependencies with Maven
+ * TODO : write Tests
+ * TODO : dependency visualization of classes
  * TODO : jUnit tests for the main classes 
  * TODO : Update the attribute information only if the attribute subnets are selected
  * TODO : Calculate Secondary Flux Distributions (mean, diff, ...)
