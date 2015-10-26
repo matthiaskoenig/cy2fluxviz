@@ -70,7 +70,7 @@ import cyfluxviz.gui.CyFluxVizPanel;
 
 public class CyFluxVizPlugin extends CytoscapePlugin {
 	public static final String NAME = "cyfluxviz";
-	public static final String VERSION = "v0.95";
+	public static final String VERSION = "v0.96";
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	
 	public static final String NODE_FLUX_ATTRIBUTE = "nodeFlux";
