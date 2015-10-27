@@ -15,6 +15,15 @@ The main features are
 Additional information is available from  
 http://www.charite.de/sysbio/people/koenig/software/cyfluxviz3/
 
+**Status** : release  
+**Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
+**Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
+
+## License
+* Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
+* Documentation: [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+
+
 ## Changelog
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
