@@ -1,9 +1,9 @@
 # cy2fluxviz for Cytoscape 2
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RYHNRJFBMWD5N" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a>
 
-**cy2fluxviz** is an open-source Cytoscape 2 plugin for the visualization of flux distributions in molecular interaction  networks. **cy2fluxviz** is ported to Cytoscape 3 via [cy3fluxfix](https://github.com/matthiaskoenig/cy3fluxviz).
+**cy2fluxviz** is an open-source Cytoscape 2 plugin for the visualization of flux distributions in molecular interaction  networks. **cy2fluxviz** is currently ported to Cytoscape 3, with first versions available at [cy3fluxvix](https://github.com/matthiaskoenig/cy3fluxviz).
 
-The main features are
+Main features are
 * import of networks (SBML, GML, XGMML, SIF, BioPAX, PSI-MI)
 * import of flux distributions in a variety of formats
 * subnetworks based on flux carrying reactions (flux subetwork)
@@ -12,17 +12,14 @@ The main features are
 * export of views in variety of formats (SVG, EPS, PDF, BMP, PNG)
 * batch capabilities
 
-Additional information is available from  
-http://www.charite.de/sysbio/people/koenig/software/cyfluxviz3/
-
 **Status** : release  
+**Documentation** : http://matthiaskoenig.github.io/cy2fluxviz/  
 **Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
 **Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
 
 ## License
 * Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
 * Documentation: [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
-
 
 ## Changelog
 **v0.95** [2015-10-26]
