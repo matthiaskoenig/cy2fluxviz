@@ -3,7 +3,12 @@
 
 **cy2fluxviz** is an open-source Cytoscape 2 plugin for the visualization of flux distributions in molecular interaction  networks. **cy2fluxviz** is currently ported to Cytoscape 3, with first versions available at [cy3fluxviz](https://github.com/matthiaskoenig/cy3fluxviz).
 
-Main features are
+**Status** : release  
+**Documentation** : http://matthiaskoenig.github.io/cy2fluxviz/  
+**Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
+**Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
+
+## Features
 * import of networks (SBML, GML, XGMML, SIF, BioPAX, PSI-MI)
 * import of flux distributions in a variety of formats
 * subnetworks based on flux carrying reactions (flux subetwork)
@@ -11,11 +16,6 @@ Main features are
 * flexible mapping architecture for all visual attributes
 * export of views in variety of formats (SVG, EPS, PDF, BMP, PNG)
 * batch capabilities
-
-**Status** : release  
-**Documentation** : http://matthiaskoenig.github.io/cy2fluxviz/  
-**Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
-**Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
 
 ## License
 * Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
