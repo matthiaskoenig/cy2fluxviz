@@ -1,7 +1,7 @@
 # cy2fluxviz for Cytoscape 2
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RYHNRJFBMWD5N" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a>
 
-**cy2fluxviz** is an open-source Cytoscape 2 plugin for the visualization of flux distributions in networks. 
+**cy2fluxviz** is an open-source [Cytoscape 2](http://www.cytoscape.org) plugin for the visualization of flux distributions in networks. 
 
 **Status** : release  
 **Documentation** : http://matthiaskoenig.github.io/cy2fluxviz/  
