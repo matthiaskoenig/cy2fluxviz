@@ -43,6 +43,14 @@ cy2fluxviz and cy2sbml are installed and available in the plugins menu after res
 ### Start cy2fluxviz
 The plugin is loaded and installed during the next Cytoscape startup. To start cyfluxviz click the cyfluxviz icon in the Cytoscape toolbar ![CyFluxViz logo](/images/logo-cyfluxviz.png) which will load the cyfluxviz panel.
 
+## Build instructions
+Clone the repository and build with `ant`
+```
+git clone https://github.com/matthiaskoenig/cy2fluxviz.git cy2fluxviz
+cd cy2fluxviz
+ant cy2fluxviz
+```
+
 # Changelog
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
