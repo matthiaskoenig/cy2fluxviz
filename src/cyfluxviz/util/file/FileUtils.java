@@ -5,9 +5,6 @@ import javax.swing.JFileChooser;
 
 
 import cytoscape.CytoscapeInit;
-import cytoscape.plugin.PluginManager;
-
-import cyfluxviz.CyFluxVizPlugin;
 
 public class FileUtils {
 	
@@ -22,13 +19,5 @@ public class FileUtils {
             folder = fc.getSelectedFile();
         }    	
         return folder;
-	}
-	
-    /* Get the directory for the FluxViz data. */
-	@Deprecated
-    private static File getFluxVizDataDirectory(){
-    	File pluginDir = PluginManager.getPluginManager().getPluginManageDirectory();
-    	return new File(pluginDir, CyFluxVizPlugin.INSTALLATON_DIRECTORY);    	
-    }
-	
+	}	
 }

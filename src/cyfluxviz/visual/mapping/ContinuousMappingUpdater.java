@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import cytoscape.Cytoscape;
 
-import cytoscape.visual.CalculatorCatalog;
 import cytoscape.visual.EdgeAppearanceCalculator;
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.VisualStyle;
@@ -18,7 +17,7 @@ import cytoscape.visual.ui.editors.continuous.EditorValueRangeTracer;
 public class ContinuousMappingUpdater {
 
 	
-	/** Updates the mapping points within the ContinuousMapping accociated
+	/** Updates the mapping points within the ContinuousMapping associated
 	 * with the VisualPropertyType.
 	 * Points of the new mapping are specified via xvec and yvec.
 	 * The mapping is updated for the current VisualStyle.
