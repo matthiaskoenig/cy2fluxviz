@@ -23,7 +23,24 @@
 * Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
 * Documentation: [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 
-## Changelog
+## Installation
+### Install
+
+* install Cytoscape v2.8.3  
+    http://www.cytoscape.org/download.html  
+    http://chianti.ucsd.edu/Cyto-2_8_3/
+* download latest release jars for cy2fluxviz and cy2sbml  
+    https://github.com/matthiaskoenig/cy2fluxviz/releases/latest
+    https://github.com/matthiaskoenig/cy2sbml/releases/latest
+* move `cy2sbml-vx.x.x.jar` and `cy2fluxviz-vx.x.x.jar` in the Cytoscape plugin folder under `Cytoscape_v2.8.3/plugins/`.  
+* remove `sbml-reader-2.8.3-jar-with-dependencies.jar` from the plugin folder
+
+cy2fluxviz is installed and available in the plugins menu after restarting Cytoscape.
+
+### Start cy2fluxviz
+The plugin is loaded and installed during the next Cytoscape startup. To start cyfluxviz click the cyfluxviz icon in the Cytoscape toolbar ![CyFluxViz logo](/images/logo-cyfluxviz.png) which will load the cyfluxviz panel.
+
+# Changelog
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
 - sourceforge to github migration
