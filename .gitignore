@@ -10,3 +10,7 @@ build/*
 .settings/*
 /bin/
 jsbml.log
+_site
+.sass-cache
+.jekyll-metadata
+*~
