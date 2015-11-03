@@ -46,6 +46,7 @@ public class ExtractJar {
 			fos.close();
 			is.close();
 		}
+		jar.close();
 	}
 
 	public void print(){

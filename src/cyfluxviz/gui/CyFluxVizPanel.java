@@ -239,7 +239,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 	 * FluxDisCollection. */
 	public void updateFluxDistributionTable() {
 		// select the attributes
+		
+		//FIXME: here is the bug
 		FluxDisCyAttributes.selectCyFluxVizTableAttributes();
+		
+		
 		// update the table 
 		tableModel.updateTableModel();
 		fluxTableSorter.sort();

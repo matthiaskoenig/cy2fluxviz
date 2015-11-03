@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="lib/sbml/jsbml-qual-2.1-b1.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/cytoscape.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/advanced-network-merge-2.8.3-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/attribute-browser-2.8.3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/attribute-browser-2.8.3-jar-with-dependencies.jar" sourcepath="/cytoscape-2.8.3"/>
 	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/automatic-layout-2.8.3-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/biomart-client-2.8.3-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/mkoenig/git/cy2fluxviz/lib/cytoscape-2.8.3/plugins/biopax-2.8.3-jar-with-dependencies.jar"/>
