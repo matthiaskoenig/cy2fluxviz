@@ -54,6 +54,8 @@ ant cy2fluxviz
 # Changelog
 =======
 ## Changelog
+**v1.0.1** [?]
+
 **v1.0.0** [2015-11-03]
 - fixes empty FluxDistribution bug after loading #1
 - updated logging
