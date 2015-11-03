@@ -33,7 +33,7 @@
 
 ### Install
 * download latest release jars for cy2fluxviz and cy2sbml  
-    https://github.com/matthiaskoenig/cy2fluxviz/releases/latest
+    https://github.com/matthiaskoenig/cy2fluxviz/releases/latest  
     https://github.com/matthiaskoenig/cy2sbml/releases/latest
 * move `cy2sbml-vx.x.x.jar` and `cy2fluxviz-vx.x.x.jar` in the Cytoscape plugin folder under `Cytoscape_v2.8.3/plugins/`.  
 * remove `sbml-reader-2.8.3-jar-with-dependencies.jar` from the plugin folder
