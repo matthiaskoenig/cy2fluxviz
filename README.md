@@ -23,8 +23,11 @@ http://www.charite.de/sysbio/people/koenig/software/cyfluxviz3/
 * Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
 * Documentation: [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 
-
 ## Changelog
+**v1.0.0** [2015-11-03]
+- fixes empty FluxDistribution bug after loading #1
+- updated logging
+
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
 - sourceforge to github migration
