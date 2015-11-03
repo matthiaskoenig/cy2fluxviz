@@ -54,7 +54,6 @@ public class NetworkViewTools {
     	int index = networkId.indexOf(pattern);
     	if (index != -1){
     		coreId = coreId.substring(0, index);
-    		// System.out.println("CyFluxViz[INFO]: core network : " + networkId + " -> " + coreId);
     	}
     	return coreId;
     }

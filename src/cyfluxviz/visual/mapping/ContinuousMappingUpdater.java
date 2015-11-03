@@ -2,9 +2,9 @@ package cyfluxviz.visual.mapping;
 
 import java.util.Vector;
 
+import cyfluxviz.CyFluxVizPlugin;
 import cytoscape.Cytoscape;
 
-import cytoscape.visual.CalculatorCatalog;
 import cytoscape.visual.EdgeAppearanceCalculator;
 import cytoscape.visual.VisualPropertyType;
 import cytoscape.visual.VisualStyle;
@@ -18,7 +18,7 @@ import cytoscape.visual.ui.editors.continuous.EditorValueRangeTracer;
 public class ContinuousMappingUpdater {
 
 	
-	/** Updates the mapping points within the ContinuousMapping accociated
+	/** Updates the mapping points within the ContinuousMapping associated
 	 * with the VisualPropertyType.
 	 * Points of the new mapping are specified via xvec and yvec.
 	 * The mapping is updated for the current VisualStyle.
@@ -43,7 +43,7 @@ public class ContinuousMappingUpdater {
 		// Get old mapping if existing
 		Vector<ObjectMapping> maps = calc.getMappings();
 		if (maps.size() == 0){
-			System.out.println("CyFluxViz[INFO]: mapping does not exist in calculator -> " + vpt);
+			CyFluxVizPlugin.LOGGER.warning("mapping does not exist in calculator -> " + vpt);
 			return;
 		}
 		

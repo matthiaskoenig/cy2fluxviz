@@ -52,6 +52,12 @@ ant cy2fluxviz
 ```
 
 # Changelog
+=======
+## Changelog
+**v1.0.0** [2015-11-03]
+- fixes empty FluxDistribution bug after loading #1
+- updated logging
+
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
 - sourceforge to github migration

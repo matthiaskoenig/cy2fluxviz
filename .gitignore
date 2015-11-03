@@ -9,3 +9,4 @@ build/*
 .classpath
 .settings/*
 /bin/
+jsbml.log

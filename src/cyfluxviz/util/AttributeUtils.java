@@ -13,7 +13,7 @@ import javax.swing.JList;
 import cytoscape.CyNode;
 import cytoscape.Cytoscape;
 import cytoscape.data.CyAttributes;
-
+import cyfluxviz.CyFluxVizPlugin;
 import cyfluxviz.gui.CyFluxVizPanel;
 
 /** TODO: Rewrite, better handling of the attribute lists.
@@ -24,9 +24,9 @@ import cyfluxviz.gui.CyFluxVizPanel;
 public class AttributeUtils {
 
     /** Set the current NodeAttributes of type string in the ComboBox. 
-     * Is called when attributes are changing. */
+     * Called when attributes are changing. */
     public static void initNodeAttributeComboBox(){
-    	System.out.println("CyFluxViz[INFO]: initNodeAttributeComboBox()");
+    	CyFluxVizPlugin.LOGGER.info("initNodeAttributeComboBox()");
     	Object[] attributes = getStringNodeAttributes().toArray();
     	Arrays.sort(attributes);
     	
@@ -54,7 +54,7 @@ public class AttributeUtils {
         }
         // if no string attributes are available initialize empty.
         else{
-        	System.out.println("CyFluxViz[INFO]: empty attribute list initialized !");
+        	CyFluxVizPlugin.LOGGER.warning("empty attribute list initialized !");
         	initNodeAttributeList(null);
         }	
     }

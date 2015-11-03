@@ -1,5 +1,7 @@
 package cyfluxviz;
 
+/* Copyright (c) 2015 Matthias Koenig */
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
@@ -10,6 +12,7 @@ import cytoscape.plugin.CytoscapePlugin;
 import cytoscape.util.CytoscapeAction;
 
 import cyfluxviz.gui.CyFluxVizPanel;
+import cysbml.logging.LogCyPlugin;
 
 /**
  * CyFluxViz visualizes flux information within Cytoscape networks.
@@ -18,19 +21,11 @@ import cyfluxviz.gui.CyFluxVizPanel;
  * Flux distributions can be imported as edge information or as reaction flux.
  * Certain node and edge attributes are mandatory and are normally made available from 
  * the imported SBML via CySBML.
- * 
- * @author Matthias Koenig
- * @date 2013-07-11
- 
+ *
  * Critical bugs for next release
  * ----------------------------------------------------------------------------------- 
  * TODO : Recalculate directions for the fluxDistributions
  * TODO : extensive testing
- * TODO : additional examples
- * 			- large & small network support (Aliosha)
- * 			- zonated hepatic glucose model (SBML)
- * 			- simple hepatic glucose model v1 and v2
- * 			- genome scale-models
 
  * Things to come for Cy2
  * -----------------------------------------------------------------------------------
@@ -47,30 +42,12 @@ import cyfluxviz.gui.CyFluxVizPanel;
  * TODO : bug : update the view when VisualStyle is changing (changes in values are not applied immediately !).
  * TODO : bug: don't apply CyFluxViz view automatically to all the networks, but for every view the right CyFluxViz Style has to
  * 		 	   be set. 
-
- 
- * Things to come for Cy3
- * --------------------------------------------------------------------------------------
- * TODO : generate OSGI app
- * TODO : handle all dependencies with Maven
- * TODO : write Tests
- * TODO : dependency visualization of classes
- * TODO : jUnit tests for the main classes 
- * TODO : Update the attribute information only if the attribute subnets are selected
- * TODO : Calculate Secondary Flux Distributions (mean, diff, ...)
- * TODO : Context menu for managing flux distributions (remove, rename, filter?)
- * TODO : Flux Correlation Matrix for Flux Distributions
- * TODO : Dynamic changes between the different states.
- * -----------------------------------------------------------------------------------* 
- 
- * CySBML bugs
- * --------------------------------------------------------------------------------------
- * TODO : connection tests with the proxies (real problem if changing network settings)
- */
+*/
 
 public class CyFluxVizPlugin extends CytoscapePlugin {
-	public static final String NAME = "cyfluxviz";
-	public static final String VERSION = "v0.96";
+	public static final String NAME = "cy2fluxviz";
+	public static final String VERSION = "v1.0.0";
+	public static LogCyPlugin LOGGER = new LogCyPlugin(NAME);
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	
 	public static final String NODE_FLUX_ATTRIBUTE = "nodeFlux";
@@ -81,16 +58,24 @@ public class CyFluxVizPlugin extends CytoscapePlugin {
 	
 		
     public CyFluxVizPlugin() {    	
-    	System.out.println("CyFluxViz[INFO] -> " + NAME + "-" + VERSION);  
-    	ImageIcon fluxVizIcon = new ImageIcon(getClass().getResource("/cyfluxviz/gui/images/CyFluxViz_logo.png"));
-    	CyFluxVizStartAction startAction = new CyFluxVizStartAction(fluxVizIcon, this);
-    	Cytoscape.getDesktop().getCyMenus().addCytoscapeAction((CytoscapeAction) startAction);
+    	LOGGER.info(getVersionedName());
+    	try {
+	    	ImageIcon fluxVizIcon = new ImageIcon(getClass().getResource("/cyfluxviz/gui/images/CyFluxViz_logo.png"));
+	    	CyFluxVizStartAction startAction = new CyFluxVizStartAction(fluxVizIcon, this);
+	    	Cytoscape.getDesktop().getCyMenus().addCytoscapeAction((CytoscapeAction) startAction);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
     }
 
     public String describe() {
-        String description = "CyFluxViz - Visualize fluxes in Cytoscape networks.";
-        return description;
+        return "cy2fluxviz - Visualize fluxes in Cytoscape networks.";
     }
+    
+	public static String getVersionedName(){
+		return NAME + "-" + VERSION;
+	}
     
 	@SuppressWarnings("serial")
 	public class CyFluxVizStartAction extends CytoscapeAction {
@@ -98,7 +83,7 @@ public class CyFluxVizPlugin extends CytoscapePlugin {
 	    
 		public CyFluxVizStartAction(ImageIcon icon, CyFluxVizPlugin plugin) {
 			super("", icon);
-			this.putValue(Action.SHORT_DESCRIPTION, "CyFluxViz Startup");
+			this.putValue(Action.SHORT_DESCRIPTION, "cy2fluxviz start");
 		}
 		public boolean isInToolBar() {
 			return true;

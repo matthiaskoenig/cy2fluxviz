@@ -2,13 +2,8 @@ package cyfluxviz.nodesplit.core;
 
 import giny.model.Edge;
 
-import java.util.HashSet;
 import java.util.Set;
 
-
-import cyfluxviz.FluxDis;
-import cyfluxviz.FluxDisCollection;
-import cyfluxviz.nodesplit.position.CySplitPositioning;
 import cytoscape.CyEdge;
 import cytoscape.CyNetwork;
 import cytoscape.CyNode;
@@ -17,12 +12,9 @@ import cytoscape.data.CyAttributes;
 import cytoscape.data.Semantics;
 import cytoscape.view.CyNetworkView;
 
+import cyfluxviz.nodesplit.position.CySplitPositioning;
 
-/** Calculate splitting and unsplitting for the 
- *  selected nodes in the network. 
- *
- * @author mkoenig
- */
+/** Calculate splitting and unsplitting for selected nodes in the network. */
 public class CySplitter {
 	
 	public static final String SEP = "_split_"; 

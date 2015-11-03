@@ -107,7 +107,7 @@ public class FluxDis implements Comparable<FluxDis>{
 		fluxStatistics = new FluxDisStatistics(this);
 		
 		// Print postprocessing results
-		System.out.println("CyFluxViz[INFO]: PostProcessing of FluxDistribution finished:");
+		CyFluxVizPlugin.LOGGER.info("PostProcessing of FluxDistribution finished:");
 		System.out.println(this);
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.HashSet;
 
+import cyfluxviz.CyFluxVizPlugin;
 import cytoscape.Cytoscape;
 
 import cytoscape.visual.CalculatorCatalog;
@@ -37,8 +38,8 @@ public class VisualStyleFactory {
 			vs = createC13VisualStyle();
 		} else if (name.equals(CyFluxVizStyles.KINETICSTYLE))
 			vs = createKineticVisualStyle();
-		else {	
-			System.out.println("CyFluxViz[INFO]: VisualStyle not supported by VisualStyleFactory -> " + name);
+		else {
+			CyFluxVizPlugin.LOGGER.warning("VisualStyle not supported by VisualStyleFactory -> " + name);
 		}
 		return vs;
 	}
@@ -107,7 +108,7 @@ public class VisualStyleFactory {
 	/** Creates VisualStyle from the node and edge appearance calculators. */
 	private static VisualStyle createVisualStyle(String name, Collection<Calculator> nodeAppearanceCalculators,
 			Collection<Calculator> edgeAppearanceCalculators) {
-		System.out.println("CyFluxViz[INFO]: createVisualStyle( " + name + " )");
+		CyFluxVizPlugin.LOGGER.info("createVisualStyle( " + name + " )");
 		VisualStyle vs = new VisualStyle(name);
 		VisualPropertyDependency deps = vs.getDependency();
 		deps.set(VisualPropertyDependency.Definition.NODE_SIZE_LOCKED, true);
@@ -141,7 +142,7 @@ public class VisualStyleFactory {
 	
 	/** Adds the basic EdgeCalculators to the style for using as CyFluxViz style. */
 	public static VisualStyle convertVisualStyleToFluxStyle(VisualStyle vs) {
-		System.out.println("CyFluxViz[INFO]: convertVisualStyleToFluxStyle");
+		CyFluxVizPlugin.LOGGER.info("convertVisualStyleToFluxStyle");
 		
 		// add edge appearance
 		EdgeAppearanceCalculator eac = new EdgeAppearanceCalculator(vs.getDependency());
