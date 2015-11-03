@@ -70,7 +70,7 @@ public class CyFluxVizPlugin extends CytoscapePlugin {
     }
 
     public String describe() {
-        return "CyFluxViz - Visualize fluxes in Cytoscape networks.";
+        return "cy2fluxviz - Visualize fluxes in Cytoscape networks.";
     }
     
 	public static String getVersionedName(){

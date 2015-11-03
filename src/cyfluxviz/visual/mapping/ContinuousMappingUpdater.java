@@ -2,6 +2,7 @@ package cyfluxviz.visual.mapping;
 
 import java.util.Vector;
 
+import cyfluxviz.CyFluxVizPlugin;
 import cytoscape.Cytoscape;
 
 import cytoscape.visual.EdgeAppearanceCalculator;
@@ -42,7 +43,7 @@ public class ContinuousMappingUpdater {
 		// Get old mapping if existing
 		Vector<ObjectMapping> maps = calc.getMappings();
 		if (maps.size() == 0){
-			System.out.println("CyFluxViz[INFO]: mapping does not exist in calculator -> " + vpt);
+			CyFluxVizPlugin.LOGGER.warning("mapping does not exist in calculator -> " + vpt);
 			return;
 		}
 		

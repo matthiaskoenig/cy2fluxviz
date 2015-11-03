@@ -2,6 +2,7 @@ package cyfluxviz.util;
 
 import java.util.List;
 
+import cyfluxviz.CyFluxVizPlugin;
 import cyfluxviz.FluxDis;
 import cyfluxviz.gui.PanelText;
 import cysbml.CySBMLConstants;
@@ -65,7 +66,7 @@ public class CyNetworkUtils {
 		if (network != null){
 			id = network.getIdentifier();
 		} else {
-			System.out.println("CyFluxViz[INFO] -> No current network");
+			CyFluxVizPlugin.LOGGER.info("No current network");
 		}
 		return id;
 	}

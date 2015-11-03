@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.jar.JarEntry;
 
+import cyfluxviz.CyFluxVizPlugin;
+
 public class ExtractJar {
 	private File jarFile;
 	private File destDir;
@@ -50,6 +52,6 @@ public class ExtractJar {
 	}
 
 	public void print(){
-		System.out.println("CyFluxViz[INFO] -> Extract '" + jarFile + "' -> '"+ destDir +"'.");
+		CyFluxVizPlugin.LOGGER.info("Extract '" + jarFile + "' -> '" + destDir + "'.");
 	}
 }

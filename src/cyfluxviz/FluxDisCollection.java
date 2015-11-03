@@ -96,11 +96,13 @@ public class FluxDisCollection extends Observable {
 		if (CyNetworkUtils.existsNetwork(fd)){
 			fluxDistributions.put(fd.getId(), fd);
 			updateGlobalAbsValues(fd);
-			System.out.println( String.format("CyFluxViz[INFO] -> Flux Distribution added: %s | %s | %s",
-				fd.getId(), fd.getName(), fd.getNetworkId()) );
+			CyFluxVizPlugin.LOGGER.info(
+					String.format("Flux Distribution added: %s | %s | %s\n",
+							fd.getId(), fd.getName(), fd.getNetworkId())
+					);
 		} else {
 			msg = String.format("%s | %s -> %s\n", fd.getId(), fd.getName(), fd.getNetworkId());
-			System.out.print("CyFluxViz[WARNING]: " + msg);
+			CyFluxVizPlugin.LOGGER.warning(msg);
 		}
 		return msg;
 	}
@@ -121,8 +123,9 @@ public class FluxDisCollection extends Observable {
 			fluxDistributions.remove(fdId);
 			updateGlobalAbsValues();
 		}
-		System.out.println( String.format("CyFluxViz[INFO] -> Flux Distribution removed: %s | %s | %s",
-						fd.getId(), fd.getName(), fd.getNetworkId()) );
+		String info = String.format("Flux Distribution removed: %s | %s | %s",
+				fd.getId(), fd.getName(), fd.getNetworkId());
+		CyFluxVizPlugin.LOGGER.info(info);
 	}
 	
 	/** Removes all FluxDistributions and resets to the initial state. */
