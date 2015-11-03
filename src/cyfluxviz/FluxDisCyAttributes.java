@@ -122,8 +122,6 @@ public class FluxDisCyAttributes implements Observer {
 	 */
 	public static void selectCyFluxVizTableAttributes(){
 		AttributeBrowser nodeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.NODES);
-		CyFluxVizPlugin.LOGGER.warning("selectCyFluxVizTableAttributes called");
-		
 		nodeAttributeBrowser.getAttributeTable();
 		
 		List<String> selectedNodeAtts = nodeAttributeBrowser.getSelectedAttributes();
