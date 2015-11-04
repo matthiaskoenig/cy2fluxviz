@@ -35,8 +35,8 @@ network attributes
 
 ## Additional files
 
-<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/docs/examples/CyFluxViz-v0.93_examples.zip?raw=true">&nbsp;<img src="docs/images/examples.png">CyFluxViz Examples</a></br>	
-<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/docs/toolbox/CyFluxVizToolbox-v0.05.zip?raw=true">&nbsp;<img src="docs/images/logo-matlab.png">CyFluxVizToolbox</a></br>
+<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/gh-pages/docs/examples/CyFluxViz-v0.93_examples.zip?raw=true">&nbsp;<img src="docs/images/examples.png">CyFluxViz Examples</a></br>	
+<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/gh-pages/docs/toolbox/CyFluxVizToolbox-v0.05.zip?raw=true">&nbsp;<img src="docs/images/logo-matlab.png">CyFluxVizToolbox</a></br>
 
 <a href="docs/presentation/Koenig2010_CyFluxViz_Introduction.pdf" target="_blank">&nbsp;<img src="docs/images/pdf.jpeg">CyFluxViz Presentation</a>
 
