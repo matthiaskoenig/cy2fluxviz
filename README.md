@@ -1,9 +1,16 @@
 # cy2fluxviz for Cytoscape 2
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RYHNRJFBMWD5N" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a>
 
-**cy2fluxviz** is an open-source Cytoscape 2 plugin for the visualization of flux distributions in molecular interaction  networks. **cy2fluxviz** is ported to Cytoscape 3 via [cy3fluxfix](https://github.com/matthiaskoenig/cy3fluxviz).
+**cy2fluxviz** is an open-source [Cytoscape 2](http://www.cytoscape.org) plugin for the visualization of flux distributions in networks. 
 
-The main features are
+**Status** : release  
+**Documentation** : http://matthiaskoenig.github.io/cy2fluxviz/  
+**Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
+**Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
+
+**cy2fluxviz** is currently ported to Cytoscape 3, with first versions available at [cy3fluxviz](https://github.com/matthiaskoenig/cy3fluxviz).
+
+## Features
 * import of networks (SBML, GML, XGMML, SIF, BioPAX, PSI-MI)
 * import of flux distributions in a variety of formats
 * subnetworks based on flux carrying reactions (flux subetwork)
@@ -12,19 +19,47 @@ The main features are
 * export of views in variety of formats (SVG, EPS, PDF, BMP, PNG)
 * batch capabilities
 
-Additional information is available from  
-http://www.charite.de/sysbio/people/koenig/software/cyfluxviz3/
-
-**Status** : release  
-**Support & Forum** : https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
-**Bug Tracker** : https://github.com/matthiaskoenig/cy2fluxviz/issues  
-
 ## License
 * Source Code: [GPLv3](http://opensource.org/licenses/GPL-3.0)
 * Documentation: [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 
+## Installation
+### Requirements
+* Java 8
+* Cytoscape v2.8.3  
+    http://www.cytoscape.org/download.html  
+    http://chianti.ucsd.edu/Cyto-2_8_3/
+* cy2sbml
 
+### Install
+* download latest release jars for cy2fluxviz and cy2sbml  
+    https://github.com/matthiaskoenig/cy2fluxviz/releases/latest
+    https://github.com/matthiaskoenig/cy2sbml/releases/latest
+* move `cy2sbml-vx.x.x.jar` and `cy2fluxviz-vx.x.x.jar` in the Cytoscape plugin folder under `Cytoscape_v2.8.3/plugins/`.  
+* remove `sbml-reader-2.8.3-jar-with-dependencies.jar` from the plugin folder
+
+cy2fluxviz and cy2sbml are installed and available in the plugins menu after restarting Cytoscape.
+
+### Start cy2fluxviz
+The plugin is loaded and installed during the next Cytoscape startup. To start cyfluxviz click the cyfluxviz icon in the Cytoscape toolbar ![CyFluxViz logo](/images/logo-cyfluxviz.png) which will load the cyfluxviz panel.
+
+## Build instructions
+Clone the repository and build with `ant`
+```
+git clone https://github.com/matthiaskoenig/cy2fluxviz.git cy2fluxviz
+cd cy2fluxviz
+ant cy2fluxviz
+```
+
+# Changelog
+=======
 ## Changelog
+**v1.0.1** [?]
+
+**v1.0.0** [2015-11-03]
+- fixes empty FluxDistribution bug after loading #1
+- updated logging
+
 **v0.95** [2015-10-26]
 - small bug fix release and rebuild with java 8
 - sourceforge to github migration

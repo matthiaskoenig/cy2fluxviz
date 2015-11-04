@@ -25,7 +25,7 @@ import cytoscape.util.export.PSExporter;
 import cytoscape.util.export.SVGExporter;
 import cytoscape.view.CyNetworkView;
 import cytoscape.view.InternalFrameComponent;
-
+import cyfluxviz.CyFluxVizPlugin;
 import cyfluxviz.FluxDis;
 import cyfluxviz.FluxDisCollection;
 import cyfluxviz.gui.CyFluxVizPanel;
@@ -127,7 +127,7 @@ public class GraphicsExporter {
 					for (CyNetworkView view : NetworkViewTools.getViewsForNetwork(networkId)) {
 						String name = view.getTitle() + "_" + fd.getName()+ "." + extension;
 						String filename = folder + SEPARATOR + name;
-						System.out.println("CyFluxViz[INFO] -> Export : " + filename);
+						CyFluxVizPlugin.LOGGER.info("Export : " + filename);
 						File file = new File(filename);
 						try {
 							stream = new FileOutputStream(file);

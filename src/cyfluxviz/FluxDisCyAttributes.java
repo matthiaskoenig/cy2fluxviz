@@ -116,9 +116,14 @@ public class FluxDisCyAttributes implements Observer {
 	 * TODO: possible bug in CySBML (overwriting already selected attributes) 
 	 * TODO: what happens to the deleted attributes ? are the names still available.
 	 * 			This could explain the problems with the visibility after every deletion.
+	 * 
+	 * Probably the setSelected is called with not a full list implementation, i.e. Arrays.toList, which is not 
+	 * supporting remove.
 	 */
 	public static void selectCyFluxVizTableAttributes(){
 		AttributeBrowser nodeAttributeBrowser = AttributeBrowserPlugin.getAttributeBrowser(browser.DataObjectType.NODES);
+		nodeAttributeBrowser.getAttributeTable();
+		
 		List<String> selectedNodeAtts = nodeAttributeBrowser.getSelectedAttributes();
 		
 		if (! selectedNodeAtts.contains(CyFluxVizPlugin.NODE_FLUX_ATTRIBUTE)){

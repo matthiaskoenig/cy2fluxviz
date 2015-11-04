@@ -46,7 +46,7 @@ import cysbml.logging.LogCyPlugin;
 
 public class CyFluxVizPlugin extends CytoscapePlugin {
 	public static final String NAME = "cy2fluxviz";
-	public static final String VERSION = "v1.0.0";
+	public static final String VERSION = "v1.0.1";
 	public static LogCyPlugin LOGGER = new LogCyPlugin(NAME);
 	public static final String INSTALLATON_DIRECTORY = NAME + "-" + VERSION; 
 	
@@ -70,7 +70,7 @@ public class CyFluxVizPlugin extends CytoscapePlugin {
     }
 
     public String describe() {
-        return "CyFluxViz - Visualize fluxes in Cytoscape networks.";
+        return "cy2fluxviz - Visualize fluxes in Cytoscape networks.";
     }
     
 	public static String getVersionedName(){

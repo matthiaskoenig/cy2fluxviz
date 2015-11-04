@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import cyfluxviz.CyFluxVizPlugin;
 import cyfluxviz.FluxDis;
 import cyfluxviz.gui.CyFluxVizPanel;
 import cyfluxviz.util.CyNetworkUtils;
@@ -88,7 +90,7 @@ public class NetworkViewUpdater {
 	private void calculateFluxSubnet(){	
     	if (fd == null || !isFluxSubNetwork()){
     		if (fd == null){
-    			System.out.println("CyFluxViz[INFO]: calculateFluxSubnet -> no FluxDistribution selected");
+    			CyFluxVizPlugin.LOGGER.info("calculateFluxSubnet -> no FluxDistribution selected");
     		}
     		visibleNodes = Cytoscape.getCyNodesList();
     		visibleEdges = Cytoscape.getCyEdgesList();

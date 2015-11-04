@@ -151,7 +151,7 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		Cytoscape.getPropertyChangeSupport().addPropertyChangeListener(Cytoscape.SESSION_LOADED, this);
 		
 		initComponents();
-		System.out.println("CyFluxViz[INFO]: GUI components initialized.");
+		CyFluxVizPlugin.LOGGER.info("GUI components initialized.");
 	}
 
 	public static synchronized CyFluxVizPanel getInstance() {
@@ -241,6 +241,8 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 		// select the attributes
 		
 		//FIXME: here is the bug
+		// As a side effect the selected attributes are updated. Probably should not
+		// be done in here.
 		FluxDisCyAttributes.selectCyFluxVizTableAttributes();
 		
 		
@@ -825,11 +827,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 																int selected = comboBoxExportImages.getSelectedIndex();
 																Collection<FluxDis> fds = null;
 																if (selected == 0){
-																	System.out.println("CyFluxViz[INFO]: Export Images for all FluxDistributions");
+																	CyFluxVizPlugin.LOGGER.info("Export Images for all FluxDistributions.");
 																	fds = fdCollection.getFluxDistributions();
 																} else if (selected == 1){
 																	fds = getAllSelectedFluxDistributions();
-																	System.out.println("CyFluxViz[INFO]: Export Images for selected FluxDistributions");
+																	CyFluxVizPlugin.LOGGER.info("Export Images for selected FluxDistributions.");
 																}
 																GraphicsExporter exp = new GraphicsExporter(fds);
 																exp.exportImages();
@@ -860,11 +862,11 @@ public class CyFluxVizPanel extends javax.swing.JPanel implements
 																System.out.println("Selected option -> " + selected);
 																Collection<FluxDis> fds = null;
 																if (selected == 0){
-																	System.out.println("CyFluxViz[INFO]: Export all FluxDistributions");
+																	CyFluxVizPlugin.LOGGER.info("Export all FluxDistributions.");
 																	fds = fdCollection.getFluxDistributions();
 																} else if (selected == 1){
 																	fds = getAllSelectedFluxDistributions();
-																	System.out.println("CyFluxViz[INFO]: Export selected FluxDistributions");
+																	CyFluxVizPlugin.LOGGER.info("Export selected FluxDistributions.");
 																}
 																// Export FLuxDistributions
 																File xmlFile = FileUtil.getFile("Export FluxDistributions", FileUtil.LOAD);
