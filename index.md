@@ -2,14 +2,15 @@
 layout: default
 title: cy2fluxviz
 ---
-<div align="right"><a href="{{site.github.repository_url}}/blob/gh-pages/{{page.path}}"><span class="icon icon--github">{% include icon-github.svg %}</span>Edit this page</a></div>
-# Overview
-![cyfluxviz logo](./images/logo-cyfluxviz.png)  cy2fluxviz is a [Cytoscape 2](http://www.cytoscape.org) plugin for the visualization of flux distributions in networks. 
-
+<div align="right">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RYHNRJFBMWD5N" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a>
+<a href="{{site.github.repository_url}}/blob/gh-pages/{{page.path}}"><span class="icon icon--github">{% include icon-github.svg %}</span>Edit this page</a></div>
+
+# Overview
+![cyfluxviz logo](docs/images/logo-cyfluxviz.png) cy2fluxviz is a [Cytoscape 2](http://www.cytoscape.org) plugin for the visualization of flux distributions in networks. 
 
 **Latest release**  
-https://github.com/matthiaskoenig/cy2fluxviz/releases/latest  
+[![Download](docs/images/icon-download.png) Download](https://github.com/matthiaskoenig/cy2fluxviz/releases/latest)  
 **Installation instructions & source code**  
 https://github.com/matthiaskoenig/cy2fluxviz/  
 **Support & Forum**: https://groups.google.com/forum/#!forum/cysbml-cyfluxviz  
@@ -34,10 +35,10 @@ network attributes
 
 ## Additional files
 
-<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/examples/CyFluxViz-v0.93_examples.zip?raw=true">&nbsp;<img src="images/examples.png">CyFluxViz Examples</a></br>	
-<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/toolbox/CyFluxVizToolbox-v0.05.zip?raw=true">&nbsp;<img src="images/logo-matlab.png">CyFluxVizToolbox</a></br>
+<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/docs/examples/CyFluxViz-v0.93_examples.zip?raw=true">&nbsp;<img src="docs/images/examples.png">CyFluxViz Examples</a></br>	
+<a href="https://github.com/matthiaskoenig/cy2fluxviz/blob/master/docs/toolbox/CyFluxVizToolbox-v0.05.zip?raw=true">&nbsp;<img src="docs/images/logo-matlab.png">CyFluxVizToolbox</a></br>
 
-<a href="./presentation/Koenig2010_CyFluxViz_Introduction.pdf" target="_blank">&nbsp;<img src="./images/pdf.jpeg">CyFluxViz Presentation</a>
+<a href="docs/presentation/Koenig2010_CyFluxViz_Introduction.pdf" target="_blank">&nbsp;<img src="docs/images/pdf.jpeg">CyFluxViz Presentation</a>
 
 
 ## Citation
@@ -45,14 +46,14 @@ Please cite the following publication when using CyFluxViz:
 > Matthias König and Hermann-Georg Holzhütter  
 FluxViz - Cytoscape Plug-in for Vizualisation of Flux Distributions in Networks  
 Genome Informatics 2010, Vol.24, p.96-103 [PMID:22081592](http://www.pubmed.org/22081592)
-<a href="paper/Koenig2010_FluxViz.pdf"><img src="images/pdf.jpeg"></a>
+<a href="docs/paper/Koenig2010_FluxViz.pdf"><img src="docs/images/pdf.jpeg"></a>
 
 cy2fluxviz was developed by [Matthias König](http://www.charite.de/sysbio/people/koenig/) within the [Virtual Liver Network](http://www.virtual-liver.de).
 
-<a href="http://www.virtual-liver.de"><img src="images/logo-vln.png" alt="VLN Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="http://www.charite.de"><img src="images/logo-charite.png" alt="Charite Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="http://www.cytoscape.org"><img src="images/logo-cytoscape.png" alt="Cytoscape Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="http://www.sbml.org"><img src="images/logo-sbml.png" alt="SBML Logo" border=0 height=37></img></a>&nbsp;&nbsp;
+<a href="http://www.virtual-liver.de"><img src="docs/images/logo-vln.png" alt="VLN Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.charite.de"><img src="docs/images/logo-charite.png" alt="Charite Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.cytoscape.org"><img src="docs/images/logo-cytoscape.png" alt="Cytoscape Logo" border=0 height=37></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.sbml.org"><img src="docs/images/logo-sbml.png" alt="SBML Logo" border=0 height=37></img></a>&nbsp;&nbsp;
 
 
 ## CyFluxVizToolbox & COBRA support
@@ -74,7 +75,7 @@ HepatoNet1: a comprehensive metabolic reconstruction of the human hepatocyte for
 ## Screenshots
 <table>
 <tr><td>
-<a href="images/CyFluxViz-v0.86_screenshot.png"><img src="images/CyFluxViz-v0.86_screenshot.png" width="700" alt="CyFluxViz example image"/></a>
+<a href="docs/images/CyFluxViz-v0.86_screenshot.png"><img src="docs/images/CyFluxViz-v0.86_screenshot.png" width="700" alt="CyFluxViz example image"/></a>
 </td></tr>
 <tr><td><span class="caption">
 <strong>Figure 1</strong>: CyFluxViz visualization of flux distribution in demo network and human erythrocyte network. Reversible reactions are shown in green, irreversible reactions in red. CyFluxViz integrates seamlessly with <a href="http://matthiaskoenig.github.io/cy2sbml/">cy2sbml</a> providing semantic information for the SBML models. (Click for larger version)
@@ -83,14 +84,14 @@ HepatoNet1: a comprehensive metabolic reconstruction of the human hepatocyte for
 <br />
 <table>
 <tr>
-<td><a href="images/cyfluxviz-test.png"><img src="images/cyfluxviz-test.png" width="300" alt="CyFluxViz example image"/></a></td>
+<td><a href="docs/images/cyfluxviz-test.png"><img src="docs/images/cyfluxviz-test.png" width="300" alt="CyFluxViz example image"/></a></td>
 <td><span class="caption"><strong>Figure 2</strong>: CyFluxViz visualization of flux distribution in human hepatocyte network. The ATP production was set as target flux under varying oxygen conditions. For the layout a standard Cytoscape Layout algorithm was used.<br />
 CyFluxViz Panel on the left with information about the selected flux distribution and selection area for the loaded flux distributions.<br /> 
 (Click for larger version)</span></td>
 </tr>
 
 <tr><td>
-<a href="images/cyfluxviz-standard-layout.png"><img alt="Standard hepatocyte network with layout example flux" src="./images/cyfluxviz-standard-layout.png" width="300"></img></a>
+<a href="docs/images/cyfluxviz-standard-layout.png"><img alt="Standard hepatocyte network with layout example flux" src="docs/images/cyfluxviz-standard-layout.png" width="300"></img></a>
 </td>
 <td><span class="caption"><strong>Figure 3</strong>: CyFluxViz visualization of FBA simulation in reconstructed hepatocyte network. Metabolic network consists of glycolysis, gluconeogenesis, pentose phosphate pathway and citrate cycle. Identical network to Figure 1, but different layout algorithm.<br />
 Manual generated layout was used for the visualisation. On the left the CyFluxViz Control Panel with help dialogue, flux distribution list and settings panel.<br />
@@ -101,11 +102,11 @@ Manual generated layout was used for the visualisation. On the left the CyFluxVi
 </table>
 
 ## Tutorial
-The cyfluxviz functionality is accessed via the cyfluxviz Panel located in the Cytoscape Control Panel after clicking the CyFluxViz icon in the Cytoscape toolbar ![CyFluxViz logo](/images/logo-cyfluxviz.png).
+The cyfluxviz functionality is accessed via the cyfluxviz Panel located in the Cytoscape Control Panel after clicking the CyFluxViz icon in the Cytoscape toolbar ![CyFluxViz logo](docs/images/logo-cyfluxviz.png).
 
 <table>
 <tr>
-<td><a href="images/cyfluxviz-panel.png"><img src="./images/cyfluxviz-panel.png" alt="cyfluxviz Control Panel" height="400"></img></a>
+<td><a href="docs/images/cyfluxviz-panel.png"><img src="docs/images/cyfluxviz-panel.png" alt="cyfluxviz Control Panel" height="400"></img></a>
 </td>
 <td class="caption">
 <b>Figure 4:</b> CyFluxViz Panel (on the left) consisting of three main areas:
